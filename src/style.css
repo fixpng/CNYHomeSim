@@ -1,0 +1,337 @@
+/* 全局样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+}
+
+/* 响应式容器 */
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 10px;
+  min-height: 100vh;
+}
+
+@media (min-width: 375px) {
+  .container {
+    padding: 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 600px;
+    padding: 20px;
+  }
+}
+
+/* 手机端日记显示在底部 */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 20px;
+    align-items: start;
+  }
+  
+  .container > .sidebar {
+    position: sticky;
+    top: 20px;
+    grid-column: 2;
+    grid-row: 1 / -1;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+  }
+  
+  .container > *:not(.sidebar) {
+    grid-column: 1;
+  }
+  
+  .sidebar .stats-bar {
+    margin-bottom: 0;
+  }
+}
+
+/* 按钮样式 - 触屏友好 */
+.btn {
+  min-height: 44px;
+  padding: 12px 24px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* 卡片样式 */
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  animation: fadeInUp 0.4s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 768px) {
+  .card {
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+}
+
+/* 属性显示 */
+.attr-bar {
+  margin: 8px 0;
+}
+
+.attr-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.attr-progress {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.attr-fill {
+  height: 100%;
+  transition: width 0.3s;
+  border-radius: 4px;
+}
+
+.attr-health { background: #4caf50; }
+.attr-spirit { background: #2196f3; }
+.attr-reputation { background: #ff9800; }
+
+/* 选项列表 */
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (min-width: 768px) {
+  .options-list {
+    gap: 12px;
+  }
+}
+
+.option-item {
+  padding: 14px;
+  background: #f8f9fa;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.option-item:hover:not(.disabled) {
+  border-color: #667eea;
+  background: #f0f4ff;
+  transform: translateX(4px);
+}
+
+.option-item:active:not(.disabled) {
+  transform: scale(0.98) translateX(2px);
+}
+
+@media (min-width: 768px) {
+  .option-item {
+    padding: 16px;
+  }
+}
+
+.option-item:hover {
+  border-color: #667eea;
+  background: #f0f4ff;
+}
+
+.option-item:active {
+  transform: scale(0.98);
+}
+
+.option-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 标题样式 */
+.title {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 16px;
+  color: #333;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+}
+
+.subtitle {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #555;
+}
+
+@media (min-width: 768px) {
+  .subtitle {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+}
+
+/* 文本样式 */
+.text-center {
+  text-align: center;
+}
+
+.mt-16 {
+  margin-top: 16px;
+}
+
+.mb-16 {
+  margin-bottom: 16px;
+}
+
+/* 加载动画 */
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: white;
+  font-size: 18px;
+}
+
+/* 成就系统样式 */
+.achievements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.achievement-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.achievement-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.achievement-icon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.achievement-info {
+  flex: 1;
+}
+
+.achievement-name {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.achievement-desc {
+  font-size: 14px;
+  color: #666;
+}
