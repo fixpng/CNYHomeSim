@@ -372,8 +372,11 @@ const RANDOM_EVENTS = [
     successChanges: { spirit: 12, reputation: 10, balance: -180 },
     failChanges: { spirit: -5, balance: -180 },
     available: true,
-    // 使用真实省份区域/标签
-    condition: (state) => state.attributes?.homeProvince?.tags?.includes('flower_market')
+    // 使用真实省份区域/标签，且只在过年之前（除夕之前，即day < 1）
+    condition: (state) => {
+      const day = state.progress?.currentDay || 0
+      return day < 1 && state.attributes?.homeProvince?.tags?.includes('flower_market')
+    }
   },
   {
     id: 'temple_fair',

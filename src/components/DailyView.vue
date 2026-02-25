@@ -116,7 +116,9 @@
       :icon="dialogData?.icon"
       :scene="dialogData?.scene"
       :thoughts="dialogData?.thoughts"
+      :nextChoices="dialogData?.nextChoices"
       @close="handleDialogCloseWithChoice"
+      @select-choice="handleDialogueChoice"
     />
   </div>
 </template>
@@ -138,6 +140,7 @@ const emit = defineEmits(['action-selected', 'next-day', 'add-diary'])
 const selectedEvent = ref(null)
 const showDialog = ref(false)
 const dialogData = ref(null)
+const dialogueState = ref(null) // 连续对话状态：{ round, totalRounds, accumulatedChanges }
 
 // 检查并显示"刚回到家"特殊剧情
 watch(() => props.state.progress.showHomecomingScene, (show) => {
@@ -436,6 +439,7 @@ function handleDialogCloseWithChoice() {
   
   // 清空dialogData和成功失败标记
   dialogData.value = null
+  dialogueState.value = null
   if (props.state._lastEventSuccess !== undefined) {
     delete props.state._lastEventSuccess
   }

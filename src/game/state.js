@@ -8,6 +8,7 @@ export function createInitialState() {
     
     // 玩家属性
     attributes: {
+      gender: null, // 性别：'male', 'female'
       workUnit: null,
       job: null,
       salaryRange: null,

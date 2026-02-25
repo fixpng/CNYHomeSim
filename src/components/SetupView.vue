@@ -12,6 +12,17 @@
     <div v-if="mode === 'custom'" class="card">
       <h2 class="subtitle">设置你的属性</h2>
       
+      <!-- 性别 -->
+      <div class="form-group">
+        <label>性别</label>
+        <select v-model="attributes.gender" class="form-select">
+          <option :value="null">请选择</option>
+          <option v-for="gender in genders" :key="gender.id" :value="gender.id">
+            {{ gender.name }}
+          </option>
+        </select>
+      </div>
+      
       <!-- 工作单位 -->
       <div class="form-group">
         <label>工作单位</label>
@@ -111,6 +122,10 @@
       <h2 class="subtitle">🎲 你的随机属性</h2>
       <div class="attributes-display">
         <div class="attr-row">
+          <span class="attr-name">性别：</span>
+          <span class="attr-value">{{ attributes.gender === 'male' ? '男' : attributes.gender === 'female' ? '女' : '未选择' }}</span>
+        </div>
+        <div class="attr-row">
           <span class="attr-name">工作单位：</span>
           <span class="attr-value">{{ attributes.workUnit?.name }}</span>
         </div>
@@ -193,7 +208,7 @@
 import { ref, computed } from 'vue'
 import {
   WORK_UNITS, JOBS, SALARY_RANGES, CITY_LEVELS, DISTANCE_TYPES,
-  HOME_PROVINCES, FAMILY_RELATIONS, FAMILY_ECONOMY, MARITAL_STATUS, AGE_RANGES, SKILLS, DEBT_TYPES,
+  HOME_PROVINCES, FAMILY_RELATIONS, FAMILY_ECONOMY, MARITAL_STATUS, AGE_RANGES, SKILLS, DEBT_TYPES, GENDERS,
   randomByProbability, randomChoice, calculateInitialBalance
 } from '../game/data.js'
 import { isJobCityCompatible, isSalaryJobCompatible } from '../game/logic.js'
@@ -205,6 +220,7 @@ const emit = defineEmits(['start-game'])
 
 const mode = ref('custom')
 const attributes = ref({
+  gender: null,
   workUnit: null,
   job: null,
   salaryRange: null,
@@ -227,6 +243,7 @@ const jobs = JOBS
 const salaryRanges = SALARY_RANGES
 const cityLevels = CITY_LEVELS
 const homeProvinces = HOME_PROVINCES
+const genders = GENDERS
 
 // 根据城市筛选可用职业
 const availableJobs = computed(() => {
@@ -320,6 +337,9 @@ function getDistanceType() {
 
 // 生成随机属性（智能匹配）
 function generateRandom() {
+  // 随机性别
+  attributes.value.gender = randomChoice(GENDERS).id
+  
   // 使用智能随机生成，确保城市、职业、薪资、年龄的合理性
   const smartAttrs = generateSmartRandomAttributes()
   
@@ -430,7 +450,7 @@ const initialBalance = computed(() => {
 // 是否可以开始游戏
 const canStart = computed(() => {
   if (mode.value === 'custom') {
-    return attributes.value.workUnit && attributes.value.job && 
+    return attributes.value.gender && attributes.value.workUnit && attributes.value.job && 
            attributes.value.salaryRange && attributes.value.workCity && 
            attributes.value.homeCity && attributes.value.homeProvince
   } else {
@@ -442,6 +462,9 @@ const canStart = computed(() => {
 function startGame() {
   // 如果是自定义模式，需要生成随机属性
   if (mode.value === 'custom') {
+    if (!attributes.value.gender) {
+      attributes.value.gender = randomChoice(GENDERS).id
+    }
     attributes.value.distanceType = getDistanceType()
     attributes.value.familyRelation = randomChoice(FAMILY_RELATIONS)
     attributes.value.familyEconomy = randomByProbability(FAMILY_ECONOMY)

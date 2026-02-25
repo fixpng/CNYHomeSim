@@ -14,10 +14,24 @@
               <div class="thoughts-label">💭 你的想法：</div>
               <p class="thoughts-text">{{ thoughts }}</p>
             </div>
+            <!-- 连续对话选项 -->
+            <div v-if="nextChoices && nextChoices.length > 0" class="dialogue-choices">
+              <div class="choices-label">选择你的回应：</div>
+              <div
+                v-for="choice in nextChoices"
+                :key="choice.id"
+                class="dialogue-choice-item"
+                :class="{ disabled: choice.disabled }"
+                @click="!choice.disabled && selectDialogueChoice(choice)"
+              >
+                <div class="choice-text">{{ choice.name }}</div>
+                <div v-if="choice.cost" class="choice-cost">💰 {{ choice.cost }}</div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn btn-primary" @click="close">知道了</button>
+          <button v-if="!nextChoices || nextChoices.length === 0" class="btn btn-primary" @click="close">知道了</button>
         </div>
       </div>
     </div>
@@ -30,13 +44,18 @@ defineProps({
   title: String,
   icon: String,
   scene: String,
-  thoughts: String
+  thoughts: String,
+  nextChoices: Array // 连续对话的下一轮选项
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'select-choice'])
 
 function close() {
   emit('close')
+}
+
+function selectDialogueChoice(choice) {
+  emit('select-choice', choice)
 }
 </script>
 
@@ -178,5 +197,52 @@ function close() {
 .modal-enter-from,
 .modal-leave-to {
   opacity: 0;
+}
+
+.dialogue-choices {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid #e0e0e0;
+}
+
+.choices-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #667eea;
+  margin-bottom: 12px;
+}
+
+.dialogue-choice-item {
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  background: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.dialogue-choice-item:hover:not(.disabled) {
+  background: #e8eaf6;
+  border-color: #667eea;
+  transform: translateX(4px);
+}
+
+.dialogue-choice-item.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: #f0f0f0;
+}
+
+.choice-text {
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.choice-cost {
+  font-size: 12px;
+  color: #f44336;
+  font-weight: 500;
 }
 </style>

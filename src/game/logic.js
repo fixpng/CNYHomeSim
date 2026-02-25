@@ -89,10 +89,13 @@ export function generateLoveChatContent(state) {
   const ageRange = state.attributes.ageRange
   const hasChildren = !!state.attributes.hasChildren
   const travelWithFamily = !!state.attributes.travelWithFamily
+  const gender = state.attributes?.gender || 'male'
+  const genderText = gender === 'female' ? '女儿' : '儿子'
+  const genderPronoun = gender === 'female' ? '她' : '他'
   
   if (!maritalStatus) {
     return {
-      scene: '"有对象了吗？"妈妈突然问。\n\n你心里一紧，这个问题还是来了...',
+      scene: `"有对象了吗？"妈妈突然问。\n\n你心里一紧，这个问题还是来了...\n\n"${genderText}也不小了，该考虑考虑了。"妈妈继续说。`,
       thoughts: '又来了...每年都要被催婚，真是头疼。'
     }
   }
@@ -103,30 +106,46 @@ export function generateLoveChatContent(state) {
   if (maritalStatus.id === 'single') {
     const age = ageRange ? (ageRange.min + ageRange.max) / 2 : 25
     if (age >= 30) {
-      scene = '"有对象了吗？"妈妈突然问。\n\n"还没呢..."你小声说。\n\n"都30多了，该考虑考虑了！"妈妈开始着急。\n\n"工作太忙了，没时间。"你找借口。\n\n"工作再忙也要找对象啊！"妈妈不依不饶。'
+      if (gender === 'female') {
+        scene = `"有对象了吗？"妈妈突然问。\n\n"还没呢..."你小声说。\n\n"都30多了，该考虑考虑了！女孩子年龄大了不好找。"妈妈开始着急。\n\n"工作太忙了，没时间。"你找借口。\n\n"工作再忙也要找对象啊！你看隔壁家那个谁，人家都结婚了。"妈妈不依不饶。`
+      } else {
+        scene = `"有对象了吗？"妈妈突然问。\n\n"还没呢..."你小声说。\n\n"都30多了，该考虑考虑了！男孩子也要抓紧。"妈妈开始着急。\n\n"工作太忙了，没时间。"你找借口。\n\n"工作再忙也要找对象啊！你看隔壁家那个谁，人家都结婚了。"妈妈不依不饶。`
+      }
       thoughts = '又被催婚了...压力好大。'
     } else {
-      scene = '"有对象了吗？"妈妈问。\n\n"还没呢，不着急。"你回答。\n\n"也该考虑考虑了。"妈妈说。'
+      if (gender === 'female') {
+        scene = `"有对象了吗？"妈妈问。\n\n"还没呢，不着急。"你回答。\n\n"也该考虑考虑了，女孩子要趁早。"妈妈说。`
+      } else {
+        scene = `"有对象了吗？"妈妈问。\n\n"还没呢，不着急。"你回答。\n\n"也该考虑考虑了。"妈妈说。`
+      }
       thoughts = '虽然被催，但压力还不算太大。'
     }
   } else if (maritalStatus.id === 'dating') {
-    scene = '"有对象了吗？"妈妈问。\n\n"有，正在谈。"你回答。\n\n"真的？什么时候带回来看看？"妈妈兴奋地说。\n\n"等稳定了再说吧。"你敷衍道。'
+    if (gender === 'female') {
+      scene = `"有对象了吗？"妈妈问。\n\n"有，正在谈。"你回答。\n\n"真的？什么时候带回来看看？对方人怎么样？"妈妈兴奋地说。\n\n"等稳定了再说吧。"你敷衍道。`
+    } else {
+      scene = `"有对象了吗？"妈妈问。\n\n"有，正在谈。"你回答。\n\n"真的？什么时候带回来看看？"妈妈兴奋地说。\n\n"等稳定了再说吧。"你敷衍道。`
+    }
     thoughts = '虽然有了对象，但还是有压力。'
   } else if (maritalStatus.id === 'married') {
     if (hasChildren) {
       if (travelWithFamily) {
-        scene = '"孩子路上闹没闹？"妈妈一边接行李一边问。\n\n"还好，路上睡了一觉。"你回答。\n\n"全家能一起回来就好，家里热闹多了。"爸爸笑着说。\n\n"明天你们歇歇，我来带娃。"妈妈补了一句。'
+        scene = `"孩子路上闹没闹？"妈妈一边接行李一边问。\n\n"还好，路上睡了一觉。"你回答。\n\n"全家能一起回来就好，家里热闹多了。"爸爸笑着说。\n\n"明天你们歇歇，我来带娃。"妈妈补了一句。`
         thoughts = '全家一起回老家，虽然累，但年味真的足。'
       } else {
-        scene = '"孩子没一起回来？"妈妈问。\n\n"这次先让我回来看你们，孩子在另一边陪外公外婆。"你解释。\n\n"也行，两边都得照顾到。"妈妈点点头。\n\n"下次争取全家都回来。"你说。'
+        scene = `"孩子没一起回来？"妈妈问。\n\n"这次先让我回来看你们，孩子在另一边陪外公外婆。"你解释。\n\n"也行，两边都得照顾到。"妈妈点点头。\n\n"下次争取全家都回来。"你说。`
         thoughts = '成家后过年像排班表，两边家庭都要兼顾。'
       }
     } else {
-      scene = '"你俩最近怎么样？"妈妈问。\n\n"挺好的，就是都忙。"你回答。\n\n"那孩子的事也可以考虑了。"妈妈接上。\n\n你沉默两秒："我们还在商量。"\n\n"行，你们自己拿主意，别太晚就行。"妈妈说。'
+      if (gender === 'female') {
+        scene = `"你俩最近怎么样？"妈妈问。\n\n"挺好的，就是都忙。"你回答。\n\n"那孩子的事也可以考虑了，女孩子年龄大了不好生。"妈妈接上。\n\n你沉默两秒："我们还在商量。"\n\n"行，你们自己拿主意，别太晚就行。"妈妈说。`
+      } else {
+        scene = `"你俩最近怎么样？"妈妈问。\n\n"挺好的，就是都忙。"你回答。\n\n"那孩子的事也可以考虑了。"妈妈接上。\n\n你沉默两秒："我们还在商量。"\n\n"行，你们自己拿主意，别太晚就行。"妈妈说。`
+      }
       thoughts = '结婚后不催婚了，但催生接档了。'
     }
   } else if (maritalStatus.id === 'divorced') {
-    scene = '"最近怎么样？"妈妈小心翼翼地问。\n\n"还行。"你简短回答。\n\n"会好的，慢慢来。"妈妈安慰道。'
+    scene = `"最近怎么样？"妈妈小心翼翼地问。\n\n"还行。"你简短回答。\n\n"会好的，慢慢来。"妈妈安慰道。`
     thoughts = '这个话题有点敏感...'
   }
   

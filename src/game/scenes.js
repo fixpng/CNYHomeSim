@@ -48,7 +48,7 @@ export const EVENT_SCENES = {
     thoughts: '抢红包真有意思，虽然钱不多但很开心。'
   },
   spring_festival_gala: {
-    scene: '晚上8点，春晚开始了。\n\n你们一家人坐在沙发上，一起看春晚。\n\n虽然节目可能没那么精彩，但一家人坐在一起，说说笑笑，这才是最重要的。\n\n"这个节目不错。"爸爸指着电视说。',
+    scene: '晚上8点，春晚开始了。\n\n你们一家人坐在沙发上，一起看春晚。\n\n"今年春晚有什么好看的节目吗？"妈妈问。\n\n"不知道，先看看。"你回答。\n\n第一个节目是歌舞，你们边看边聊天。\n\n"这个歌手唱得不错。"爸爸说。\n\n"是啊，比去年好多了。"妈妈附和。\n\n接下来是小品，你们一起笑出声。\n\n"这个段子挺有意思的。"你说。\n\n"是啊，过年就是要开心。"爸爸笑着说。\n\n中间插播广告时，你们聊起了家常。\n\n"今年工作怎么样？"妈妈问。\n\n"还行，就是有点累。"你回答。\n\n"要注意身体啊。"爸爸关心地说。\n\n春晚继续，你们一起看完了整场。\n\n虽然节目可能没那么精彩，但一家人坐在一起，说说笑笑，这才是最重要的。\n\n"这个节目不错。"爸爸指着电视说。\n\n"是啊，一家人在一起看春晚，这才是过年。"妈妈说。',
     thoughts: '虽然春晚没那么好看，但和家人一起看的感觉真好。'
   },
   
@@ -166,7 +166,7 @@ export const EVENT_SCENES = {
 }
 
 // 根据事件ID和选择获取场景
-export function getEventScene(eventId, choiceId = null, state = null) {
+export function getEventScene(eventId, choiceId = null, state = null, dialogueRound = 0) {
   // 处理成功失败事件（如果有_lastEventSuccess标记）
   if (state && state._lastEventSuccess !== undefined) {
     const successKey = state._lastEventSuccess ? `${eventId}_success` : `${eventId}_fail`
@@ -326,44 +326,79 @@ function generateRelativeBorrowScene(choiceId, state) {
   }
 }
 
-function generateBlindDateScene(choiceId, state) {
+function generateBlindDateScene(choiceId, state, dialogueRound = 0) {
   const skills = (state.attributes?.skills || []).map(s => s.id)
   const reputation = state.stats?.reputation || 50
   const isSocial = skills.includes('social_butterfly')
   const isAnxious = skills.includes('social_anxiety')
+  const gender = state.attributes?.gender || 'male'
+  const genderText = gender === 'female' ? '她' : '他'
+
+  // 初始场景
+  if (!choiceId && dialogueRound === 0) {
+    return {
+      scene: `"要不见一面？"介绍人问。\n\n你看着手机输入框，删删改改了好几次。\n\n"对方条件还不错，人也挺靠谱的。"介绍人补充道。\n\n你心里有点纠结：见还是不见？`,
+      thoughts: isSocial ? '关系可以慢慢聊出来，不急这一拍。' : '社交这事急不来，先别把自己逼死。',
+      choices: [
+        { id: 'go', name: '去见面', changes: { spirit: -18, reputation: 10, balance: -120 } },
+        { id: 'refuse', name: '不去', changes: { reputation: -12 } },
+        ...(isSocial ? [{ id: 'go_confident', name: '主动推进（社牛模式）', changes: { spirit: 8, reputation: 12, balance: -180 } }] : []),
+        ...(isAnxious ? [{ id: 'online_first', name: '先线上聊聊', changes: { spirit: -4, reputation: 4 } }] : []),
+        ...(reputation >= 70 && state.attributes?.familyRelation?.value >= 70 ? [{ id: 'family_assist', name: '让父母先探口风', changes: { spirit: 0, reputation: 8 } }] : [])
+      ]
+    }
+  }
 
   if (choiceId === 'go_confident') {
     return {
-      scene: '你提前十分钟到场，先把话题准备在心里过了一遍。\n\n对方坐下后你先开口："路上堵吗？我刚好也卡了一会。"\n\n气氛很快热起来，从工作聊到旅行，再聊到过年的糗事。\n\n散场时对方笑着说："改天再约？"',
+      scene: `你提前十分钟到场，先把话题准备在心里过了一遍。\n\n${genderText}坐下后你先开口："路上堵吗？我刚好也卡了一会。"\n\n${genderText}笑了笑："是啊，过年期间哪都堵。"\n\n气氛很快热起来，从工作聊到旅行，再聊到过年的糗事。\n\n"你平时喜欢做什么？"你主动问。\n\n${genderText}说："我喜欢看电影，偶尔也看看书。"\n\n你们聊得很投机，时间过得很快。\n\n散场时${genderText}笑着说："改天再约？"`,
       thoughts: '社交这块今天手感不错，至少没冷场。'
     }
   }
 
   if (choiceId === 'online_first') {
     return {
-      scene: '你先提议线上聊几句。\n\n"先认识下，免得见面太尬。"你发过去。\n\n对方回了个表情包："可以，我也怕尬聊。"\n\n聊了半小时后，你心里稍微稳了一点。`,
-      thoughts: isAnxious ? '先线上缓冲一下，比硬着头皮见面好多了。' : '先试探节奏，再决定线下更稳妥。'
+      scene: '你先提议线上聊几句。\n\n"先认识下，免得见面太尬。"你发过去。\n\n对方回了个表情包："可以，我也怕尬聊。"\n\n你们开始线上聊天，从工作聊到兴趣爱好，再到对未来的规划。\n\n"你平时周末都做什么？"对方问。\n\n"我比较宅，喜欢在家看看剧。"你回复。\n\n"我也是，最近在追一部剧。"\n\n聊了半小时后，你心里稍微稳了一点。\n\n"要不我们见一面？"对方主动提议。',
+      thoughts: isAnxious ? '先线上缓冲一下，比硬着头皮见面好多了。' : '先试探节奏，再决定线下更稳妥。',
+      choices: [
+        { id: 'go_after_online', name: '好的，见面聊聊', changes: { spirit: -10, reputation: 8, balance: -120 } },
+        { id: 'delay_meet', name: '再聊几天看看', changes: { spirit: -2, reputation: 2 } }
+      ]
     }
   }
 
   if (choiceId === 'family_assist') {
     return {
-      scene: '你让爸妈先打了个前站。\n\n"人挺实在的，先吃个饭见见。"妈妈回来后说。\n\n你点点头："那我过两天约个时间。"\n\n这次不是被推着走，而是有点掌控感。`,
-      thoughts: reputation >= 70 ? '家里愿意帮你搭桥，省了很多尴尬。' : '让父母先探口风，至少不会一上来就翻车。'
+      scene: '你让爸妈先打了个前站。\n\n"人挺实在的，先吃个饭见见。"妈妈回来后说。\n\n"对方家里条件也不错，人看着也靠谱。"爸爸补充。\n\n你点点头："那我过两天约个时间。"\n\n"行，你们年轻人自己聊。"妈妈说。\n\n这次不是被推着走，而是有点掌控感。\n\n你给对方发了消息："听介绍人说你人不错，要不我们见一面？"',
+      thoughts: reputation >= 70 ? '家里愿意帮你搭桥，省了很多尴尬。' : '让父母先探口风，至少不会一上来就翻车。',
+      choices: [
+        { id: 'go_after_family', name: '约个时间见面', changes: { spirit: -8, reputation: 10, balance: -120 } }
+      ]
     }
   }
 
-  if (choiceId === 'go') {
+  if (choiceId === 'go' || choiceId === 'go_after_online' || choiceId === 'go_after_family') {
     return {
-      scene: '你坐在咖啡馆里，手心有点出汗。\n\n"你好，我是XX介绍来的。"对方坐下。\n\n前十分钟你们都在礼貌微笑，后面慢慢聊开了。\n\n离开时你们互相点头："回头再联系。"',
+      scene: `你坐在咖啡馆里，手心有点出汗。\n\n"你好，我是XX介绍来的。"${genderText}坐下。\n\n"你好，我也刚到。"你回应。\n\n前十分钟你们都在礼貌微笑，气氛有点尴尬。\n\n"你平时做什么工作？"${genderText}先开口。\n\n你简单介绍了一下自己的工作。\n\n"听起来挺有意思的。"${genderText}说。\n\n后面慢慢聊开了，从工作聊到生活，再到对未来的想法。\n\n"你觉得两个人在一起最重要的是什么？"${genderText}问。\n\n你思考了一下："我觉得是互相理解和尊重吧。"\n\n${genderText}点点头："我也这么觉得。"\n\n离开时你们互相点头："回头再联系。"`,
       thoughts: '没想象中那么可怕，但也确实挺耗精神。'
     }
   }
 
   if (choiceId === 'refuse') {
     return {
-      scene: '"这次先不见了，最近状态不太对。"你给介绍人发消息。\n\n对面很快回复："行，我跟那边说一声。"\n\n你把手机扣在桌上，长长吐了口气。`,
+      scene: '"这次先不见了，最近状态不太对。"你给介绍人发消息。\n\n对面很快回复："行，我跟那边说一声。"\n\n"不过你也要考虑一下，毕竟年龄也不小了。"介绍人又补充了一句。\n\n你把手机扣在桌上，长长吐了口气。\n\n心里有点愧疚，但又觉得这样是对的。',
       thoughts: '拒绝有代价，但硬上头的代价有时更大。'
+    }
+  }
+
+  if (choiceId === 'delay_meet') {
+    return {
+      scene: '"再聊几天看看，我们多了解一下。"你回复。\n\n"好的，我也觉得这样更稳妥。"对方说。\n\n你们继续线上聊天，每天都会聊几句。\n\n几天后，对方又提起了见面的事："要不我们见一面？"',
+      thoughts: '线上聊得还不错，但见面还是有点紧张。',
+      choices: [
+        { id: 'go_after_online', name: '好的，见面聊聊', changes: { spirit: -10, reputation: 8, balance: -120 } },
+        { id: 'delay_meet_again', name: '再等等', changes: { spirit: -4, reputation: -2 } }
+      ]
     }
   }
 
@@ -385,21 +420,21 @@ function generateRelativePressureScene(choiceId, state) {
 
   if (choiceId === 'retort') {
     return {
-      scene: '"你怎么还没……"亲戚话说到一半。\n\n你笑了下："叔，您那套基金今年回本了吗？"\n\n饭桌突然安静两秒，有人开始低头夹菜。\n\n你知道，今天这顿饭的温度要降了。`,
+      scene: '"你怎么还没……"亲戚话说到一半。\n\n你笑了下："叔，您那套基金今年回本了吗？"\n\n饭桌突然安静两秒，有人开始低头夹菜。\n\n你知道，今天这顿饭的温度要降了。',
       thoughts: '回怼很爽，后果也很快。'
     }
   }
 
   if (choiceId === 'escape') {
     return {
-      scene: '你看准空档站起来："我去厨房帮个忙。"\n\n有人在背后喊："诶还没聊完呢！"\n\n你假装没听见，先把自己从火力中心撤出来。`,
+      scene: '你看准空档站起来："我去厨房帮个忙。"\n\n有人在背后喊："诶还没聊完呢！"\n\n你假装没听见，先把自己从火力中心撤出来。',
       thoughts: '战略撤退，不丢人。'
     }
   }
 
   if (choiceId === 'shift_to_child' && hasChildren) {
     return {
-      scene: '"最近工作咋样？存款多少了？"亲戚又开问。\n\n你直接掏出手机："来来来，看下我家娃最近这段视频。"\n\n桌上瞬间被"哎呀真可爱"接管，话题成功转向。`,
+      scene: '"最近工作咋样？存款多少了？"亲戚又开问。\n\n你直接掏出手机："来来来，看下我家娃最近这段视频。"\n\n桌上瞬间被"哎呀真可爱"接管，话题成功转向。',
       thoughts: '有娃之后，很多尴尬都能被"看孩子"一键转移。'
     }
   }

@@ -177,6 +177,12 @@ export const SKILLS = [
   { id: 'cooking', name: '会做饭' }
 ]
 
+// 性别选项
+export const GENDERS = [
+  { id: 'male', name: '男' },
+  { id: 'female', name: '女' }
+]
+
 // 负债类型
 export const DEBT_TYPES = [
   { id: 'none', name: '无负债', amount: 0 },
