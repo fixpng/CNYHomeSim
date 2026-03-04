@@ -38,6 +38,10 @@ export function getAvailableTransport(distanceType, balance, salary) {
   const options = TRANSPORT_OPTIONS[distanceType] || []
   
   return options.filter(option => {
+    // 基础规则：必须买得起票
+    if (balance < option.cost) {
+      return false
+    }
     // 检查余额要求
     if (option.requireBalance && balance < option.requireBalance) {
       return false
@@ -60,9 +64,14 @@ export function selectTransport(state, transportId) {
     return { success: false, message: '无效的交通方式' }
   }
   
-  // 检查余额
-  if (transport.requireBalance && state.stats.balance < transport.cost) {
+  // 统一校验：至少要支付得起票价
+  if (state.stats.balance < transport.cost) {
     return { success: false, message: '余额不足' }
+  }
+
+  // 额外门槛：部分交通方式要求更高可用余额
+  if (transport.requireBalance && state.stats.balance < transport.requireBalance) {
+    return { success: false, message: '余额不足，暂时无法选择该交通方式' }
   }
   
   // 检查抢票成功率

@@ -74,7 +74,8 @@ export const ACHIEVEMENTS = [
     description: '总花费少于500元',
     icon: '💰',
     condition: (state) => {
-      return state.statistics.totalSpent <= 500 && state.progress.currentDay >= 9
+      const isFinished = state.phase === 'summary' || state.progress.currentDay >= 8
+      return state.statistics.totalSpent <= 500 && isFinished
     }
   },
   
@@ -85,7 +86,8 @@ export const ACHIEVEMENTS = [
     description: '健康值低于20仍坚持活动',
     icon: '🏥',
     condition: (state) => {
-      return state.stats.health <= 20 && state.progress.currentDay >= 9
+      const isFinished = state.phase === 'summary' || state.progress.currentDay >= 8
+      return state.stats.health <= 20 && isFinished
     }
   },
   {

@@ -5,8 +5,13 @@ export function checkEventBalance(event, currentBalance) {
   if (!event.changes || !event.changes.balance) {
     return { canAfford: true, cost: 0 }
   }
-  
-  const cost = Math.abs(event.changes.balance)
+
+  const balanceChange = event.changes.balance
+  if (balanceChange >= 0) {
+    return { canAfford: true, cost: 0 }
+  }
+
+  const cost = Math.abs(balanceChange)
   return {
     canAfford: currentBalance >= cost,
     cost: cost

@@ -130,15 +130,11 @@ const chartContainer = ref(null)
 
 // 计算总花费和收入
 const totalSpent = computed(() => {
-  const initial = props.state.history.balance[0] || 0
-  const final = props.state.stats.balance
-  const received = props.state.statistics.redPacketReceived || 0
-  // 总花费 = 初始余额 - 最终余额 + 收到的红包
-  return Math.max(0, initial - final + received)
+  return props.state.statistics.totalSpent || 0
 })
 
 const totalReceived = computed(() => {
-  return props.state.statistics.redPacketReceived || 0
+  return props.state.statistics.totalReceived || 0
 })
 
 // 计算评价（基于最终结算属性）

@@ -41,6 +41,10 @@ export function createInitialState() {
       dayEnded: false, // 当天是否已结束（晚间行动后为true）
       hasReturnedHome: false,
       hasReturnedWork: false,
+      transportDelayed: false,
+      delayedMessage: null,
+      showHomecomingScene: false,
+      homecomingScene: null,
       // 第3-7天的当日行动模式：home(宅家) / out(出门)
       dayMode: null,
       // 当天临时上下文（用于突发上门等一次性逻辑）
@@ -109,12 +113,134 @@ export function saveGameState(state) {
   }
 }
 
+function normalizeNumber(value, fallback = 0) {
+  return Number.isFinite(value) ? value : fallback
+}
+
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value))
+}
+
+function sanitizeHistorySeries(series, fallback, min = 0, max = 100) {
+  if (!Array.isArray(series)) {
+    return [...fallback]
+  }
+  const normalized = series
+    .map(item => normalizeNumber(item, NaN))
+    .filter(item => Number.isFinite(item))
+    .map(item => clamp(item, min, max))
+  return normalized.length > 0 ? normalized : [...fallback]
+}
+
+function sanitizeBalanceHistory(series, fallbackValue) {
+  if (!Array.isArray(series)) {
+    return [fallbackValue]
+  }
+  const normalized = series
+    .map(item => normalizeNumber(item, NaN))
+    .filter(item => Number.isFinite(item))
+    .map(item => Math.max(0, Math.floor(item)))
+  return normalized.length > 0 ? normalized : [fallbackValue]
+}
+
+function normalizeSavedState(saved) {
+  const base = createInitialState()
+  if (!saved || typeof saved !== 'object' || Array.isArray(saved)) {
+    return null
+  }
+
+  const validPhases = new Set(['setup', 'going_home', 'daily', 'returning', 'summary'])
+  const savedAttributes = saved.attributes && typeof saved.attributes === 'object' ? saved.attributes : {}
+  const savedStats = saved.stats && typeof saved.stats === 'object' ? saved.stats : {}
+  const savedProgress = saved.progress && typeof saved.progress === 'object' ? saved.progress : {}
+  const savedStatistics = saved.statistics && typeof saved.statistics === 'object' ? saved.statistics : {}
+  const savedHistory = saved.history && typeof saved.history === 'object' ? saved.history : {}
+  const savedTransportation = saved.transportation && typeof saved.transportation === 'object' ? saved.transportation : {}
+  const savedInventory = saved.inventory && typeof saved.inventory === 'object' ? saved.inventory : {}
+
+  const stats = {
+    health: clamp(Math.floor(normalizeNumber(savedStats.health, base.stats.health)), 0, 100),
+    spirit: clamp(Math.floor(normalizeNumber(savedStats.spirit, base.stats.spirit)), 0, 100),
+    balance: Math.max(0, Math.floor(normalizeNumber(savedStats.balance, base.stats.balance))),
+    reputation: clamp(Math.floor(normalizeNumber(savedStats.reputation, base.stats.reputation)), 0, 100)
+  }
+
+  const failedTransportOptions =
+    savedProgress.failedTransportOptions && typeof savedProgress.failedTransportOptions === 'object'
+      ? savedProgress.failedTransportOptions
+      : {}
+  const travelSupportUsed =
+    savedProgress.travelSupportUsed && typeof savedProgress.travelSupportUsed === 'object'
+      ? savedProgress.travelSupportUsed
+      : {}
+
+  const progress = {
+    ...base.progress,
+    ...savedProgress,
+    currentDay: clamp(Math.floor(normalizeNumber(savedProgress.currentDay, base.progress.currentDay)), 0, 8),
+    currentTimeSlot: ['morning', 'noon', 'evening', null].includes(savedProgress.currentTimeSlot)
+      ? savedProgress.currentTimeSlot
+      : base.progress.currentTimeSlot,
+    dayEnded: Boolean(savedProgress.dayEnded),
+    hasReturnedHome: Boolean(savedProgress.hasReturnedHome),
+    hasReturnedWork: Boolean(savedProgress.hasReturnedWork),
+    transportDelayed: Boolean(savedProgress.transportDelayed),
+    delayedMessage: typeof savedProgress.delayedMessage === 'string' ? savedProgress.delayedMessage : null,
+    showHomecomingScene: Boolean(savedProgress.showHomecomingScene),
+    homecomingScene:
+      savedProgress.homecomingScene && typeof savedProgress.homecomingScene === 'object'
+        ? savedProgress.homecomingScene
+        : null,
+    failedTransportOptions: {
+      going_home: Array.isArray(failedTransportOptions.going_home) ? [...failedTransportOptions.going_home] : [],
+      returning: Array.isArray(failedTransportOptions.returning) ? [...failedTransportOptions.returning] : []
+    },
+    travelSupportUsed: {
+      going_home: Boolean(travelSupportUsed.going_home),
+      returning: Boolean(travelSupportUsed.returning)
+    }
+  }
+
+  const statistics = {
+    ...base.statistics,
+    ...savedStatistics,
+    totalSpent: Math.max(0, Math.floor(normalizeNumber(savedStatistics.totalSpent, base.statistics.totalSpent))),
+    totalReceived: Math.max(0, Math.floor(normalizeNumber(savedStatistics.totalReceived, base.statistics.totalReceived))),
+    marriagePressureCount: Math.max(0, Math.floor(normalizeNumber(savedStatistics.marriagePressureCount, base.statistics.marriagePressureCount))),
+    drinkingCount: Math.max(0, Math.floor(normalizeNumber(savedStatistics.drinkingCount, base.statistics.drinkingCount))),
+    redPacketReceived: Math.max(0, Math.floor(normalizeNumber(savedStatistics.redPacketReceived, base.statistics.redPacketReceived))),
+    redPacketSent: Math.max(0, Math.floor(normalizeNumber(savedStatistics.redPacketSent, base.statistics.redPacketSent)))
+  }
+
+  return {
+    ...base,
+    ...saved,
+    phase: validPhases.has(saved.phase) ? saved.phase : base.phase,
+    attributes: { ...base.attributes, ...savedAttributes },
+    stats,
+    progress,
+    statistics,
+    history: {
+      health: sanitizeHistorySeries(savedHistory.health, base.history.health, 0, 100),
+      spirit: sanitizeHistorySeries(savedHistory.spirit, base.history.spirit, 0, 100),
+      balance: sanitizeBalanceHistory(savedHistory.balance, stats.balance),
+      reputation: sanitizeHistorySeries(savedHistory.reputation, base.history.reputation, 0, 100)
+    },
+    transportation: { ...base.transportation, ...savedTransportation },
+    diary: Array.isArray(saved.diary) ? saved.diary : [],
+    inventory: { ...base.inventory, ...savedInventory },
+    achievements: Array.isArray(saved.achievements) ? [...saved.achievements] : [],
+    triggeredLowStats: Array.isArray(saved.triggeredLowStats) ? [...saved.triggeredLowStats] : []
+  }
+}
+
 // 从localStorage加载游戏状态
 export function loadGameState() {
   try {
     const saved = localStorage.getItem('cnyHomeSim_state')
     if (saved) {
-      return JSON.parse(saved)
+      const parsed = JSON.parse(saved)
+      return normalizeSavedState(parsed)
     }
   } catch (e) {
     console.error('加载游戏状态失败:', e)

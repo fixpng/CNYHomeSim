@@ -17,9 +17,9 @@ export function generateHomecomingScene(state) {
   const isLowSalary = avgSalary < 5000
   
   // 判断年龄
-  const isYoung = ageRange?.id === '18_25' || ageRange?.id === '26_30'
-  const isMiddle = ageRange?.id === '31_35' || ageRange?.id === '36_40'
-  const isOld = ageRange?.id === '41_45' || ageRange?.id === '46_50'
+  const isYoung = ageRange?.id === '20_25' || ageRange?.id === '26_30'
+  const isMiddle = ageRange?.id === '31_40'
+  const isOld = ageRange?.id === '41_50'
   
   // 判断是否单身
   const isSingle = maritalStatus?.id === 'single'
@@ -506,7 +506,7 @@ export function getJobSpecialScene(state, eventId) {
     if (jobCategory === '基础服务' && scenes.delivery) {
       return scenes.delivery
     }
-    if (jobCategory === '自由类' && scenes.freelancer) {
+    if (jobCategory === '自由' && scenes.freelancer) {
       return scenes.freelancer
     }
   }

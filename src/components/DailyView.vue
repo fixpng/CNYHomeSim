@@ -293,12 +293,24 @@ function showEventDialog(event, scene, thoughts, changes, choice = null, noEnerg
     icon: getEventIcon(event.id),
     scene: sceneText,
     thoughts: thoughtsText,
+    nextChoices: typeof scene === 'object' && Array.isArray(scene.choices) ? scene.choices : null,
     event,
     choice,
     changes,
     noEnergyCost // 标记是否不消耗体力
   }
   showDialog.value = true
+}
+
+// 连续对话中选择下一步分支
+function handleDialogueChoice(choice) {
+  if (!dialogData.value?.event || !choice) {
+    return
+  }
+  const { event } = dialogData.value
+  showDialog.value = false
+  dialogData.value = null
+  selectChoice(event, choice)
 }
 
 // 选择子选项
@@ -387,9 +399,6 @@ function handleDialogCloseWithChoice() {
   if (event.id === 'blind_date' || (event.id.includes('marriage'))) {
     statistics.marriagePressureCount = 1
   }
-  if (event.id === 'relative_borrow' && choice?.id === 'lend') {
-    statistics.totalSpent = Math.abs(changes.balance || 0)
-  }
   if (event.id === 'new_year_parents' && changes.balance > 0) {
     statistics.redPacketReceived = changes.balance
   }
@@ -397,8 +406,10 @@ function handleDialogCloseWithChoice() {
     statistics.redPacketSent = Math.abs(changes.balance)
   }
   
-  // 添加日记（如果是homecoming事件，已经在App.vue中添加过了，这里跳过）
-  if (event.id !== 'homecoming') {
+  const shouldApplyChanges = event.id !== 'homecoming'
+
+  // 添加日记（homecoming 已在上游写入）
+  if (shouldApplyChanges) {
     const timeSlot = props.state.progress.currentTimeSlot
     const timeSlotInfo = getTimeSlotName(timeSlot)
     const dayName = getDayName(props.state.progress.currentDay)
@@ -417,19 +428,21 @@ function handleDialogCloseWithChoice() {
     emit('add-diary', diaryEntry)
   }
   
-  // 处理库存变化
-  processInventoryChanges(event, props.state)
-  
-  // 收集库存变化用于传递
-  const inventoryChanges = {}
-  if (event.addInventory) {
-    inventoryChanges.addInventory = event.addInventory
+  if (shouldApplyChanges) {
+    // 处理库存变化
+    processInventoryChanges(event, props.state)
+    
+    // 收集库存变化用于传递
+    const inventoryChanges = {}
+    if (event.addInventory) {
+      inventoryChanges.addInventory = event.addInventory
+    }
+    if (event.setInventory) {
+      inventoryChanges.setInventory = event.setInventory
+    }
+    // 传递是否消耗体力的标记
+    emit('action-selected', changes, statistics, Object.keys(inventoryChanges).length > 0 ? inventoryChanges : null, !dialogData.value?.noEnergyCost)
   }
-  if (event.setInventory) {
-    inventoryChanges.setInventory = event.setInventory
-  }
-  // 传递是否消耗体力的标记
-  emit('action-selected', changes, statistics, Object.keys(inventoryChanges).length > 0 ? inventoryChanges : null, !dialogData.value?.noEnergyCost)
   selectedEvent.value = null
   
   // 移动到下一个时段（如果不是不消耗体力的特殊剧情）
@@ -485,12 +498,23 @@ function moveToNextTimeSlot() {
 
 // 处理延迟继续
 function handleDelayContinue() {
+  const delayedDuringReturning = props.state.phase === 'returning'
   props.state.progress.transportDelayed = false
   props.state.progress.delayedMessage = null
+
+  // 返程延误：继续后直接抵达工作地并进入总结
+  if (delayedDuringReturning) {
+    props.state.progress.hasReturnedWork = true
+    props.state.phase = 'summary'
+    return
+  }
+
   props.state.phase = 'daily'
   props.state.progress.currentDay = 1
   props.state.progress.currentTimeSlot = 'morning'
   props.state.progress.dayEnded = false
+  props.state.progress.dayMode = null
+  props.state.progress.dayContext = null
   
   // 触发"刚回到家"特殊剧情
   setTimeout(() => {
