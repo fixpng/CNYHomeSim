@@ -15,6 +15,8 @@ npm run dev
 3. **访问游戏**
 打开浏览器访问 `http://localhost:3000`
 
+> 默认开发端口为 3000（见 `vite.config.js`）。
+
 ## 游戏流程
 
 ### 第一步：开局设定
@@ -61,3 +63,5 @@ A: 可以，游戏完全适配手机端，响应式设计。
 - 状态管理：使用Vue的响应式系统
 - 数据持久化：localStorage
 - 构建：`npm run build` 生成dist目录
+- 局域网联调：`npm run dev:host`
+- 快速检查：`npm run check`（当前等同构建）

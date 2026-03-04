@@ -1,7 +1,7 @@
 # 打工人春节回家模拟器
 
 一款适配电脑和手机的纯前端网页版"打工人过年回家模拟器"，核心围绕9天年假设计互动玩法，通过初始/随机属性影响返乡方式、每日互动选择和最终结局。
-都是AI写的，随便弄弄，并不完善
+当前版本已做结构化整理与稳定性修复，支持直接本地运行体验。
 
 ## 游戏特色
 
@@ -32,11 +32,21 @@ npm install
 npm run dev
 ```
 
+默认端口：`http://localhost:3000`
+
 ### 构建生产版本
 
 ```bash
 npm run build
 ```
+
+## 开发脚本
+
+- `npm run dev`：本地开发
+- `npm run dev:host`：局域网可访问开发模式
+- `npm run build`：构建生产包
+- `npm run preview`：预览构建结果
+- `npm run check`：快速检查（当前等同于构建）
 
 ## 游戏玩法
 
@@ -95,15 +105,22 @@ npm run build
 CNYHomeSim/
 ├── src/
 │   ├── components/          # Vue组件
-│   │   ├── SetupView.vue    # 开局设定
-│   │   ├── TransportationView.vue  # 交通方式选择
-│   │   ├── DailyView.vue    # 每日游戏
-│   │   └── SummaryView.vue  # 总结页面
+│   │   ├── SetupView.vue         # 开局设定
+│   │   ├── TransportationView.vue # 交通方式选择
+│   │   ├── DailyView.vue         # 每日游戏
+│   │   ├── SummaryView.vue       # 总结页面
+│   │   ├── DiaryView.vue         # 日记侧栏
+│   │   ├── EventDialog.vue       # 事件弹窗
+│   │   └── AnimatedNumber.vue    # 数值动画
 │   ├── game/                # 游戏逻辑
-│   │   ├── data.js          # 游戏数据配置
-│   │   ├── state.js         # 状态管理
-│   │   ├── transportation.js # 交通系统
-│   │   └── daily.js         # 日常事件系统
+│   │   ├── data.js              # 游戏数据配置
+│   │   ├── state.js             # 状态管理/存档
+│   │   ├── transportation.js    # 交通系统
+│   │   ├── daily.js             # 日常事件系统
+│   │   ├── specialEvents.js     # 特殊剧情
+│   │   ├── scenes.js            # 事件场景文本
+│   │   ├── achievements.js      # 成就系统
+│   │   └── utils.js             # 通用工具
 │   ├── App.vue              # 主应用组件
 │   ├── main.js              # 入口文件
 │   └── style.css            # 全局样式

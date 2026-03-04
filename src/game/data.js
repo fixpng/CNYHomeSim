@@ -351,7 +351,7 @@ export function calculateInitialBalance(salaryRange, debtType, workCity = null, 
   }
   
   // 高薪人群余额不应该太低（除非负债很重）
-  if (isHighSalary && balance < adjustedSalary * 0.5 && debtType.id === 'no_debt') {
+  if (isHighSalary && balance < adjustedSalary * 0.5 && debtType.id === 'none') {
     balance = Math.max(balance, Math.floor(adjustedSalary * 0.5))
   }
   

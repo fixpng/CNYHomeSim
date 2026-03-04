@@ -15,14 +15,14 @@
       />
       
       <TransportationView
-        v-if="state.phase === 'going_home' || state.phase === 'returning'"
+        v-if="(state.phase === 'going_home' || state.phase === 'returning') && !state.progress.transportDelayed"
         :state="state"
         :is-returning="state.phase === 'returning'"
         @transport-selected="handleTransportSelected"
       />
       
       <DailyView
-        v-if="state.phase === 'daily' || (state.phase === 'going_home' && state.progress.transportDelayed)"
+        v-if="state.phase === 'daily' || state.progress.transportDelayed"
         :state="state"
         @action-selected="handleActionSelected"
         @next-day="handleNextDay"
@@ -306,6 +306,18 @@ function autoSave() {
   saveGameState(state.value)
 }
 
+// 统一统计余额收支，避免各处口径不一致
+function trackBalanceStatistics(balanceChange) {
+  if (!Number.isFinite(balanceChange) || balanceChange === 0) {
+    return
+  }
+  if (balanceChange < 0) {
+    state.value.statistics.totalSpent += Math.abs(balanceChange)
+  } else {
+    state.value.statistics.totalReceived += balanceChange
+  }
+}
+
 // 生成初始属性说明
 function generateInitialStatsExplanation(health, spirit, reputation, balance) {
   let healthReason = ''
@@ -415,7 +427,9 @@ function handleStartGame(gameState) {
 
 // 交通方式选择
 function handleTransportSelected(result) {
-  const phaseKey = state.value.phase === 'returning' ? 'returning' : 'going_home'
+  const currentPhase = state.value.phase
+  const isReturningTransport = currentPhase === 'returning'
+  const phaseKey = isReturningTransport ? 'returning' : 'going_home'
   if (!state.value.progress.failedTransportOptions) {
     state.value.progress.failedTransportOptions = { going_home: [], returning: [] }
   }
@@ -440,6 +454,7 @@ function handleTransportSelected(result) {
     state.value.history.spirit.push(state.value.stats.spirit)
     state.value.history.reputation.push(state.value.stats.reputation)
     state.value.history.balance.push(state.value.stats.balance)
+    trackBalanceStatistics(result.changes?.balance || 0)
 
     state.value.diary.push({
       time: state.value.phase === 'going_home' ? '返乡路上' : '返程路上',
@@ -500,9 +515,10 @@ function handleTransportSelected(result) {
     state.value.history.spirit.push(state.value.stats.spirit)
     state.value.history.reputation.push(state.value.stats.reputation)
     state.value.history.balance.push(state.value.stats.balance)
+    trackBalanceStatistics(result.changes?.balance || 0)
     
     // 记录交通方式
-    if (state.value.phase === 'going_home') {
+    if (currentPhase === 'going_home') {
       state.value.transportation.goingHome = result.transport
       state.value.progress.hasReturnedHome = true
       state.value.progress.failedTransportOptions.going_home = []
@@ -525,12 +541,12 @@ function handleTransportSelected(result) {
           triggerHomecomingScene()
         }, 300)
       }
-    } else if (state.value.phase === 'returning') {
+    } else if (currentPhase === 'returning') {
       state.value.transportation.goingBack = result.transport
       state.value.progress.failedTransportOptions.returning = []
       // 如果延迟，晚一天到工作地
       if (result.delayed) {
-        state.value.progress.returnDelayed = true
+        state.value.progress.transportDelayed = true
         state.value.progress.delayedMessage = `由于${result.transport.name}延误，你晚了一天到工作地...`
       } else {
         state.value.progress.hasReturnedWork = true
@@ -539,12 +555,12 @@ function handleTransportSelected(result) {
     }
 
     // 记录交通情况到日记（成功/延迟）
-    const transportAction = state.value.phase === 'summary' ? '返程交通' : '返乡交通'
+    const transportAction = isReturningTransport ? '返程交通' : '返乡交通'
     const transportThought = result.delayed
       ? `${result.transport.name}途中延误，晚了一天。`
       : `你选择了${result.transport.name}，一路还算顺利。`
     state.value.diary.push({
-      time: state.value.transportation.goingBack ? '返程路上' : '返乡路上',
+      time: isReturningTransport ? '返程路上' : '返乡路上',
       icon: '🚗',
       action: transportAction,
       thoughts: transportThought,
@@ -581,6 +597,7 @@ function triggerHomecomingScene() {
   state.value.history.spirit.push(state.value.stats.spirit)
   state.value.history.reputation.push(state.value.stats.reputation)
   state.value.history.balance.push(state.value.stats.balance)
+  trackBalanceStatistics(homecoming.effects?.balance || 0)
   
   // 添加日记
   const diaryEntry = {
@@ -636,11 +653,15 @@ function handleActionSelected(changes, statistics, inventoryChanges = null, shou
       }
     }
   })
+  trackBalanceStatistics(changes?.balance || 0)
   
   // 更新统计
   if (statistics) {
     Object.keys(statistics).forEach(key => {
-      if (state.value.statistics.hasOwnProperty(key)) {
+      if (key === 'totalSpent' || key === 'totalReceived') {
+        return
+      }
+      if (state.value.statistics.hasOwnProperty(key) && Number.isFinite(statistics[key])) {
         state.value.statistics[key] += statistics[key]
       }
     })
