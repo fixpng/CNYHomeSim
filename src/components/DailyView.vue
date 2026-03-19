@@ -576,58 +576,66 @@ function nextDay() {
 
 .day-header {
   text-align: center;
-  background: var(--color-primary-gradient);
-  color: var(--text-on-primary);
+  background: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
 }
 
 .day-title {
-  font-size: 32px;
-  font-weight: bold;
-  margin-bottom: 8px;
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 6px;
+  color: var(--color-primary);
+  text-shadow: 0 0 20px var(--color-primary-shadow);
+  letter-spacing: 2px;
 }
 
 .day-name {
-  font-size: 18px;
-  opacity: 0.9;
-  margin-bottom: 8px;
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
 }
 
 .lunar-date {
-  font-size: 14px;
-  opacity: 0.8;
-  margin-bottom: 12px;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
 }
 
 .delay-notice {
   background: var(--color-warning-bg);
-  border: 2px solid var(--color-warning-border);
+  border: 1px solid var(--color-warning-border);
   margin-bottom: 16px;
 }
 
 .delay-message {
   color: var(--color-warning-text);
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 12px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .day-info {
   display: flex;
   justify-content: space-around;
-  font-size: 14px;
-  opacity: 0.8;
+  font-size: 12px;
+  color: var(--text-secondary);
 }
 
 .time-slot {
-  padding: 4px 12px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 12px;
+  padding: 3px 10px;
+  background: var(--bg-lighter);
+  border-radius: 3px;
+  border: 1px solid var(--border-light);
+  font-size: 11px;
 }
 
 .no-events {
   text-align: center;
   padding: 40px 20px;
   color: var(--text-muted);
+  font-size: 13px;
 }
 
 .option-header {
@@ -638,7 +646,7 @@ function nextDay() {
 }
 
 .option-icon {
-  font-size: 32px;
+  font-size: 28px;
   flex-shrink: 0;
   line-height: 1;
 }
@@ -648,59 +656,62 @@ function nextDay() {
 }
 
 .option-name {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .option-desc {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-secondary);
   line-height: 1.4;
 }
 
 .option-cost {
-  margin-top: 8px;
-  padding: 6px 12px;
+  margin-top: 6px;
+  padding: 4px 10px;
   background: var(--color-warning-bg);
-  border-radius: 6px;
-  font-size: 12px;
+  border-radius: 3px;
+  font-size: 11px;
   color: var(--color-warning-text);
+  border: 1px solid var(--color-warning-border);
 }
 
 .insufficient-funds {
   color: var(--color-danger);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .option-hint {
-  font-size: 12px;
-  color: var(--color-primary);
-  margin-top: 8px;
+  font-size: 11px;
+  color: var(--color-neon-purple);
+  margin-top: 6px;
   font-style: italic;
 }
 
 .btn-select {
-  margin-top: 12px;
+  margin-top: 10px;
   padding: 8px 16px;
   background: var(--color-primary);
   color: var(--text-on-primary);
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: 4px;
+  font-size: 13px;
   cursor: pointer;
   transition: all 0.2s;
-  min-height: 44px;
+  min-height: 40px;
   width: 100%;
+  font-weight: 600;
+  font-family: inherit;
 }
 
 .btn-select:hover:not(:disabled) {
-  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-neon);
 }
 
 .btn-select:disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
 }
 
@@ -712,46 +723,71 @@ function nextDay() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   padding-bottom: 8px;
   border-bottom: 1px solid var(--border-color);
 }
 
 .choices-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-primary);
 }
 
 .btn-back {
-  padding: 4px 12px;
+  padding: 3px 10px;
   background: var(--bg-lighter);
   color: var(--text-secondary);
-  border: none;
-  border-radius: 4px;
-  font-size: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  font-size: 11px;
   cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.btn-back:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .option-choices {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .choice-item {
-  padding: 12px;
-  background: var(--bg-card);
-  border: 2px solid var(--border-light);
-  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s;
-  min-height: 44px;
+  min-height: 40px;
+  position: relative;
 }
 
-.choice-item:hover {
+.choice-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-primary);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.choice-item:hover:not(.disabled) {
   border-color: var(--color-primary);
   background: var(--bg-hover);
+  box-shadow: 0 0 10px var(--color-primary-light);
+}
+
+.choice-item:hover:not(.disabled)::before {
+  opacity: 1;
 }
 
 .choice-item:active:not(.disabled) {
@@ -759,37 +795,38 @@ function nextDay() {
 }
 
 .choice-item.disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   background: var(--bg-lighter);
 }
 
 .choice-item.disabled:hover {
-  border-color: var(--border-light);
+  border-color: var(--border-color);
   background: var(--bg-lighter);
   transform: none;
+  box-shadow: none;
 }
 
 .choice-cost {
-  margin-top: 8px;
-  font-size: 12px;
+  margin-top: 6px;
+  font-size: 11px;
   color: var(--text-secondary);
 }
 
 .choice-cost .insufficient-funds {
   color: var(--color-danger);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .choice-name {
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 
 .choice-desc {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-secondary);
 }
 </style>

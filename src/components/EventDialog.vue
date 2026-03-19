@@ -73,76 +73,74 @@ function selectDialogueChoice(choice) {
   z-index: 1000;
   padding: 20px;
   animation: fadeIn 0.3s ease;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .modal-content {
-  background: var(--bg-card);
-  border-radius: 16px;
-  max-width: 500px;
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  max-width: 480px;
   width: 100%;
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-modal);
   animation: slideUp 0.3s ease;
   color: var(--text-primary);
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(24px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .modal-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 20px;
+  gap: 10px;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--border-color);
+  background: var(--bg-light);
 }
 
 .modal-icon {
-  font-size: 32px;
+  font-size: 28px;
 }
 
 .modal-title {
   flex: 1;
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-primary);
   margin: 0;
 }
 
 .modal-close {
-  width: 32px;
-  height: 32px;
-  border: none;
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--border-color);
   background: var(--bg-lighter);
-  border-radius: 50%;
-  font-size: 24px;
+  border-radius: 4px;
+  font-size: 18px;
   line-height: 1;
   cursor: pointer;
   transition: all 0.2s;
   color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .modal-close:hover {
-  background: var(--bg-progress);
-  color: var(--text-primary);
+  background: var(--bg-hover);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .modal-body {
@@ -154,29 +152,30 @@ function selectDialogueChoice(choice) {
 }
 
 .scene-text {
-  font-size: 16px;
+  font-size: 14px;
   color: var(--text-tertiary);
   margin: 0 0 16px 0;
   white-space: pre-line;
 }
 
 .thoughts {
-  margin-top: 20px;
-  padding: 16px;
+  margin-top: 16px;
+  padding: 14px;
   background: var(--bg-light);
-  border-radius: 8px;
-  border-left: 4px solid var(--color-primary);
+  border-radius: 6px;
+  border-left: 3px solid var(--color-neon-purple);
 }
 
 .thoughts-label {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
-  color: var(--color-primary);
-  margin-bottom: 8px;
+  color: var(--color-neon-purple);
+  margin-bottom: 6px;
+  letter-spacing: 0.5px;
 }
 
 .thoughts-text {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-secondary);
   margin: 0;
   font-style: italic;
@@ -184,7 +183,7 @@ function selectDialogueChoice(choice) {
 }
 
 .modal-footer {
-  padding: 16px 20px;
+  padding: 12px 20px;
   border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: flex-end;
@@ -201,49 +200,67 @@ function selectDialogueChoice(choice) {
 }
 
 .dialogue-choices {
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 2px solid var(--border-color);
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--border-color);
 }
 
 .choices-label {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--color-primary);
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
 }
 
 .dialogue-choice-item {
-  padding: 12px 16px;
+  padding: 10px 14px;
   margin-bottom: 8px;
   background: var(--bg-light);
-  border: 2px solid var(--border-color);
-  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
   cursor: pointer;
   transition: all 0.2s;
+  position: relative;
+}
+
+.dialogue-choice-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-primary);
+  opacity: 0;
+  transition: opacity 0.2s;
 }
 
 .dialogue-choice-item:hover:not(.disabled) {
-  background: #e8eaf6;
+  background: var(--bg-hover);
   border-color: var(--color-primary);
-  transform: translateX(4px);
+  box-shadow: 0 0 12px var(--color-primary-light);
+}
+
+.dialogue-choice-item:hover:not(.disabled)::before {
+  opacity: 1;
 }
 
 .dialogue-choice-item.disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   background: var(--bg-lighter);
 }
 
 .choice-text {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text-primary);
   margin-bottom: 4px;
 }
 
 .choice-cost {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--color-danger);
-  font-weight: 500;
+  font-weight: 600;
 }
 </style>

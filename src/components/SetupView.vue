@@ -514,26 +514,32 @@ function startGame() {
 
 .form-group label {
   display: block;
-  margin-bottom: 8px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-primary);
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
 }
 
 .form-select,
 .form-input {
   width: 100%;
-  padding: 12px;
-  border: 1px solid var(--border-light);
-  border-radius: 8px;
-  font-size: 16px;
-  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 14px;
+  min-height: 42px;
+  background: var(--bg-light);
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  font-family: inherit;
 }
 
 .form-select:focus,
 .form-input:focus {
   outline: none;
   border-color: var(--color-primary);
+  box-shadow: 0 0 10px var(--color-primary-light);
 }
 
 .form-select option:disabled {
@@ -542,29 +548,30 @@ function startGame() {
 }
 
 .form-hint {
-  margin-top: 6px;
-  font-size: 12px;
+  margin-top: 5px;
+  font-size: 11px;
   color: var(--text-muted);
   font-style: italic;
 }
 
 .btn-large {
   width: 100%;
-  font-size: 18px;
-  padding: 16px;
+  font-size: 16px;
+  padding: 14px;
+  letter-spacing: 2px;
 }
 
 .attributes-display {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .attr-row {
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px solid var(--bg-lighter);
+  border-bottom: 1px solid var(--border-light);
 }
 
 .attr-row:last-child {
@@ -573,13 +580,13 @@ function startGame() {
 
 .attr-name {
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .attr-value {
   color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   text-align: right;
 }
 

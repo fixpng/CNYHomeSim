@@ -200,7 +200,7 @@ import AnimatedNumber from './components/AnimatedNumber.vue'
 const state = ref(createInitialState())
 
 // 主题切换
-const theme = ref(localStorage.getItem('cny-theme') || 'light')
+const theme = ref(localStorage.getItem('cny-theme') || 'dark')
 
 // 初始化时设置主题到 document
 function applyTheme(t) {
@@ -769,20 +769,21 @@ function handleRestart() {
 .app {
   min-height: 100vh;
   padding-bottom: 20px;
+  position: relative;
 }
 
 /* 主题切换按钮 */
 .theme-toggle {
   position: fixed;
-  top: 20px;
-  left: 20px;
+  top: 16px;
+  left: 16px;
   z-index: 200;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 2px solid var(--border-color);
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
   background: var(--bg-card);
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -790,11 +791,14 @@ function handleRestart() {
   box-shadow: var(--shadow-btn);
   transition: all 0.3s ease;
   touch-action: manipulation;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .theme-toggle:hover {
-  transform: scale(1.1);
-  box-shadow: var(--shadow-card-hover);
+  transform: scale(1.08);
+  box-shadow: var(--shadow-neon);
+  border-color: var(--color-primary);
 }
 
 .theme-toggle:active {
@@ -832,39 +836,46 @@ function handleRestart() {
   transform: translateX(-20px);
 }
 
+/* 游戏标题 */
 .game-header {
   text-align: center;
-  color: var(--text-on-primary);
-  padding: 20px 0;
+  padding: 30px 0 20px;
   margin-bottom: 20px;
 }
 
 .game-title {
   font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 900;
+  margin-bottom: 10px;
+  color: var(--color-primary);
+  text-shadow: 0 0 30px var(--color-primary-shadow), 0 0 60px rgba(0, 255, 252, 0.1);
+  letter-spacing: 4px;
 }
 
 .game-subtitle {
-  font-size: 16px;
-  opacity: 0.9;
+  font-size: 14px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
 }
 
+/* 属性栏 */
 .stats-bar {
   background: var(--bg-card);
-  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
   padding: 16px;
   margin-bottom: 16px;
   box-shadow: var(--shadow-card);
   transition: var(--transition-theme);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .stat-item {
   display: flex;
   align-items: center;
   margin-bottom: 12px;
-  gap: 12px;
+  gap: 10px;
 }
 
 .stat-item:last-child {
@@ -872,9 +883,9 @@ function handleRestart() {
 }
 
 .stat-label {
-  min-width: 60px;
+  min-width: 58px;
   width: auto;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-secondary);
   flex-shrink: 0;
   white-space: nowrap;
@@ -882,61 +893,84 @@ function handleRestart() {
 
 .stat-bar {
   flex: 1;
-  height: 8px;
+  height: 6px;
   background: var(--bg-progress);
-  border-radius: 4px;
+  border-radius: 3px;
   overflow: hidden;
 }
 
 .stat-fill {
   height: 100%;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  border-radius: 4px;
+  border-radius: 3px;
+  position: relative;
+}
+
+.stat-fill::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.25) 50%, transparent 100%);
+  animation: shimmer 2.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
 .stat-fill.health {
   background: var(--color-health);
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
 }
 
 .stat-fill.spirit {
   background: var(--color-spirit);
+  box-shadow: 0 0 8px rgba(85, 255, 254, 0.3);
 }
 
 .stat-fill.reputation {
   background: var(--color-reputation);
+  box-shadow: 0 0 8px rgba(255, 206, 69, 0.3);
 }
 
 .stat-value {
-  min-width: 70px;
+  min-width: 65px;
   width: auto;
   text-align: right;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
   flex-shrink: 0;
   white-space: nowrap;
+  font-variant-numeric: tabular-nums;
 }
 
 .stat-value.money {
   color: var(--color-money);
 }
 
-/* 顶部按钮容器 */
+/* 顶部按钮 */
 .top-buttons-container {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   z-index: 100;
   display: flex;
-  gap: 10px;
+  gap: 8px;
 }
 
 .btn-info,
 .btn-restart {
-  font-size: 14px;
-  padding: 8px 16px;
-  min-height: 36px;
+  font-size: 13px;
+  padding: 6px 14px;
+  min-height: 34px;
   box-shadow: var(--shadow-btn);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 /* 基础信息浮窗 */
@@ -946,12 +980,14 @@ function handleRestart() {
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--bg-overlay);
+  background: var(--bg-overlay-dark);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   animation: fadeIn 0.2s ease;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 @keyframes fadeIn {
@@ -960,10 +996,11 @@ function handleRestart() {
 }
 
 .modal-content {
-  background: var(--bg-card);
-  border-radius: 12px;
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
   width: 90%;
-  max-width: 600px;
+  max-width: 560px;
   max-height: 80vh;
   overflow: hidden;
   display: flex;
@@ -978,42 +1015,44 @@ function handleRestart() {
 }
 
 .modal-header {
-  padding: 20px;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--color-primary-gradient);
-  color: var(--text-on-primary);
+  background: var(--bg-light);
 }
 
 .modal-header h3 {
   margin: 0;
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-primary);
 }
 
 .modal-close {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  font-size: 24px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  background: var(--bg-lighter);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: 20px;
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
 
 .modal-close:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: var(--bg-hover);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
 
 .modal-body {
-  padding: 20px;
+  padding: 16px 20px;
   overflow-y: auto;
   flex: 1;
 }
@@ -1021,32 +1060,34 @@ function handleRestart() {
 .info-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 8px;
 }
 
 .info-item {
   display: flex;
   align-items: center;
-  padding: 12px;
+  padding: 10px 12px;
   background: var(--bg-light);
-  border-radius: 8px;
-  border-left: 3px solid var(--color-primary);
+  border-radius: 4px;
+  border-left: 2px solid var(--color-primary);
 }
 
 .info-label {
   font-weight: 600;
   color: var(--text-secondary);
-  min-width: 100px;
+  min-width: 90px;
   flex-shrink: 0;
+  font-size: 13px;
 }
 
 .info-value {
   color: var(--text-primary);
   flex: 1;
+  font-size: 13px;
 }
 
 .modal-footer {
-  padding: 16px 20px;
+  padding: 12px 20px;
   border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: flex-end;
@@ -1057,22 +1098,22 @@ function handleRestart() {
   .top-buttons-container {
     top: 10px;
     right: 10px;
-    gap: 8px;
+    gap: 6px;
   }
 
   .theme-toggle {
     top: 10px;
     left: 10px;
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
+    width: 34px;
+    height: 34px;
+    font-size: 15px;
   }
 
   .btn-info,
   .btn-restart {
     font-size: 12px;
-    padding: 6px 12px;
-    min-height: 32px;
+    padding: 5px 10px;
+    min-height: 30px;
   }
 
   .modal-content {
@@ -1081,30 +1122,31 @@ function handleRestart() {
   }
 
   .modal-header {
-    padding: 16px;
+    padding: 14px 16px;
   }
 
   .modal-header h3 {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .modal-body {
-    padding: 16px;
+    padding: 14px 16px;
   }
 
   .info-label {
-    min-width: 80px;
-    font-size: 14px;
+    min-width: 75px;
+    font-size: 12px;
   }
 
   .info-value {
-    font-size: 14px;
+    font-size: 12px;
   }
 }
 
 @media (min-width: 768px) {
   .game-title {
-    font-size: 32px;
+    font-size: 34px;
+    letter-spacing: 6px;
   }
 }
 </style>

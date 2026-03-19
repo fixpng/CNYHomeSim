@@ -136,14 +136,15 @@ function requestSupport(source) {
 
 .description {
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 13px;
   margin-bottom: 16px;
   line-height: 1.6;
 }
 
 .info-section {
   background: var(--bg-light);
-  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
   padding: 12px;
   margin-bottom: 20px;
 }
@@ -160,13 +161,13 @@ function requestSupport(source) {
 
 .info-label {
   color: var(--text-secondary);
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .info-value {
   color: var(--text-primary);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .info-value.money {
@@ -174,14 +175,15 @@ function requestSupport(source) {
 }
 
 .transport-options {
-  margin-top: 20px;
+  margin-top: 16px;
 }
 
 .options-title {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   margin-bottom: 12px;
-  color: var(--text-primary);
+  color: var(--color-primary);
+  letter-spacing: 0.5px;
 }
 
 .no-options {
@@ -189,7 +191,9 @@ function requestSupport(source) {
   padding: 20px;
   color: var(--text-muted);
   background: var(--bg-light);
-  border-radius: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  font-size: 13px;
 }
 
 .option-content {
@@ -197,8 +201,8 @@ function requestSupport(source) {
 }
 
 .option-name {
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 8px;
   display: flex;
@@ -207,50 +211,52 @@ function requestSupport(source) {
 }
 
 .transport-icon {
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .option-details {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  font-size: 12px;
+  gap: 8px;
+  font-size: 11px;
   color: var(--text-secondary);
 }
 
 .detail-item {
-  padding: 4px 8px;
+  padding: 3px 8px;
   background: var(--bg-lighter);
-  border-radius: 4px;
+  border-radius: 3px;
+  border: 1px solid var(--border-light);
 }
 
 .detail-item.warning {
   background: var(--color-warning-bg);
   color: var(--color-warning-text);
+  border-color: var(--color-warning-border);
 }
 
 .option-item.disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   filter: grayscale(0.4);
   cursor: not-allowed;
   pointer-events: none;
 }
 
 .failed-tag {
-  color: var(--color-danger-dark);
-  font-size: 12px;
-  font-weight: 600;
+  color: var(--color-danger);
+  font-size: 11px;
+  font-weight: 700;
 }
 
 .support-actions {
   margin-top: 16px;
   padding-top: 12px;
-  border-top: 1px dashed var(--border-light);
+  border-top: 1px dashed var(--border-color);
 }
 
 .support-tip {
-  color: #777;
-  font-size: 13px;
+  color: var(--text-muted);
+  font-size: 12px;
   margin-bottom: 10px;
 }
 

@@ -100,45 +100,51 @@ function clearDiary() {
 <style scoped>
 .diary-view {
   background: var(--bg-card);
-  border-radius: 12px;
-  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 14px;
   box-shadow: var(--shadow-card);
   height: 100%;
   display: flex;
   flex-direction: column;
   color: var(--text-primary);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .diary-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid var(--bg-lighter);
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .diary-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-neon-gold);
   margin: 0;
+  letter-spacing: 0.5px;
 }
 
 .btn-clear {
-  padding: 4px 12px;
-  font-size: 12px;
+  padding: 3px 10px;
+  font-size: 11px;
   background: var(--bg-lighter);
-  border: none;
-  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
   cursor: pointer;
-  color: var(--text-secondary);
+  color: var(--text-muted);
   transition: all 0.2s;
+  font-family: inherit;
 }
 
 .btn-clear:hover {
-  background: var(--bg-progress);
-  color: var(--text-primary);
+  background: var(--bg-hover);
+  border-color: var(--color-danger);
+  color: var(--color-danger);
 }
 
 .diary-content {
@@ -155,41 +161,42 @@ function clearDiary() {
 
 .diary-empty {
   text-align: center;
-  padding: 40px 20px;
+  padding: 30px 20px;
   color: var(--text-muted);
+  font-size: 13px;
 }
 
 .diary-hint {
-  font-size: 12px;
+  font-size: 11px;
   margin-top: 8px;
-  opacity: 0.7;
+  opacity: 0.6;
 }
 
 .diary-entries {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
 }
 
 .diary-entry {
-  padding: 12px;
+  padding: 10px;
   background: var(--bg-light);
-  border-radius: 8px;
-  border-left: 3px solid var(--color-primary);
+  border-radius: 4px;
+  border-left: 2px solid var(--color-primary);
   transition: all 0.3s ease;
   animation: slideIn 0.3s ease;
 }
 
 .diary-entry.entry-new {
   background: var(--color-warning-bg);
-  border-left-color: var(--color-warning-border);
-  animation: highlight 0.5s ease;
+  border-left-color: var(--color-neon-gold);
+  animation: highlight 0.6s ease;
 }
 
 @keyframes slideIn {
   from {
     opacity: 0;
-    transform: translateX(-10px);
+    transform: translateX(-8px);
   }
   to {
     opacity: 1;
@@ -202,65 +209,66 @@ function clearDiary() {
     background: var(--color-warning-bg);
   }
   50% {
-    background: #ffe69c;
+    background: rgba(255, 206, 69, 0.15);
   }
 }
 
 .entry-time {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
+  gap: 5px;
+  font-size: 11px;
   color: var(--text-muted);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .time-icon {
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .entry-content {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .entry-action {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 500;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--text-primary);
 }
 
 .action-icon {
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .entry-thoughts {
-  font-size: 13px;
+  font-size: 12px;
   color: var(--text-secondary);
   font-style: italic;
-  padding: 8px;
-  background: var(--bg-card);
-  border-radius: 6px;
+  padding: 6px 8px;
+  background: var(--bg-lighter);
+  border-radius: 3px;
   margin-top: 4px;
 }
 
 .entry-changes {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
+  gap: 6px;
+  margin-top: 6px;
 }
 
 .change-item {
-  padding: 4px 8px;
-  background: var(--bg-card);
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
+  padding: 2px 6px;
+  background: var(--bg-lighter);
+  border-radius: 3px;
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 .change-positive {
@@ -271,19 +279,19 @@ function clearDiary() {
   color: var(--color-danger);
 }
 
-/* 滚动条样式 */
+/* 滚动条 */
 .diary-content::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 .diary-content::-webkit-scrollbar-track {
   background: var(--scrollbar-track);
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .diary-content::-webkit-scrollbar-thumb {
   background: var(--scrollbar-thumb);
-  border-radius: 3px;
+  border-radius: 2px;
 }
 
 .diary-content::-webkit-scrollbar-thumb:hover {
