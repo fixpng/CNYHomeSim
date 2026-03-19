@@ -80,6 +80,21 @@ export const DAILY_EVENTS = {
         changes: { spirit: 5, balance: 0 }, // 随机获得0-50元
         available: true,
         random: true
+      },
+      {
+        id: 'paste_couplets',
+        name: '贴春联',
+        description: '和爸爸一起贴春联和福字',
+        changes: { spirit: 10, reputation: 12, health: -5 },
+        available: true,
+        specialScene: true
+      },
+      {
+        id: 'call_grandparents',
+        name: '给远方亲人打电话',
+        description: '给不能到场的亲人打个电话拜年',
+        changes: { spirit: 8, reputation: 10 },
+        available: true
       }
     ],
     evening: [
@@ -119,6 +134,13 @@ export const DAILY_EVENTS = {
         description: '太累了，多睡会',
         changes: { health: 15, reputation: -15 },
         available: true
+      },
+      {
+        id: 'morning_exercise',
+        name: '晨起锻炼',
+        description: '新年第一天，做个早操',
+        changes: { health: 12, spirit: 8 },
+        available: true
       }
     ],
     noon: [
@@ -144,6 +166,14 @@ export const DAILY_EVENTS = {
         description: '帮忙准备饭菜',
         changes: { health: -5, reputation: 10 },
         available: true
+      },
+      {
+        id: 'red_packet_battle',
+        name: '微信红包大战',
+        description: '亲戚群里红包飞来飞去',
+        changes: { spirit: 8, balance: 0 },
+        available: true,
+        random: true
       }
     ],
     evening: [
@@ -181,6 +211,13 @@ export const DAILY_EVENTS = {
         available: true,
         dynamic: true,
         useMaritalContext: true
+      },
+      {
+        id: 'set_off_fireworks',
+        name: '放鞭炮/烟花',
+        description: '和家人一起在门口放鞭炮',
+        changes: { spirit: 15, reputation: 8, balance: -100 },
+        available: true
       }
     ]
   }
@@ -188,33 +225,61 @@ export const DAILY_EVENTS = {
 
 // 第3-7天：走亲访友/随机事件
 const RELATIVE_VISITS = [
-  { 
-    id: 'grandparents', 
-    name: '去爷爷奶奶家', 
-    cost: 0, 
+  {
+    id: 'grandparents',
+    name: '去爷爷奶奶家',
+    cost: 0,
     reputation: 10,
     useGoods: true // 使用年货
   },
-  { 
-    id: 'uncle', 
-    name: '去舅舅家', 
-    cost: 0, 
+  {
+    id: 'uncle',
+    name: '去舅舅家',
+    cost: 0,
     reputation: 8,
     useGoods: true
   },
-  { 
-    id: 'aunt', 
-    name: '去姑姑家', 
-    cost: 0, 
+  {
+    id: 'aunt',
+    name: '去姑姑家',
+    cost: 0,
     reputation: 8,
     useGoods: true
   },
-  { 
-    id: 'cousin', 
-    name: '去表兄弟家', 
-    cost: 0, 
+  {
+    id: 'cousin',
+    name: '去表兄弟家',
+    cost: 0,
     reputation: 5,
     useGoods: true
+  },
+  {
+    id: 'maternal_grandparents',
+    name: '去外公外婆家',
+    cost: 0,
+    reputation: 10,
+    useGoods: true
+  },
+  {
+    id: 'great_uncle',
+    name: '去大伯家',
+    cost: 0,
+    reputation: 8,
+    useGoods: true
+  },
+  {
+    id: 'second_aunt',
+    name: '去二姨家',
+    cost: 0,
+    reputation: 7,
+    useGoods: true
+  },
+  {
+    id: 'old_neighbor',
+    name: '拜访老邻居',
+    cost: 0,
+    reputation: 6,
+    useGoods: false
   }
 ]
 
@@ -406,6 +471,343 @@ const RANDOM_EVENTS = [
     failChanges: { spirit: -3, balance: -80 },
     available: true,
     condition: (state) => state.attributes?.homeProvince?.tags?.includes('shehuo')
+  },
+
+  // ===== 新增随机事件 =====
+  {
+    id: 'childhood_friend',
+    name: '偶遇发小',
+    description: '在街上碰到了从小玩到大的发小',
+    choices: [
+      { id: 'catch_up', name: '坐下来好好聊聊', changes: { spirit: 15, health: -5, balance: -80 }, specialScene: true },
+      { id: 'quick_hi', name: '打个招呼就走', changes: { spirit: 3, reputation: -3 } },
+      { id: 'avoid', name: '装没看见', changes: { spirit: -5, reputation: -8 } }
+    ],
+    // 只有未触发过发小线时才出现
+    condition: (state) => !state.storylines?.childhoodFriend
+  },
+  {
+    id: 'childhood_friend_deep',
+    name: '发小约你出去',
+    description: '发小说有件事想和你聊聊',
+    choices: [
+      { id: 'listen', name: '认真听', changes: { spirit: 10, reputation: 5 }, specialScene: true },
+      { id: 'advise', name: '给建议', changes: { spirit: 5, reputation: 10 }, specialScene: true },
+      { id: 'decline', name: '说自己忙', changes: { spirit: -3, reputation: -5 } }
+    ],
+    condition: (state) => state.storylines?.childhoodFriend === 'met'
+  },
+  {
+    id: 'stray_pet',
+    name: '路边的流浪猫',
+    description: '你在村口/小区门口看到了一只瘦巴巴的流浪猫',
+    choices: [
+      { id: 'adopt', name: '带回家暂养', changes: { spirit: 20, reputation: 5, balance: -50 }, specialScene: true },
+      { id: 'feed', name: '喂点吃的', changes: { spirit: 10, balance: -20 }, specialScene: true },
+      { id: 'ignore', name: '不管了', changes: { spirit: -5 } }
+    ],
+    condition: (state) => !state.storylines?.strayPet
+  },
+  {
+    id: 'stray_pet_care',
+    name: '照顾流浪猫',
+    description: '你收养的小猫需要照顾',
+    choices: [
+      { id: 'vet', name: '带去看兽医', changes: { spirit: 10, balance: -200, reputation: 8 }, specialScene: true },
+      { id: 'play', name: '陪它玩一会', changes: { spirit: 15, health: 5 }, specialScene: true },
+      { id: 'find_owner', name: '帮它找新主人', changes: { spirit: 5, reputation: 15 }, specialScene: true }
+    ],
+    condition: (state) => state.storylines?.strayPet === 'found'
+  },
+  {
+    id: 'village_gossip',
+    name: '村里大新闻',
+    description: '隔壁邻居家出了大事，全村都在议论',
+    choices: [
+      { id: 'listen_gossip', name: '听完八卦', changes: { spirit: 5, reputation: -3 }, specialScene: true },
+      { id: 'help_neighbor', name: '去帮忙', changes: { health: -10, reputation: 15, spirit: 5 }, specialScene: true },
+      { id: 'mind_own', name: '不掺和', changes: { spirit: 0 } }
+    ]
+  },
+  {
+    id: 'night_walk',
+    name: '夜间散步',
+    description: '吃完饭后出去走走，消消食',
+    choices: [
+      { id: 'walk_alone', name: '一个人走走', changes: { health: 8, spirit: 12 }, specialScene: true },
+      { id: 'walk_parents', name: '和父母一起', changes: { health: 5, spirit: 8, reputation: 10 }, specialScene: true },
+      { id: 'stay_home', name: '算了不出去了', changes: { spirit: -3 } }
+    ]
+  },
+  {
+    id: 'cook_special',
+    name: '露一手',
+    description: '在外面学的菜，做给家人尝尝',
+    choices: [
+      { id: 'cook_success', name: '用心做', changes: { health: -8, spirit: 15, reputation: 15, balance: -80 }, specialScene: true },
+      { id: 'cook_simple', name: '做个简单的', changes: { health: -5, spirit: 8, reputation: 8, balance: -30 } }
+    ],
+    condition: (state) => {
+      const skills = (state.attributes?.skills || []).map(s => s.id)
+      return skills.includes('cooking')
+    }
+  },
+  {
+    id: 'family_photo',
+    name: '拍全家福',
+    description: '难得聚齐了，不如拍张全家福',
+    choices: [
+      { id: 'photo_pro', name: '认真拍一张', changes: { spirit: 15, reputation: 12 }, specialScene: true },
+      { id: 'photo_casual', name: '随便拍一张', changes: { spirit: 8, reputation: 5 } },
+      { id: 'photo_refuse', name: '算了吧', changes: { spirit: -5, reputation: -8 } }
+    ]
+  },
+  {
+    id: 'online_shopping_fail',
+    name: '快递爆仓',
+    description: '年前买的东西还没到，快递显示"爆仓中"',
+    choices: [
+      { id: 'wait', name: '继续等', changes: { spirit: -8 } },
+      { id: 'complain', name: '打电话催', changes: { spirit: -5, health: -3 } },
+      { id: 'go_buy', name: '算了去实体店买', changes: { spirit: -3, balance: -150 } }
+    ]
+  },
+  {
+    id: 'dream_project',
+    name: '一个念头',
+    description: '你突然有了一个创业/副业的想法',
+    choices: [
+      { id: 'think_deep', name: '认真想想', changes: { spirit: 15 }, specialScene: true },
+      { id: 'tell_family', name: '跟家人说说', changes: { spirit: 5, reputation: -5 }, specialScene: true },
+      { id: 'dismiss', name: '算了，不靠谱', changes: { spirit: -5 } }
+    ],
+    condition: (state) => !state.storylines?.dreamProject
+  },
+  {
+    id: 'dream_project_plan',
+    name: '继续想那个计划',
+    description: '你的副业想法一直在脑子里转',
+    choices: [
+      { id: 'research', name: '上网查资料', changes: { spirit: 10, health: -5 }, specialScene: true },
+      { id: 'find_partner', name: '找发小聊合作', changes: { spirit: 12, reputation: 5 }, specialScene: true },
+      { id: 'give_up', name: '冷静了，算了', changes: { spirit: -8 } }
+    ],
+    condition: (state) => state.storylines?.dreamProject === 'idea'
+  },
+  {
+    id: 'family_conflict',
+    name: '家庭矛盾升级',
+    description: '亲戚之间的老矛盾又被翻出来了',
+    choices: [
+      { id: 'mediate', name: '居中调解', changes: { spirit: -15, reputation: 20, health: -5 }, specialScene: true },
+      { id: 'side_parents', name: '站在父母这边', changes: { spirit: -8, reputation: 5 }, specialScene: true },
+      { id: 'stay_out', name: '两不相帮', changes: { spirit: -5, reputation: -10 } }
+    ],
+    condition: (state) => {
+      const relation = state.attributes?.familyRelation?.value || 50
+      return relation < 60 && !state.storylines?.familyConflict
+    }
+  },
+  {
+    id: 'family_conflict_resolve',
+    name: '矛盾后续',
+    description: '之前的家庭矛盾还没彻底解决',
+    choices: [
+      { id: 'apologize', name: '主动道歉和解', changes: { spirit: -5, reputation: 25 }, specialScene: true },
+      { id: 'gift', name: '买点东西缓和', changes: { balance: -300, reputation: 15, spirit: 5 }, specialScene: true },
+      { id: 'cold_war', name: '继续冷战', changes: { spirit: -15, reputation: -15 } }
+    ],
+    condition: (state) => state.storylines?.familyConflict === 'sparked'
+  },
+  {
+    id: 'childhood_spot',
+    name: '重访老地方',
+    description: '经过小时候经常去的地方',
+    choices: [
+      { id: 'visit', name: '进去看看', changes: { spirit: 18, health: -3 }, specialScene: true },
+      { id: 'photo_memory', name: '拍张照就走', changes: { spirit: 10 } },
+      { id: 'pass_by', name: '匆匆路过', changes: { spirit: -3 } }
+    ]
+  },
+  {
+    id: 'help_elderly',
+    name: '帮村里老人',
+    description: '遇到村里的老人需要帮忙',
+    choices: [
+      { id: 'help_full', name: '帮到底', changes: { health: -12, reputation: 20, spirit: 10 }, specialScene: true },
+      { id: 'help_quick', name: '帮一下就走', changes: { health: -5, reputation: 10, spirit: 5 } },
+      { id: 'pretend_busy', name: '假装没看到', changes: { spirit: -8, reputation: -5 } }
+    ]
+  },
+  {
+    id: 'morning_run',
+    name: '晨跑',
+    description: '早起跑个步，呼吸一下家乡的空气',
+    successRate: 75,
+    successChanges: { health: 15, spirit: 12 },
+    failChanges: { health: -5, spirit: -3 },
+    available: true
+  },
+  {
+    id: 'phone_call_friend',
+    name: '远方朋友来电',
+    description: '在外地的好朋友打来电话拜年',
+    choices: [
+      { id: 'long_chat', name: '聊很久', changes: { spirit: 15, health: -3 }, specialScene: true },
+      { id: 'short_chat', name: '简单聊几句', changes: { spirit: 8 } },
+      { id: 'miss_call', name: '没接到', changes: { spirit: -5 } }
+    ]
+  },
+  {
+    id: 'family_karaoke',
+    name: '家庭KTV',
+    description: '有人搬出了音响，全家开始唱歌',
+    choices: [
+      { id: 'sing', name: '上去唱一首', changes: { spirit: 18, reputation: 8 }, specialScene: true },
+      { id: 'listen', name: '在旁边听', changes: { spirit: 10, reputation: 3 } },
+      { id: 'escape_noise', name: '受不了，躲开', changes: { spirit: -5, reputation: -5 } }
+    ]
+  },
+  {
+    id: 'unexpected_money',
+    name: '意外收入',
+    description: '突然收到一笔意外之财',
+    choices: [
+      { id: 'keep', name: '收着', changes: { balance: 500, spirit: 10 }, specialScene: true },
+      { id: 'share', name: '分给家人', changes: { balance: 200, reputation: 15, spirit: 8 }, specialScene: true },
+      { id: 'donate', name: '捐了', changes: { reputation: 20, spirit: 12 }, specialScene: true }
+    ],
+    // 低概率事件通过随机选取控制
+  },
+  {
+    id: 'argument_with_parents',
+    name: '和父母吵架',
+    description: '因为一些事情和父母产生了分歧',
+    choices: [
+      { id: 'calm_down', name: '深呼吸，冷静下来', changes: { spirit: -10, reputation: 5 }, specialScene: true },
+      { id: 'argue_back', name: '据理力争', changes: { spirit: -20, reputation: -15 }, specialScene: true },
+      { id: 'walk_away', name: '出去冷静一下', changes: { spirit: -8, reputation: -5 }, specialScene: true }
+    ],
+    condition: (state) => {
+      const relation = state.attributes?.familyRelation?.value || 50
+      return relation < 70
+    }
+  },
+
+  // ===== 第二轮新增随机事件 =====
+  {
+    id: 'local_market',
+    name: '赶集',
+    description: '跟着爸妈去赶集/逛市场',
+    choices: [
+      { id: 'buy_stuff', name: '买点东西', changes: { spirit: 10, balance: -120, reputation: 5 }, specialScene: true },
+      { id: 'just_look', name: '只逛不买', changes: { spirit: 8 } },
+      { id: 'treat_parents', name: '请爸妈吃小吃', changes: { spirit: 12, balance: -60, reputation: 10 }, specialScene: true }
+    ]
+  },
+  {
+    id: 'new_year_movie',
+    name: '看春节档电影',
+    description: '带家人去看春节档大片',
+    choices: [
+      { id: 'watch_together', name: '带全家去', changes: { spirit: 15, balance: -200, reputation: 10 }, specialScene: true },
+      { id: 'watch_alone', name: '自己去看', changes: { spirit: 12, balance: -50 } },
+      { id: 'skip', name: '算了不看了', changes: { spirit: -3 } }
+    ]
+  },
+  {
+    id: 'temple_visit',
+    name: '去庙里拜拜',
+    description: '新年去庙里祈福',
+    choices: [
+      { id: 'pray_serious', name: '认真拜一拜', changes: { spirit: 15, balance: -50, reputation: 8 }, specialScene: true },
+      { id: 'pray_quick', name: '随便看看', changes: { spirit: 8, balance: -20 } },
+      { id: 'buy_charm', name: '买个护身符', changes: { spirit: 10, balance: -80, reputation: 5 }, specialScene: true }
+    ],
+    condition: (state) => {
+      const tags = state.attributes?.homeProvince?.tags || []
+      return tags.includes('temple_fair') || tags.includes('flower_market') || Math.random() < 0.5
+    }
+  },
+  {
+    id: 'hometown_change',
+    name: '发现家乡变化',
+    description: '走在路上，发现家乡变了不少',
+    choices: [
+      { id: 'feel_good', name: '拍照记录', changes: { spirit: 12 }, specialScene: true },
+      { id: 'feel_sad', name: '有点感慨', changes: { spirit: -5 }, specialScene: true },
+      { id: 'ask_parents', name: '问问爸妈', changes: { spirit: 8, reputation: 5 }, specialScene: true }
+    ]
+  },
+  {
+    id: 'secret_snack',
+    name: '偷吃零食',
+    description: '趁家人不注意，偷偷吃零食',
+    choices: [
+      { id: 'eat_lots', name: '放开吃', changes: { health: -5, spirit: 12 } },
+      { id: 'eat_little', name: '吃一点点', changes: { spirit: 5 } },
+      { id: 'share', name: '叫上家人一起吃', changes: { spirit: 8, reputation: 5 } }
+    ]
+  },
+  {
+    id: 'social_media_post',
+    name: '发朋友圈',
+    description: '过年了，发个朋友圈记录一下',
+    choices: [
+      { id: 'post_family', name: '发全家福/团圆照', changes: { spirit: 10, reputation: 8 }, specialScene: true },
+      { id: 'post_food', name: '发美食', changes: { spirit: 8, reputation: 3 } },
+      { id: 'post_nothing', name: '算了不发了', changes: { spirit: -3 } }
+    ]
+  },
+  {
+    id: 'pet_reunion',
+    name: '小猫认主',
+    description: '你养的小猫变得特别依赖你',
+    choices: [
+      { id: 'cuddle', name: '抱着它不放', changes: { spirit: 18, health: 3 }, specialScene: true },
+      { id: 'worry_leave', name: '想到要走有点难过', changes: { spirit: -5 }, specialScene: true }
+    ],
+    condition: (state) => state.storylines?.strayPet === 'found'
+  },
+  {
+    id: 'dream_friend_collab',
+    name: '发小聊合作',
+    description: '发小对你的副业想法很感兴趣',
+    choices: [
+      { id: 'plan_together', name: '一起做计划', changes: { spirit: 20, reputation: 5 }, specialScene: true },
+      { id: 'cautious', name: '先各自想想', changes: { spirit: 8 } }
+    ],
+    condition: (state) => state.storylines?.dreamProject === 'idea' && state.storylines?.childhoodFriend === 'resolved'
+  },
+  {
+    id: 'sudden_rain',
+    name: '突然下雨/下雪',
+    description: '天气突变，计划被打乱',
+    choices: [
+      { id: 'stay_cozy', name: '在家窝着', changes: { spirit: 8, health: 5 } },
+      { id: 'go_anyway', name: '冒雨/雪出门', changes: { spirit: 5, health: -8 }, specialScene: true },
+      { id: 'watch_rain', name: '站门口看雨/雪', changes: { spirit: 12 }, specialScene: true }
+    ]
+  },
+  {
+    id: 'parent_cooking_battle',
+    name: '爸妈厨艺PK',
+    description: '爸爸妈妈争着做菜，你当评委',
+    choices: [
+      { id: 'dad_wins', name: '说爸爸做的好吃', changes: { spirit: 10, reputation: -3 }, specialScene: true },
+      { id: 'mom_wins', name: '说妈妈做的好吃', changes: { spirit: 10, reputation: -3 }, specialScene: true },
+      { id: 'both_good', name: '都好吃！', changes: { spirit: 12, reputation: 8 }, specialScene: true }
+    ]
+  },
+  {
+    id: 'wifi_down',
+    name: '断网了',
+    description: '家里WiFi突然断了',
+    choices: [
+      { id: 'fix_wifi', name: '研究半天修好了', changes: { spirit: 5, reputation: 15, health: -3 } },
+      { id: 'use_data', name: '用流量', changes: { spirit: -5, balance: -20 } },
+      { id: 'go_offline', name: '干脆不上网了', changes: { spirit: 8, health: 5 } }
+    ]
   }
 ]
 
@@ -577,14 +979,67 @@ export function generateDayEvents(day, state) {
       description: '在家看书',
       changes: { spirit: 10 },
       available: true
+    },
+    {
+      id: 'nap',
+      name: '午睡补觉',
+      description: '饭后躺一会，充充电',
+      changes: { health: 10, spirit: 5 },
+      available: true
+    },
+    {
+      id: 'tidy_old_stuff',
+      name: '翻翻旧物',
+      description: '整理房间时发现以前的东西',
+      changes: { spirit: 12 },
+      available: true,
+      specialScene: true
+    },
+    {
+      id: 'video_games',
+      name: '打游戏',
+      description: '拿出手机/电脑打两把',
+      changes: { spirit: 10, reputation: -3 },
+      available: true
+    },
+    {
+      id: 'help_parents_chores',
+      name: '帮父母做家务',
+      description: '洗洗碗、拖拖地',
+      changes: { health: -8, reputation: 12, spirit: 3 },
+      available: true
+    },
+    {
+      id: 'cook_lunch',
+      name: '做顿饭',
+      description: '中午给家人做顿饭',
+      changes: { health: -5, reputation: 10, spirit: 5 },
+      available: true
+    },
+    {
+      id: 'old_photo_album',
+      name: '翻老照片',
+      description: '翻出了家里的老相册',
+      changes: { spirit: 15, reputation: 5 },
+      available: true,
+      specialScene: true
     }
   ]
   
-  // 随机事件（每天1-2个）
+  // 随机事件（每天1-3个，后期增加频率）
   const availableRandomEvents = RANDOM_EVENTS.filter(event => {
     if (event.condition) {
       return event.condition(state)
     }
+    return true
+  }).filter(event => {
+    // 过滤掉已触发的一次性剧情线事件
+    const storylineEvents = ['childhood_friend', 'stray_pet', 'family_conflict', 'dream_project']
+    if (storylineEvents.includes(event.id)) {
+      // 一次性事件只触发一次
+      return !(state.triggeredRandomEvents || []).includes(event.id)
+    }
+    // 续集事件根据condition过滤即可
     return true
   }).map(event => adaptEventByAttributes({
     ...event,
@@ -595,7 +1050,9 @@ export function generateDayEvents(day, state) {
   const allRandomEvents = [...availableRandomEvents]
   
   const selectedRandomEvents = []
-  const randomCount = Math.floor(Math.random() * 2) + 1
+  // 后期天数（第5-7天）更多随机事件
+  const baseCount = day >= 5 ? 2 : 1
+  const randomCount = Math.floor(Math.random() * 2) + baseCount
   const shuffled = [...allRandomEvents].sort(() => Math.random() - 0.5)
   for (let i = 0; i < randomCount && i < shuffled.length; i++) {
     const event = shuffled[i]
@@ -614,15 +1071,32 @@ export function generateDayEvents(day, state) {
   }
 
   // 分配到三个时段（按天主线）
+  const availableHomeOptions = stayHomeOptions.filter(o => o.available)
+  // 每个时段随机选3-4个宅家选项，保持新鲜感
+  const pickHomeOptions = (count = 3) => {
+    const shuffled = [...availableHomeOptions].sort(() => Math.random() - 0.5)
+    return shuffled.slice(0, Math.min(count, shuffled.length))
+  }
+
   if (state.progress.dayMode === 'out') {
-    events.morning.push(visitOption, ...selectedRandomEvents.slice(0, 1))
-    events.noon.push(visitOption, ...selectedRandomEvents.slice(1, 2))
-    // 晚上也保留外出主线，避免随机事件不足导致空白
-    events.evening.push(visitOption, ...selectedRandomEvents.slice(2, 3))
+    // 出门模式：走亲访友 + 随机选4-5个亲戚（不是全部）
+    const shuffledVisits = [...RELATIVE_VISITS].sort(() => Math.random() - 0.5).slice(0, Math.min(5, RELATIVE_VISITS.length))
+    const outVisitOption = {
+      ...visitOption,
+      choices: shuffledVisits.map(rel => ({
+        id: rel.id,
+        name: rel.name,
+        changes: { reputation: 0 },
+        useGoods: rel.useGoods || false
+      }))
+    }
+    events.morning.push(outVisitOption, ...selectedRandomEvents.slice(0, 1))
+    events.noon.push(outVisitOption, ...selectedRandomEvents.slice(1, 2))
+    events.evening.push(outVisitOption, ...selectedRandomEvents.slice(2, 3))
   } else {
-    events.morning.push(...stayHomeOptions.filter(o => o.available))
-    events.noon.push(...stayHomeOptions.filter(o => o.available), ...selectedRandomEvents.slice(0, 1))
-    events.evening.push(...stayHomeOptions.filter(o => o.available), ...selectedRandomEvents.slice(1, 2))
+    events.morning.push(...pickHomeOptions(3))
+    events.noon.push(...pickHomeOptions(3), ...selectedRandomEvents.slice(0, 1))
+    events.evening.push(...pickHomeOptions(3), ...selectedRandomEvents.slice(1, 2))
 
     // 突发到访：不是玩家控制的主动选项
     const slot = state.progress.dayContext?.surpriseVisitSlot
@@ -631,8 +1105,8 @@ export function generateDayEvents(day, state) {
     }
   }
 
-  // 兜底：任何时段都至少有一个可选项，避免“没有更多选项”的死局
-  const homeFallback = stayHomeOptions.filter(o => o.available)
+  // 兜底：任何时段都至少有一个可选项，避免”没有更多选项”的死局
+  const homeFallback = availableHomeOptions.slice(0, 3)
   const fallbackList = state.progress.dayMode === 'out'
     ? [visitOption]
     : (homeFallback.length > 0 ? homeFallback : [visitOption])
@@ -673,6 +1147,20 @@ export const DAY_8_EVENTS = {
       description: '再休息一下',
       changes: { health: 5 },
       available: true
+    },
+    {
+      id: 'clean_room',
+      name: '收拾房间',
+      description: '走之前把自己房间收拾干净',
+      changes: { health: -5, reputation: 10, spirit: 3 },
+      available: true
+    },
+    {
+      id: 'morning_walk_last',
+      name: '最后的晨走',
+      description: '在家附近走走，再看看家乡的样子',
+      changes: { health: 5, spirit: 15 },
+      available: true
     }
   ],
   noon: [
@@ -698,6 +1186,20 @@ export const DAY_8_EVENTS = {
       description: '修修家里的电器',
       changes: { reputation: 10 },
       available: true
+    },
+    {
+      id: 'give_parents_money',
+      name: '偷偷留钱给父母',
+      description: '在枕头底下/抽屉里偷偷放点钱',
+      changes: { balance: -500, reputation: 20, spirit: 10 },
+      available: true
+    },
+    {
+      id: 'teach_parents_phone',
+      name: '教父母用手机',
+      description: '教父母怎么视频通话、发微信',
+      changes: { health: -3, reputation: 15, spirit: 8 },
+      available: true
     }
   ],
   evening: [
@@ -720,6 +1222,20 @@ export const DAY_8_EVENTS = {
       name: '早睡',
       description: '早点休息，明天要返程',
       changes: { health: 10, spirit: 5 },
+      available: true
+    },
+    {
+      id: 'write_letter',
+      name: '给父母写一封信',
+      description: '把说不出口的话写下来',
+      changes: { spirit: 20, reputation: 15 },
+      available: true
+    },
+    {
+      id: 'last_night_walk',
+      name: '最后的夜间散步',
+      description: '在家门口走走，看看星空',
+      changes: { spirit: 15, health: 3 },
       available: true
     }
   ]
@@ -844,6 +1360,63 @@ export function processDynamicEvent(event, state, choice = null) {
     }
   }
   
+  // 处理多日剧情线推进
+  if (!state.storylines) {
+    state.storylines = { childhoodFriend: null, strayPet: null, familyConflict: null, dreamProject: null }
+  }
+  if (!state.triggeredRandomEvents) {
+    state.triggeredRandomEvents = []
+  }
+
+  if (event.id === 'childhood_friend' && choice && choice.id === 'catch_up') {
+    state.storylines.childhoodFriend = 'met'
+    if (!state.triggeredRandomEvents.includes('childhood_friend')) {
+      state.triggeredRandomEvents.push('childhood_friend')
+    }
+  }
+  if (event.id === 'childhood_friend_deep' && choice && (choice.id === 'listen' || choice.id === 'advise')) {
+    state.storylines.childhoodFriend = 'resolved'
+  }
+  if (event.id === 'stray_pet' && choice && (choice.id === 'adopt' || choice.id === 'feed')) {
+    state.storylines.strayPet = choice.id === 'adopt' ? 'found' : 'fed'
+    if (!state.triggeredRandomEvents.includes('stray_pet')) {
+      state.triggeredRandomEvents.push('stray_pet')
+    }
+  }
+  if (event.id === 'stray_pet_care') {
+    state.storylines.strayPet = 'resolved'
+  }
+  if (event.id === 'family_conflict' && choice && (choice.id === 'mediate' || choice.id === 'side_parents')) {
+    state.storylines.familyConflict = 'sparked'
+    if (!state.triggeredRandomEvents.includes('family_conflict')) {
+      state.triggeredRandomEvents.push('family_conflict')
+    }
+  }
+  if (event.id === 'family_conflict_resolve') {
+    state.storylines.familyConflict = 'resolved'
+  }
+  if (event.id === 'dream_project' && choice && (choice.id === 'think_deep' || choice.id === 'tell_family')) {
+    state.storylines.dreamProject = 'idea'
+    if (!state.triggeredRandomEvents.includes('dream_project')) {
+      state.triggeredRandomEvents.push('dream_project')
+    }
+  }
+  if (event.id === 'dream_project_plan') {
+    state.storylines.dreamProject = 'resolved'
+  }
+  if (event.id === 'dream_friend_collab' && choice && choice.id === 'plan_together') {
+    state.storylines.dreamProject = 'resolved'
+  }
+  if (event.id === 'pet_reunion') {
+    state.storylines.strayPet = 'resolved'
+  }
+
+  // 处理红包大战
+  if (event.id === 'red_packet_battle') {
+    changes.balance = Math.floor(Math.random() * 101) + 20 // 20-120
+    changes.spirit = 8
+  }
+
   // 处理有成功率的事件（比赛、打球、赌博等）
   if (event.successRate !== undefined) {
     const success = Math.random() * 100 < event.successRate

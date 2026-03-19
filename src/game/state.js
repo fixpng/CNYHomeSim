@@ -98,7 +98,22 @@ export function createInitialState() {
     achievements: [], // 已解锁的成就ID列表
     
     // 已触发的低数值剧情（避免重复触发）
-    triggeredLowStats: [] // 已触发的低数值剧情类型：['sick', 'depressed', 'poor', 'disliked']
+    triggeredLowStats: [], // 已触发的低数值剧情类型：['sick', 'depressed', 'poor', 'disliked']
+
+    // 多日剧情线系统
+    storylines: {
+      // 发小重逢线：null | 'met' | 'deepTalk' | 'resolved'
+      childhoodFriend: null,
+      // 流浪动物线：null | 'found' | 'caring' | 'resolved'
+      strayPet: null,
+      // 家庭矛盾线：null | 'sparked' | 'escalated' | 'resolved'
+      familyConflict: null,
+      // 创业梦想线：null | 'idea' | 'planning' | 'resolved'
+      dreamProject: null
+    },
+
+    // 已触发的随机事件ID列表（避免重复）
+    triggeredRandomEvents: []
   }
 }
 
@@ -230,7 +245,15 @@ function normalizeSavedState(saved) {
     diary: Array.isArray(saved.diary) ? saved.diary : [],
     inventory: { ...base.inventory, ...savedInventory },
     achievements: Array.isArray(saved.achievements) ? [...saved.achievements] : [],
-    triggeredLowStats: Array.isArray(saved.triggeredLowStats) ? [...saved.triggeredLowStats] : []
+    triggeredLowStats: Array.isArray(saved.triggeredLowStats) ? [...saved.triggeredLowStats] : [],
+    storylines: {
+      childhoodFriend: null,
+      strayPet: null,
+      familyConflict: null,
+      dreamProject: null,
+      ...(saved.storylines && typeof saved.storylines === 'object' ? saved.storylines : {})
+    },
+    triggeredRandomEvents: Array.isArray(saved.triggeredRandomEvents) ? [...saved.triggeredRandomEvents] : []
   }
 }
 

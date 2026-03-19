@@ -162,6 +162,220 @@ export const EVENT_SCENES = {
   competition_fail: {
     scene: '你参加了社区/村里的比赛。\n\n"很遗憾，你没有获奖..."主持人说。\n\n"没事，重在参与。"你安慰自己。\n\n虽然没获奖，但参与的过程还是很开心的。',
     thoughts: '虽然没获奖，但参与的过程还是很开心的。'
+  },
+
+  // ===== 新增事件场景 =====
+
+  // 贴春联
+  paste_couplets: {
+    scene: '你和爸爸一起贴春联。\n\n"高一点...再左边一点..."你站在梯子上，爸爸在下面指挥。\n\n"这副春联写得不错。"爸爸满意地点头。\n\n贴完春联，又在大门上贴了个倒着的"福"字。\n\n"福到了！"妈妈在一旁笑着说。',
+    thoughts: '和爸爸一起贴春联，年味一下子就有了。'
+  },
+  call_grandparents: {
+    scene: '你拨通了远方亲人的电话。\n\n"喂，爷爷/奶奶，过年好！"\n\n"好好好，你也过年好！今年回来了没？"\n\n"回来了，在家呢。"\n\n"那就好那就好，注意身体啊..."\n\n电话里的声音有点含糊，但满是关心。',
+    thoughts: '有些人虽然见不到面，但过年打个电话也是一种陪伴。'
+  },
+  morning_exercise: {
+    scene: '大年初一的清晨，你早早起来做了个早操。\n\n外面空气很好，远处有零星的鞭炮声。\n\n"这么早就起了？"爸爸从屋里出来。\n\n"新年第一天，精神一下。"你笑着说。',
+    thoughts: '新年第一天，从运动开始，感觉不错。'
+  },
+  red_packet_battle: {
+    scene: '亲戚群里突然开始发红包。\n\n你的手指像开了倍速，每个红包都抢到了。\n\n"手速可以啊！"表弟发了个竖大拇指。\n\n你得意地笑了笑，虽然金额不大，但抢红包的感觉就是爽。',
+    thoughts: '抢红包这事，跟打游戏一样上头。'
+  },
+  set_off_fireworks: {
+    scene: '你和家人一起在门口放鞭炮。\n\n"轰——"鞭炮声响彻夜空。\n\n"好大声！"你捂着耳朵笑。\n\n夜空中烟花绽放，五颜六色的光点照亮了每个人的脸。\n\n"新年快乐！"你们齐声喊道。',
+    thoughts: '烟花一放，年味就拉满了。'
+  },
+
+  // 多日剧情线场景
+  childhood_friend: {
+    scene: '你在街上走着，突然有人从背后拍了你一下。\n\n"哎？你不是...小X？"\n\n你转头一看，是从小一起长大的发小，好几年没见了。\n\n"还真是你！变了好多！"你惊讶地说。\n\n"你也是，都认不出来了。"发小笑着说。',
+    thoughts: '好久没见的发小，变化真大。'
+  },
+  childhood_friend_deep: {
+    scene: '发小找到你说："有个事想跟你聊聊，方便吗？"\n\n你们找了个安静的地方坐下来。',
+    thoughts: '发小好像有心事。'
+  },
+  stray_pet: {
+    scene: '你路过村口/小区门口，看到一只瘦巴巴的猫蜷缩在角落。\n\n它抬头看了你一眼，"喵"了一声，声音很轻。\n\n它的毛有些脏，但眼睛很亮。\n\n你蹲下来看了看，心里有点不忍。',
+    thoughts: '这只猫好可怜，要不要管它？'
+  },
+  stray_pet_care: {
+    scene: '你收养的小猫今天精神不错，在屋里跑来跑去。\n\n妈妈看了一眼："这猫挺活泼的，不过你走了它怎么办？"\n\n你也开始认真思考这个问题了。',
+    thoughts: '养了就有责任，得给它想个出路。'
+  },
+  village_gossip: {
+    scene: '你刚出门，就看到好几个邻居聚在一起聊得热火朝天。\n\n"你听说了吗？隔壁老李家的儿子..."\n\n见你过来，有人招呼你："你也来听听。"',
+    thoughts: '村里的消息传播速度比5G还快。'
+  },
+  night_walk: {
+    scene: '吃完饭后，你决定出去走走。\n\n夜色很静，远处有几户人家的灯光，空气里还残留着鞭炮的味道。',
+    thoughts: '夜间散步，感觉整个人都安静下来了。'
+  },
+  cook_special: {
+    scene: '你决定露一手，做一道在外面学的拿手菜。\n\n"今天我来做！"你信心满满地走进厨房。\n\n妈妈站在一旁，又好奇又担心地看着你。',
+    thoughts: '难得回来一趟，做道菜给家人尝尝。'
+  },
+  family_photo: {
+    scene: '你提议说："难得一家人聚这么齐，不如拍张全家福？"\n\n"好主意！"妈妈马上开始整理头发。\n\n爸爸虽然嘴上说"拍什么拍"，但还是换了件干净衣服。',
+    thoughts: '全家福，记录下这个团聚的时刻。'
+  },
+  online_shopping_fail: {
+    scene: '你打开快递APP，物流信息显示：\n\n"您的包裹正在转运中心等待处理..."\n\n上面还标注了一行小字："受春节影响，预计延迟3-7天。"\n\n你叹了口气。',
+    thoughts: '快递不放假是不可能的，快递也是要过年的。'
+  },
+  dream_project: {
+    scene: '你坐在院子里发呆，突然脑子里闪过一个念头。\n\n"要不要试试做个XX？"\n\n这个想法越想越兴奋，你甚至开始在心里算账了。',
+    thoughts: '这个想法到底靠不靠谱？'
+  },
+  dream_project_plan: {
+    scene: '那个副业的想法一直在你脑海里盘旋。\n\n你越想越觉得可能可行，但又不确定。',
+    thoughts: '想法是有了，但落地才是关键。'
+  },
+  family_conflict: {
+    scene: '吃饭的时候，不知道谁提了一嘴以前的事，气氛突然变了。\n\n"说这些干什么！"爸爸拍了一下桌子。\n\n"本来就是你们..."对面的亲戚也不甘示弱。\n\n大家都停下了筷子，空气凝固了。',
+    thoughts: '饭桌炸弹引爆了，这下该怎么办？'
+  },
+  family_conflict_resolve: {
+    scene: '上次的事还没解决，家里气氛一直不太对。\n\n妈妈私下跟你说："你看看能不能帮忙缓和一下。"\n\n你知道这事不好办，但不解决总不是个事。',
+    thoughts: '家庭矛盾就像一根刺，不拔掉始终不舒服。'
+  },
+  childhood_spot: {
+    scene: '你经过小时候经常去的那个地方。\n\n也许是学校门口的小卖部，也许是村口的大树，也许是曾经玩耍的小河边。\n\n物是人非，但记忆还在。\n\n你站在那里，恍惚间仿佛回到了十年前。',
+    thoughts: '时间过得真快，但这个地方还是那个样子。'
+  },
+  help_elderly: {
+    scene: '你路上遇到了村里的老人，正吃力地搬着东西。\n\n"大爷/大妈，我帮您吧。"你走上前。\n\n"哎呦，谢谢你啊，这孩子真好。"老人感激地说。',
+    thoughts: '帮助别人的感觉还挺好的。'
+  },
+  morning_run: {
+    scene: '你一大早就出去跑步了。\n\n家乡的空气比城市里好多了，跑起来特别舒服。\n\n远处传来鸡叫声和零星的鞭炮声，很有年味。',
+    thoughts: '在家乡跑步，感觉肺都被洗了一遍。'
+  },
+  morning_run_success: {
+    scene: '你跑了好几公里，越跑越爽。\n\n"今天状态不错！"你给自己加油。\n\n回到家时神清气爽，感觉浑身充满了能量。',
+    thoughts: '今天跑得很痛快，精力满满！'
+  },
+  morning_run_fail: {
+    scene: '你刚跑了没多远，就开始喘不上气。\n\n"太久没锻炼了..."你停下来扶着膝盖喘气。\n\n算了，走回去吧。',
+    thoughts: '体力下降得也太快了...得锻炼了。'
+  },
+  phone_call_friend: {
+    scene: '手机响了，一看是在外地的好朋友。\n\n"喂？过年好啊！"\n\n"过年好！你回家了吗？"',
+    thoughts: '好朋友的电话，总能让人心情好一点。'
+  },
+  family_karaoke: {
+    scene: '不知道谁翻出了一个蓝牙音响，接上了话筒。\n\n"来来来，唱一个！"表哥/表姐兴致勃勃。\n\n客厅瞬间变成了KTV包房。',
+    thoughts: '家庭KTV，质量不重要，气氛到位就行。'
+  },
+  unexpected_money: {
+    scene: '你翻去年的衣服口袋时，摸到了一张折叠的纸。\n\n打开一看——竟然是一张钞票，或者是之前忘记领的微信红包到账了。\n\n"哎？这是什么时候的？"你惊喜地说。',
+    thoughts: '意外之财，像在口袋里发现的彩蛋。'
+  },
+  argument_with_parents: {
+    scene: '因为一些事情，你和父母起了争执。\n\n"你怎么就是不听呢？"妈妈提高了声音。\n\n"我已经长大了，有自己的想法。"你也有些激动。\n\n客厅里的气氛一下子变得很紧张。',
+    thoughts: '和父母吵架，比和任何人吵都难受。'
+  },
+
+  // Day 8 新增场景
+  clean_room: {
+    scene: '你把自己住的房间收拾了一遍。\n\n被子叠好，桌子擦干净，地上扫过。\n\n"走之前把房间收拾好，妈妈看到会高兴的。"你想着。',
+    thoughts: '走之前留下一个整洁的房间，也是一种告别方式。'
+  },
+  morning_walk_last: {
+    scene: '你起了个大早，在家附近走了走。\n\n路过老房子、田间小路、村口的大树...\n\n每个角落都是回忆。\n\n"下次回来可能又是一年后了。"你心里想着。',
+    thoughts: '最后再看看家乡，把这些画面记在心里。'
+  },
+  give_parents_money: {
+    scene: '你趁妈妈不注意，把钱悄悄放在了枕头底下。\n\n"等他们发现的时候，我已经在路上了。"你想着。\n\n这些钱虽然不多，但是你的一片心意。',
+    thoughts: '有些心意，不需要当面说出来。'
+  },
+  teach_parents_phone: {
+    scene: '"妈，这个按这里就能视频通话了。"\n\n"哪个？这个？"\n\n"对对对，就这个绿色的按钮。"\n\n你耐心地教了好几遍，妈妈终于学会了。\n\n"以后想我了就按这个，随时能看到我。"你说。\n\n妈妈笑着点头，眼圈有点红。',
+    thoughts: '教会父母用手机，就是教会他们跨越距离的方式。'
+  },
+  write_letter: {
+    scene: '你坐在书桌前，想了很久，开始写。\n\n"爸、妈，有些话我不太会当面说..."\n\n写着写着，你发现自己有好多想说的话。\n\n感谢、愧疚、期许...一笔一画都是真心话。\n\n你把信折好，放在了客厅的桌子上。',
+    thoughts: '写不出口的话，至少可以写下来。'
+  },
+  last_night_walk: {
+    scene: '夜色下的家乡很安静。\n\n你一个人走在路上，抬头看见满天的星星。\n\n城市里看不到这样的星空。\n\n你站了很久，把这个画面刻进记忆里。',
+    thoughts: '最后一个夜晚，把家乡的星空收进口袋里。'
+  },
+
+  // ===== 第二轮新增事件场景 =====
+
+  // 宅家新选项
+  nap: {
+    scene: '你饭后往沙发上一躺，眼皮就开始打架。\n\n"睡吧睡吧，别着凉。"妈妈给你盖了条毯子。\n\n你迷迷糊糊睡了半个多小时，醒来感觉充满了电。',
+    thoughts: '家里的午觉质量，是任何酒店都比不了的。'
+  },
+  tidy_old_stuff: {
+    scene: '你在房间翻箱倒柜，翻出了不少老东西。\n\n小学的成绩单、初中的日记本、高中的准考证...\n\n每一样东西都是一段回忆。\n\n"这些东西你还留着呢？"妈妈探头进来看了一眼。\n\n"当然了，这些可是宝贝。"你笑着说。',
+    thoughts: '翻旧物就像考古，每一件都能挖出一段故事。'
+  },
+  video_games: {
+    scene: '你拿出手机，打算打两把游戏。\n\n"又玩手机？"妈妈瞟了你一眼。\n\n"就打一局..."你嘴上说着，手已经停不下来了。\n\n两个小时后，你终于放下手机，感觉时间过得好快。',
+    thoughts: '打游戏一时爽，被妈妈念两天。'
+  },
+  help_parents_chores: {
+    scene: '你主动拿起了拖把。\n\n"今天不用你..."妈妈话没说完，你已经开始拖了。\n\n"行吧，碗也帮忙洗了。"妈妈笑着说。\n\n虽然累了点，但看到妈妈高兴的样子，值了。',
+    thoughts: '主动做家务，妈妈的笑容就是最好的回报。'
+  },
+  cook_lunch: {
+    scene: '"中午我来做！"你走进厨房。\n\n"你行吗？"妈妈有点不放心。\n\n"放心吧，我在外面天天自己做。"\n\n虽然做得没妈妈好吃，但一家人吃得很开心。\n\n"不错不错，有进步！"爸爸给了个面子。',
+    thoughts: '做饭给家人吃，成就感满满。'
+  },
+  old_photo_album: {
+    scene: '你翻出了家里的老相册，一页一页地看。\n\n"这是你小时候，胖嘟嘟的。"妈妈指着照片说。\n\n"这张是你爸年轻时候的，帅吧？"妈妈笑着说。\n\n爸爸在旁边假装不在意，但嘴角翘起来了。\n\n你看着照片里的一家人，觉得时间过得真快。',
+    thoughts: '老照片里的每个人都在笑，那时候的快乐好简单。'
+  },
+
+  // 新随机事件
+  local_market: {
+    scene: '你跟着爸妈去赶集。\n\n路边摆满了各种年货，红灯笼、对联、干果、糖...到处都是年味。\n\n"这个怎么卖？"妈妈开始跟摊主砍价。\n\n你在一旁看着，觉得这种烟火气在城市里很难找到。',
+    thoughts: '赶集的热闹，才是真正的年味。'
+  },
+  new_year_movie: {
+    scene: '你看了看今年的春节档阵容，有几部还不错。\n\n"要不要一起去看电影？"你问家人。',
+    thoughts: '过年看电影，也是一种新年俗了。'
+  },
+  temple_visit: {
+    scene: '你跟着家人去了附近的庙里。\n\n门口排着长队，每个人脸上都带着虔诚。\n\n香火缭绕，新年的祝福在空气里飘着。',
+    thoughts: '信不信不重要，重要的是那份心意。'
+  },
+  hometown_change: {
+    scene: '你走在路上，突然发现记忆里的那个小卖部不见了。\n\n取而代之的是一个奶茶店。\n\n路也宽了，楼也高了，但总觉得少了点什么。',
+    thoughts: '家乡在变，我也在变，只是速度不太一样。'
+  },
+  secret_snack: {
+    scene: '趁爸妈不注意，你悄悄溜到厨房。\n\n从柜子里翻出了一包零食，小心翼翼地拆开。\n\n"吃什么呢？"妈妈突然出现在身后。\n\n"...没吃什么。"你嘴里还嚼着。',
+    thoughts: '偷吃被抓的尴尬，和小时候一模一样。'
+  },
+  social_media_post: {
+    scene: '你打开手机相机，想拍点什么发朋友圈。\n\n可是拍了好几张都不满意。\n\n"发不发呢..."你犹豫着。',
+    thoughts: '发朋友圈这事，选图比写文案难多了。'
+  },
+  pet_reunion: {
+    scene: '你养的小猫一看到你就"喵喵"叫着跑过来。\n\n它蹭着你的腿，咕噜咕噜地打呼噜。\n\n"这猫就认你。"妈妈在旁边说。\n\n你把它抱起来，它乖乖地窝在你怀里。',
+    thoughts: '被一只小猫需要的感觉，比被老板需要好多了。'
+  },
+  dream_friend_collab: {
+    scene: '发小找到你说："你之前说的那个想法，我想了好几天，越想越觉得靠谱。"\n\n你有些惊讶："真的？"\n\n"要不我们一起干？"发小的眼里有光。',
+    thoughts: '当理想遇到志同道合的人，就不再只是幻想了。'
+  },
+  sudden_rain: {
+    scene: '本来还是晴天，突然就变了脸。\n\n雨/雪噼里啪啦地打在窗户上。\n\n"这天气，说变就变。"爸爸看着窗外摇头。',
+    thoughts: '天气和人生一样，变化总在意料之外。'
+  },
+  parent_cooking_battle: {
+    scene: '"今天我来做！"爸爸突然走进厨房。\n\n"你做什么？搞不好给我出去。"妈妈不让位。\n\n"我做个拿手菜给你们尝尝！"爸爸坚持。\n\n两个人在厨房里"争"了起来，你被推出来当评委。',
+    thoughts: '爸妈抢着做菜，这种吵架我喜欢。'
+  },
+  wifi_down: {
+    scene: '"怎么没网了？"\n\n你看了看路由器，灯在闪但连不上。\n\n"又断网了！"你有点焦躁。\n\n"没网就不能活了？"爸爸在旁边说。',
+    thoughts: '断网让我深刻理解了什么叫"被迫触碰现实"。'
   }
 }
 
@@ -206,7 +420,7 @@ export function getEventScene(eventId, choiceId = null, state = null, dialogueRo
   
   // 特殊处理：走亲访友使用年货
   if (choiceId && state && state.inventory) {
-    const visitIds = ['grandparents', 'uncle', 'aunt', 'cousin']
+    const visitIds = ['grandparents', 'uncle', 'aunt', 'cousin', 'maternal_grandparents', 'great_uncle', 'second_aunt', 'old_neighbor']
     if (visitIds.includes(choiceId)) {
       const goodsLevel = state.inventory.newYearGoods || 0
       let message = ''
@@ -219,10 +433,14 @@ export function getEventScene(eventId, choiceId = null, state = null, dialogueRo
       } else {
         message = '你带了很好的年货去串门，亲戚非常满意。'
       }
-      
-      const relativeName = choiceId === 'grandparents' ? '爷爷奶奶' : 
-                          choiceId === 'uncle' ? '舅舅' : 
-                          choiceId === 'aunt' ? '姑姑' : '表兄弟'
+
+      const relativeName = choiceId === 'grandparents' ? '爷爷奶奶' :
+                          choiceId === 'uncle' ? '舅舅' :
+                          choiceId === 'aunt' ? '姑姑' :
+                          choiceId === 'cousin' ? '表兄弟' :
+                          choiceId === 'maternal_grandparents' ? '外公外婆' :
+                          choiceId === 'great_uncle' ? '大伯' :
+                          choiceId === 'second_aunt' ? '二姨' : '老邻居'
       
       return {
         scene: `你去${relativeName}家拜年。\n\n${message}`,
@@ -241,14 +459,121 @@ export function getEventScene(eventId, choiceId = null, state = null, dialogueRo
     }
   }
 
-  // 按概率混入“弱智吧风格”场景，避免全程同一种语气
+  // 按概率混入”弱智吧风格”场景，避免全程同一种语气
   if (Math.random() < 0.45) {
     const abstractScene = getAbstractScene(eventId, choiceId)
     if (abstractScene) {
       return abstractScene
     }
   }
-  
+
+  // 特殊处理：多日剧情线的详细场景
+  if (eventId === 'childhood_friend' && choiceId && state) {
+    return generateChildhoodFriendScene(choiceId, state)
+  }
+  if (eventId === 'childhood_friend_deep' && choiceId && state) {
+    return generateChildhoodFriendDeepScene(choiceId, state)
+  }
+  if (eventId === 'stray_pet' && choiceId) {
+    return generateStrayPetScene(choiceId)
+  }
+  if (eventId === 'stray_pet_care' && choiceId) {
+    return generateStrayPetCareScene(choiceId)
+  }
+  if (eventId === 'night_walk' && choiceId) {
+    return generateNightWalkScene(choiceId)
+  }
+  if (eventId === 'village_gossip' && choiceId) {
+    return generateVillageGossipScene(choiceId)
+  }
+  if (eventId === 'family_conflict' && choiceId && state) {
+    return generateFamilyConflictScene(choiceId, state)
+  }
+  if (eventId === 'family_conflict_resolve' && choiceId) {
+    return generateFamilyConflictResolveScene(choiceId)
+  }
+  if (eventId === 'dream_project' && choiceId) {
+    return generateDreamProjectScene(choiceId)
+  }
+  if (eventId === 'dream_project_plan' && choiceId) {
+    return generateDreamProjectPlanScene(choiceId)
+  }
+  if (eventId === 'argument_with_parents' && choiceId) {
+    return generateArgumentScene(choiceId)
+  }
+  if (eventId === 'family_karaoke' && choiceId) {
+    return generateKaraokeScene(choiceId)
+  }
+  if (eventId === 'unexpected_money' && choiceId) {
+    return generateUnexpectedMoneyScene(choiceId)
+  }
+  if (eventId === 'local_market' && choiceId) {
+    return generateLocalMarketScene(choiceId)
+  }
+  if (eventId === 'new_year_movie' && choiceId === 'watch_together') {
+    return {
+      scene: '你买了一家人的票，浩浩荡荡地去了电影院。\n\n爸妈坐在你旁边，看得津津有味。\n\n"这个特效不错！"爸爸小声说。\n\n"嘘——"你和妈妈同时比了个安静的手势。\n\n散场后，你们边走边讨论剧情，感觉和家人一起看电影比自己看有意思多了。',
+      thoughts: '带家人看电影，花钱但值得。'
+    }
+  }
+  if (eventId === 'temple_visit' && choiceId) {
+    return generateTempleVisitScene(choiceId)
+  }
+  if (eventId === 'hometown_change' && choiceId) {
+    return generateHometownChangeScene(choiceId)
+  }
+  if (eventId === 'social_media_post' && choiceId === 'post_family') {
+    return {
+      scene: '你选了一张全家人在一起的照片。\n\n配文想了半天："回家过年，一切都好。"\n\n发出去之后，很快就收到了好多赞和评论。\n\n"你们家看着真幸福！"\n\n"羡慕，我还在加班..."\n\n你看着评论笑了笑，觉得这一刻确实很幸福。',
+      thoughts: '朋友圈里的幸福可能有滤镜，但此刻的是真的。'
+    }
+  }
+  if (eventId === 'pet_reunion' && choiceId) {
+    return generatePetReunionScene(choiceId)
+  }
+  if (eventId === 'dream_friend_collab' && choiceId === 'plan_together') {
+    return {
+      scene: '你和发小找了家咖啡店，摊开笔记本认真聊了起来。\n\n"我负责技术，你负责资源。"你们越聊越兴奋。\n\n两个小时过去了，一张餐巾纸上写满了计划。\n\n"年后我们就开始？"\n\n"开始！"你们碰了一下拳。\n\n也许这就是"从想法到行动"的第一步。',
+      thoughts: '一个人的梦想是幻想，两个人的梦想是计划。'
+    }
+  }
+  if (eventId === 'sudden_rain' && choiceId) {
+    return generateSuddenRainScene(choiceId)
+  }
+  if (eventId === 'parent_cooking_battle' && choiceId) {
+    return generateCookingBattleScene(choiceId)
+  }
+  if (eventId === 'family_photo' && choiceId === 'photo_pro') {
+    return {
+      scene: '你让所有人站好，调整了三遍位置。\n\n”笑一个！”\n\n”咔嚓”——拍了好几张，选了最好看的那张。\n\n爷爷奶奶/爸爸妈妈坐在中间，你们站在两边，每个人脸上都带着笑。\n\n”这张要洗出来挂客厅！”妈妈高兴地说。',
+      thoughts: '一张认真的全家福，值得挂一辈子。'
+    }
+  }
+  if (eventId === 'cook_special' && choiceId === 'cook_success') {
+    return {
+      scene: '你系上围裙，认认真真地开始做菜。\n\n切菜、调味、翻炒...每一步都很用心。\n\n”哇，闻起来好香！”妈妈从客厅探进头来。\n\n菜端上桌，大家尝了一口：\n\n”不错啊！在外面学了不少嘛！”爸爸竖起了大拇指。\n\n你看着家人吃得开心的样子，心里暖暖的。',
+      thoughts: '能做一道好菜给家人吃，比什么都值。'
+    }
+  }
+  if (eventId === 'childhood_spot' && choiceId === 'visit') {
+    return {
+      scene: '你走进了那个熟悉的地方。\n\n墙上的痕迹、角落里的台阶、门口那棵树...一切都没怎么变。\n\n但你变了。\n\n你站在那里，脑海里全是小时候的画面：放学后的疯跑，暑假里的蝉鸣，伙伴们的笑声。\n\n不知不觉，眼眶有点湿。\n\n”我回来看看。”你在心里默默说。',
+      thoughts: '有些地方，你回不去了，但它永远住在你的记忆里。'
+    }
+  }
+  if (eventId === 'help_elderly' && choiceId === 'help_full') {
+    return {
+      scene: '你帮老人把东西搬到了家里，又顺手帮修了一下漏水的水龙头。\n\n”你这孩子太好了，是谁家的？”老人问。\n\n”我是XX家的。”\n\n”哦哦，你爸妈养了个好孩子！”老人拉着你的手说。\n\n你笑了笑，心里暖暖的。',
+      thoughts: '在小地方，一次帮忙就能让人记你很久。'
+    }
+  }
+  if (eventId === 'phone_call_friend' && choiceId === 'long_chat') {
+    return {
+      scene: '你和好朋友聊了快一个小时。\n\n从过年聊到工作，从感情聊到未来。\n\n”你那边怎么样？”\n\n”还行吧，就那样。你呢？”\n\n”也差不多，在家被催婚/催生/催赚钱...”\n\n你们笑了起来，虽然各自都不容易，但有人能说说话，就好多了。\n\n”明年有机会一起吃个饭。”\n\n”好，一定。”',
+      thoughts: '好朋友就是这样，多久没见都能接上话。'
+    }
+  }
+
   // 优先使用口语化场景
   const casualScene = getCasualScene(eventId, choiceId)
   if (casualScene) {
@@ -527,4 +852,348 @@ export function generateDiaryThoughts(event, choice = null, changes = {}) {
     '我以为我在过年，年以为它在过我。',
     '先记一笔，等以后回看再笑自己。'
   ])
+}
+
+// ===== 新增多日剧情线场景生成函数 =====
+
+function generateChildhoodFriendScene(choiceId, state) {
+  const gender = state.attributes?.gender || 'male'
+
+  if (choiceId === 'catch_up') {
+    return {
+      scene: '你们找了个小店坐下来，点了两杯奶茶。\n\n"你现在在哪？做什么？"发小问。\n\n你简单说了说近况。\n\n"我呢，去年辞了工作，现在自己在搞点事情。"发小说。\n\n你们聊了很久，从小时候的糗事聊到现在的烦恼。\n\n"有时候觉得时间过得太快了。"发小感慨。\n\n"是啊，感觉昨天还在一起上学。"你点头。\n\n分开时，你们互加了微信：\n\n"以后常联系！"\n\n"一定！"',
+      thoughts: '发小是那种不联系也不会生疏的朋友，真好。'
+    }
+  }
+  if (choiceId === 'quick_hi') {
+    return {
+      scene: '"嘿！好久不见！"你打了个招呼。\n\n"是啊，好久不见！"发小笑了笑。\n\n"最近怎么样？"\n\n"还行，你呢？"\n\n"也还行。"\n\n你们简单寒暄了几句就各自走了。\n\n有些话想说，但又不知道从何说起。',
+      thoughts: '想好好聊聊，但又觉得不太好意思。'
+    }
+  }
+  if (choiceId === 'avoid') {
+    return {
+      scene: '你低下头，加快脚步走了过去。\n\n不知道对方有没有看到你。\n\n你心里有点内疚，但就是不太想面对。\n\n也许是怕被问到近况，也许是觉得没什么好说的。',
+      thoughts: '有时候不是不想见，是不知道怎么面对。'
+    }
+  }
+  return EVENT_SCENES.childhood_friend || { scene: '你遇到了发小。', thoughts: '好久没见了。' }
+}
+
+function generateChildhoodFriendDeepScene(choiceId, state) {
+  if (choiceId === 'listen') {
+    return {
+      scene: '发小说："其实我最近过得不太好。"\n\n你安静地听着。\n\n"工作丢了，女朋友也分了，回来也不知道跟家里怎么说。"\n\n你拍了拍发小的肩膀："没事，慢慢来，总会好的。"\n\n发小苦笑了一下："谢谢你听我说这些，在家没人能说。"\n\n"兄弟嘛，有什么说什么。"你说。\n\n回家的路上，你想了很多。也许每个人都在负重前行，只是有些人不说出来。',
+      thoughts: '倾听有时候比任何建议都管用。'
+    }
+  }
+  if (choiceId === 'advise') {
+    return {
+      scene: '听完发小的烦恼后，你想了想。\n\n"你有没有想过...换个方向试试？"\n\n你根据自己的经验给了一些建议。\n\n"你说的有道理，我回去想想。"发小认真地点头。\n\n"不管怎样，别一个人扛着。有事随时找我。"你说。\n\n发小感激地看了你一眼："有你这个朋友真好。"\n\n你笑了笑，心里也觉得暖暖的。',
+      thoughts: '能帮到朋友，自己也会变得更有力量。'
+    }
+  }
+  if (choiceId === 'decline') {
+    return {
+      scene: '"不好意思，今天家里有事..."你找了个借口。\n\n发小有点失望："那改天吧。"\n\n"好，改天。"你说。\n\n但你知道，可能不会有"改天"了。\n\n走开之后，你有一点后悔。',
+      thoughts: '有时候拒绝别人，比说出口更难受。'
+    }
+  }
+  return { scene: '发小跟你聊了聊。', thoughts: '朋友之间的话，有时候不需要太多。' }
+}
+
+function generateStrayPetScene(choiceId) {
+  if (choiceId === 'adopt') {
+    return {
+      scene: '你蹲下来，小心地把猫抱了起来。\n\n它挣扎了一下，然后安静下来，蜷在你怀里。\n\n"走吧，先回家暖和暖和。"\n\n回到家，妈妈一看："你怎么捡了只猫回来？"\n\n"它太可怜了，先养几天。"你说。\n\n你给它找了个纸箱子，铺了旧毯子，又热了点牛奶。\n\n小猫舔了几口，看了你一眼，"喵"了一声。\n\n你觉得它在说"谢谢"。',
+      thoughts: '养了就要负责，先让它暖和起来。'
+    }
+  }
+  if (choiceId === 'feed') {
+    return {
+      scene: '你从家里拿了点吃的，放在它面前。\n\n小猫犹豫了一下，然后小心翼翼地开始吃。\n\n你蹲在旁边看了一会，摸了摸它的头。\n\n它吃完了，抬头看着你，"喵"了一声。\n\n"我不能带你回去，你自己注意安全啊。"你心里说。\n\n走了几步，回头看了一眼，它还站在原地看着你。',
+      thoughts: '帮不了太多，但至少让它吃饱了这一顿。'
+    }
+  }
+  return { scene: '你看到了一只流浪猫。', thoughts: '小猫好可怜。' }
+}
+
+function generateStrayPetCareScene(choiceId) {
+  if (choiceId === 'vet') {
+    return {
+      scene: '你带着小猫去了镇上的兽医那里。\n\n"营养不良，有点皮肤病，其他还好。"兽医检查后说。\n\n你付了药费和检查费，心疼但不后悔。\n\n"按时吃药，过几天就会好了。"\n\n小猫乖乖让你抱着回了家，好像知道你在帮它。',
+      thoughts: '花了些钱，但看到它好起来就值了。'
+    }
+  }
+  if (choiceId === 'play') {
+    return {
+      scene: '你用一根绳子逗小猫玩。\n\n它跳来跳去，眼睛亮亮的，特别有精神。\n\n"这只猫还挺聪明的。"妈妈在一旁看着说。\n\n你笑了笑，摸了摸小猫的头。\n\n它"咕噜咕噜"地打起了呼噜，蜷在你腿上不走了。',
+      thoughts: '和小动物待在一起，心情都变好了。'
+    }
+  }
+  if (choiceId === 'find_owner') {
+    return {
+      scene: '你发了个朋友圈和村/社区群，帮小猫找主人。\n\n没想到很快就有人回复了："我家孩子一直想养猫！"\n\n你带着小猫去了对方家里，看起来是个很温暖的家庭。\n\n小猫在新主人怀里蹭了蹭，好像很满意。\n\n"谢谢你救了它！"对方感激地说。\n\n你看着小猫最后看了你一眼，心里有点不舍但也放心了。',
+      thoughts: '帮它找到了一个好归宿，比自己养还踏实。'
+    }
+  }
+  return { scene: '你在照顾小猫。', thoughts: '小猫越来越精神了。' }
+}
+
+function generateNightWalkScene(choiceId) {
+  if (choiceId === 'walk_alone') {
+    return {
+      scene: '你一个人沿着村路/小区走着。\n\n月光很好，远处的山丘/楼房轮廓清晰。\n\n偶尔有一两声狗叫，或者远处鞭炮的余响。\n\n你走得很慢，脑子里的东西慢慢放空了。\n\n这种安静在城市里几乎不可能有。\n\n你深深吸了口气，觉得身心都被清洗了一遍。',
+      thoughts: '一个人走走，其实是跟自己聊天。'
+    }
+  }
+  if (choiceId === 'walk_parents') {
+    return {
+      scene: '"出去走走？"你问爸妈。\n\n"走吧。"妈妈换了鞋。\n\n你们三个人慢慢走着，聊着有的没的。\n\n"你小时候经常在这里摔跤。"妈妈指着路边说。\n\n"是吗？我不记得了。"你笑着说。\n\n"我记得。"妈妈看着你，眼里满是温柔。\n\n你们走了半个多小时，虽然没说什么重要的话，但感觉很好。',
+      thoughts: '和父母一起散步，这种时光以后越来越少了。'
+    }
+  }
+  return { scene: '你出去散步了。', thoughts: '夜晚的空气很好。' }
+}
+
+function generateVillageGossipScene(choiceId) {
+  if (choiceId === 'listen_gossip') {
+    return {
+      scene: '你凑过去听了半天。\n\n原来是隔壁家的儿子辞了国企去创业，赔了不少钱。\n\n"唉，好好的工作不干..."\n\n"年轻人就是不听劝..."\n\n大家七嘴八舌地议论着。\n\n你听着，心里感觉有点不舒服——也许别人也在背后这样议论你。\n\n你笑了笑，找了个借口走开了。',
+      thoughts: '听八卦一时爽，想到自己也被八卦就不爽了。'
+    }
+  }
+  if (choiceId === 'help_neighbor') {
+    return {
+      scene: '你了解了情况后，决定去帮帮忙。\n\n"需要帮什么忙？"你问。\n\n邻居有些意外："你愿意帮忙？"\n\n你帮着搬了些东西，又帮忙联系了一些事情。\n\n"真是太谢谢你了！"邻居感激地说。\n\n回家路上，你觉得做了件好事，心情不错。\n\n"听说你去帮忙了？不错嘛。"妈妈在家门口等你。',
+      thoughts: '帮了邻居一把，在家的口碑也上去了。'
+    }
+  }
+  return { scene: '村里有些新鲜事。', thoughts: '八卦年年有，今年特别多。' }
+}
+
+function generateFamilyConflictScene(choiceId, state) {
+  if (choiceId === 'mediate') {
+    return {
+      scene: '你站了起来："大家先别急，过年呢，有话好好说。"\n\n两边的人都看着你。\n\n你花了半个多小时，一个一个地说，把双方的想法都捋了一遍。\n\n"其实大家都是一家人，没有解不开的结。"你说。\n\n最后双方都各退了一步，虽然没有完全和解，但至少吃完了这顿饭。\n\n"你这孩子倒是比我们会说话。"妈妈事后悄悄说。',
+      thoughts: '做和事佬太累了，但至少没让事情恶化。'
+    }
+  }
+  if (choiceId === 'side_parents') {
+    return {
+      scene: '你选择站在父母这边。\n\n"这事本来就不怪我爸妈。"你直接说。\n\n对面的亲戚脸色变了，但没再说什么。\n\n饭后气氛有点冷，但父母看你的眼神里多了几分欣慰。\n\n"你不该掺和的。"爸爸嘴上说着，但你知道他心里是感激的。',
+      thoughts: '选了边就意味着另一边不高兴，但家人始终是家人。'
+    }
+  }
+  return { scene: '家庭矛盾爆发了。', thoughts: '过年就不能消停点吗...' }
+}
+
+function generateFamilyConflictResolveScene(choiceId) {
+  if (choiceId === 'apologize') {
+    return {
+      scene: '你鼓起勇气去了对方家。\n\n"上次的事...我们家这边也有不对的地方。"你说。\n\n对方先是一愣，然后叹了口气："算了，都是一家人。"\n\n你们聊了一会，虽然不像以前那么亲近，但至少不再尴尬了。\n\n回去的路上，你觉得心里轻松了不少。',
+      thoughts: '主动低头不丢人，家和万事兴。'
+    }
+  }
+  if (choiceId === 'gift') {
+    return {
+      scene: '你买了些东西去对方家。\n\n"这是我从外面带回来的，给你们尝尝。"你笑着递过去。\n\n对方接过东西，表情缓和了很多。\n\n"坐下喝杯茶吧。"\n\n你们坐下来聊了一会，虽然没有明说上次的事，但彼此心里都明白。\n\n有些矛盾，不需要说破，一个台阶就够了。',
+      thoughts: '花点钱买个台阶，值。'
+    }
+  }
+  return { scene: '你尝试解决之前的矛盾。', thoughts: '希望能好起来。' }
+}
+
+function generateDreamProjectScene(choiceId) {
+  if (choiceId === 'think_deep') {
+    return {
+      scene: '你拿出手机，认真地在备忘录里写起来。\n\n市场分析、成本估算、可行性...\n\n越写越兴奋，感觉这个想法确实有搞头。\n\n"要是成了，说不定能改变现在的生活。"你想着。\n\n当然，你也知道，想法和现实之间还隔着一道实操的鸿沟。\n\n但至少，这个念头让你觉得生活还有可能性。',
+      thoughts: '有梦想的人，眼里是有光的。'
+    }
+  }
+  if (choiceId === 'tell_family') {
+    return {
+      scene: '"爸、妈，我有个想法..."你把自己的计划说了出来。\n\n"瞎搞什么？好好上班不行吗？"爸爸第一反应是反对。\n\n"就是啊，稳定最重要。"妈妈也附和。\n\n你心里有点失落，但也理解他们的担心。\n\n"我再想想吧。"你说。\n\n虽然没得到支持，但至少说出来了，心里轻松了一点。',
+      thoughts: '父母的担心和自己的想法，总是不在一个频道上。'
+    }
+  }
+  return { scene: '你有了一个新想法。', thoughts: '想法不断，但需要冷静。' }
+}
+
+function generateDreamProjectPlanScene(choiceId) {
+  if (choiceId === 'research') {
+    return {
+      scene: '你开始在网上搜集资料。\n\n看了好几个小时的帖子、视频和分析报告。\n\n越看越觉得有些路可以走，但也发现了不少坑。\n\n"做这个需要的启动资金比我想的多..."你叹了口气。\n\n不过至少现在比之前了解得更多了，也更清楚该怎么走下一步。',
+      thoughts: '调研就是用信息消灭幻想，留下靠谱的部分。'
+    }
+  }
+  if (choiceId === 'find_partner') {
+    return {
+      scene: '你跟发小聊了聊这个想法。\n\n没想到发小很感兴趣："我正好也想搞点事情！"\n\n你们越聊越投机，在餐巾纸上画起了计划。\n\n"等开完年，我们认真做个方案。"发小说。\n\n"好！"你们碰了一下杯。\n\n也许这就是那种"对的人在对的时间出现"的感觉。',
+      thoughts: '一个人想是梦，两个人做就可能是事业了。'
+    }
+  }
+  return { scene: '你继续想那个计划。', thoughts: '路还长，一步一步来。' }
+}
+
+function generateArgumentScene(choiceId) {
+  if (choiceId === 'calm_down') {
+    return {
+      scene: '你深呼吸了几次，把到嘴边的话咽了回去。\n\n"好吧，我听你们的。"你尽量平静地说。\n\n虽然心里委屈，但你知道在这种时候吵赢了也没有赢家。\n\n妈妈看你态度好了，语气也缓和了下来：\n\n"我们也是为你好..."',
+      thoughts: '忍住了，虽然心里很堵，但不吵是对的。'
+    }
+  }
+  if (choiceId === 'argue_back') {
+    return {
+      scene: '"我已经不是小孩了！"你提高了声音。\n\n"你翅膀硬了是吧？"爸爸也急了。\n\n你们吵了好一会，谁也说服不了谁。\n\n最后你一甩门回了房间，屋里突然安静了。\n\n你躺在床上，心里又气又难过。\n\n你知道他们是关心你，但这种关心有时候让人喘不过气。',
+      thoughts: '吵完了才发现，赢不赢根本不重要，就是都受伤了。'
+    }
+  }
+  if (choiceId === 'walk_away') {
+    return {
+      scene: '"我出去走走。"你说完就拿起外套出了门。\n\n冷风吹在脸上，心情慢慢平复下来。\n\n你在外面走了半个小时，想了很多。\n\n等你回来的时候，妈妈在门口等你。\n\n"回来了？吃饭吧。"她没有再提刚才的事。\n\n你点了点头，坐下来默默吃饭。',
+      thoughts: '有些事，走一走就想通了，不用非得争个输赢。'
+    }
+  }
+  return { scene: '你和父母有了分歧。', thoughts: '都是家人，慢慢磨合吧。' }
+}
+
+function generateKaraokeScene(choiceId) {
+  if (choiceId === 'sing') {
+    return {
+      scene: '你拿过话筒，选了一首自己最拿手的歌。\n\n一开口，全场都安静了——\n\n不是因为唱得好，是因为音量太大了。\n\n"哈哈哈哈！"大家笑成一团。\n\n你也不在意，越唱越嗨。\n\n"好！再来一首！"表哥/表姐带头鼓掌。\n\n这一晚上，大家轮流唱，笑声就没停过。',
+      thoughts: '唱歌不在于好不好听，在于够不够嗨。'
+    }
+  }
+  return { scene: '家里开始唱歌了。', thoughts: '过年的氛围全靠这种热闹撑起来。' }
+}
+
+function generateUnexpectedMoneyScene(choiceId) {
+  if (choiceId === 'keep') {
+    return {
+      scene: '你把这笔意外之财收好。\n\n"人品守恒定律终于轮到我了。"你心里美滋滋的。\n\n虽然不多，但白来的钱特别让人开心。',
+      thoughts: '意外之财，就像在游戏里捡到了一个宝箱。'
+    }
+  }
+  if (choiceId === 'share') {
+    return {
+      scene: '你把一部分钱给了家里。\n\n"这钱哪来的？"妈妈问。\n\n"之前忘了的，正好给家里添点东西。"\n\n妈妈推了推又收下了："这孩子..."\n\n你看到她转头偷偷笑了，心里也跟着暖了。',
+      thoughts: '分享的快乐，是双倍的快乐。'
+    }
+  }
+  if (choiceId === 'donate') {
+    return {
+      scene: '你想了想，打开手机把这笔钱捐了出去。\n\n"就当是新年的善意吧。"你想着。\n\n虽然钱不多，但做了好事心里特别舒服。',
+      thoughts: '有时候给出去的，比留下的更有价值。'
+    }
+  }
+  return { scene: '你有了一笔意外收入。', thoughts: '运气还不错。' }
+}
+
+function generateLocalMarketScene(choiceId) {
+  if (choiceId === 'buy_stuff') {
+    return {
+      scene: '你在集市上转了一圈，买了些小东西。\n\n一个手工编的小挂件、几袋当地特产、一包糖炒栗子...\n\n"老板，便宜点！"你学着妈妈的样子砍价。\n\n"你这砍价功力不行啊。"妈妈在旁边笑。\n\n回去的路上，你拎着大包小包，觉得赶集真有意思。',
+      thoughts: '赶集的快乐在于，你永远不知道自己会买什么。'
+    }
+  }
+  if (choiceId === 'treat_parents') {
+    return {
+      scene: '"爸妈，想吃什么？我请！"你指着路边的小吃摊。\n\n"不用不用..."妈妈嘴上说着，眼睛已经看向了煎饼摊。\n\n你买了煎饼、烤红薯、糖葫芦，一家三口站在路边吃。\n\n"真好吃！"妈妈终于承认了。\n\n你看着他们吃得开心的样子，觉得这是花得最值的钱。',
+      thoughts: '请爸妈吃小吃，花几十块买到的是无价的笑容。'
+    }
+  }
+  return { scene: '你在集市上逛了逛。', thoughts: '集市的热闹很有年味。' }
+}
+
+function generateTempleVisitScene(choiceId) {
+  if (choiceId === 'pray_serious') {
+    return {
+      scene: '你在佛像前双手合十，闭上了眼。\n\n"保佑家人身体健康，万事如意。"\n\n你把心愿默默念了三遍，又磕了三个头。\n\n起来的时候，心里突然觉得安静了很多。\n\n也许不是菩萨在听，是你终于听到了自己想要什么。',
+      thoughts: '拜佛这件事，拜的不是佛，是自己的心。'
+    }
+  }
+  if (choiceId === 'buy_charm') {
+    return {
+      scene: '你在庙里的小摊上买了个护身符。\n\n"这个保平安的，很灵的。"摊主说。\n\n你把它挂在钥匙上，虽然不一定信，但心里多了一点安心。\n\n"帮我也买一个！"妈妈在旁边说。\n\n你笑了笑，又买了两个。',
+      thoughts: '护身符灵不灵不重要，重要的是买的时候想着谁。'
+    }
+  }
+  return { scene: '你在庙里走了走。', thoughts: '难得清静一下。' }
+}
+
+function generateHometownChangeScene(choiceId) {
+  if (choiceId === 'feel_good') {
+    return {
+      scene: '你拿出手机，拍了几张照片。\n\n新修的马路、新开的店铺、新建的公园...\n\n"变化挺大的，比以前好多了。"你心里想。\n\n你把照片发给在外地的朋友："看，我家乡现在长这样了。"\n\n朋友回了个"哇"的表情。',
+      thoughts: '家乡在变好，这让人高兴。'
+    }
+  }
+  if (choiceId === 'feel_sad') {
+    return {
+      scene: '你站在那里，看着陌生的新建筑。\n\n小时候放学必经的那条路，现在变成了商业街。\n\n那棵大树不见了，那个小卖部也没了。\n\n"变化是好事。"你安慰自己。\n\n但心里还是有一块地方，觉得空空的。',
+      thoughts: '有些地方只能活在记忆里了，回不去了。'
+    }
+  }
+  if (choiceId === 'ask_parents') {
+    return {
+      scene: '"那个小卖部什么时候拆的？"你问爸妈。\n\n"去年吧，要修路。"爸爸说。\n\n"那个张大爷搬哪去了？"\n\n"搬城里去了，儿子在那边买了房。"\n\n你们边走边聊，把这几年的变化都过了一遍。\n\n原来自己不在的这些日子，家乡也在静悄悄地翻新。',
+      thoughts: '每次回来都在变，这才是时间的证据。'
+    }
+  }
+  return { scene: '你发现家乡变了不少。', thoughts: '变化总是让人百感交集。' }
+}
+
+function generatePetReunionScene(choiceId) {
+  if (choiceId === 'cuddle') {
+    return {
+      scene: '你把小猫抱在怀里，它蹭了蹭你的下巴。\n\n"你这几天胖了不少啊。"你摸着它的肚子笑了。\n\n它眯着眼睛，咕噜咕噜地像一台小马达。\n\n妈妈在旁边说："这猫比你在家还乖。"\n\n你笑了笑，心里暖暖的。',
+      thoughts: '被一只小猫信任的感觉，是很纯粹的幸福。'
+    }
+  }
+  if (choiceId === 'worry_leave') {
+    return {
+      scene: '你看着小猫在你脚边打转，心里有点酸。\n\n再过两天就要走了，它怎么办？\n\n"妈，我走了以后你能帮我照顾它吗？"\n\n妈妈看了看猫，叹了口气："行吧，反正它也赖上咱家了。"\n\n你松了口气，但还是有点舍不得。',
+      thoughts: '有了牵挂就有了不舍，这就是养小动物的代价。'
+    }
+  }
+  return { scene: '小猫和你越来越亲了。', thoughts: '这只小猫已经成了家里的一员。' }
+}
+
+function generateSuddenRainScene(choiceId) {
+  if (choiceId === 'go_anyway') {
+    return {
+      scene: '你拿了把伞就出了门。\n\n雨/雪下得不大不小，路上几乎没人。\n\n你走了一会，鞋子湿了，但空气特别新鲜。\n\n远处的山被雾气笼罩着，像一幅水墨画。\n\n"下雨天出门是有点傻，但看到这景色也值了。"你想。',
+      thoughts: '冒雨出门的人，要么是浪漫，要么是闲的。'
+    }
+  }
+  if (choiceId === 'watch_rain') {
+    return {
+      scene: '你搬了个小凳子坐在门口，看着雨/雪落下来。\n\n屋檐上的水珠一颗一颗地滴着，节奏很慢。\n\n远处的鞭炮声被雨声盖住了，世界突然变得很安静。\n\n爸爸也搬了个凳子坐在旁边，你们谁也没说话。\n\n但这种沉默，一点也不尴尬。',
+      thoughts: '和爸爸一起看雨，一句话不说也很好。'
+    }
+  }
+  return { scene: '天气突变了。', thoughts: '计划赶不上变化。' }
+}
+
+function generateCookingBattleScene(choiceId) {
+  if (choiceId === 'dad_wins') {
+    return {
+      scene: '你尝了一口爸爸做的菜："嗯，爸做的好吃！"\n\n爸爸得意地笑了。\n\n妈妈白了你一眼："哼，我看你是不想吃我做的饭了。"\n\n"妈做的也好吃！"你赶紧补救。\n\n"算你聪明。"妈妈嘴上不饶人，但也笑了。',
+      thoughts: '选爸爸赢，代价是要哄妈妈半天。'
+    }
+  }
+  if (choiceId === 'mom_wins') {
+    return {
+      scene: '你尝了一口妈妈做的菜："还是妈做的好吃！"\n\n妈妈骄傲地看了爸爸一眼。\n\n爸爸有点不服气："我这个火候刚刚好！"\n\n"行行行，爸做的也不错。"你赶紧和稀泥。\n\n爸爸哼了一声，但脸上还是有笑意。',
+      thoughts: '家里的评委不好当，每次都要两头讨好。'
+    }
+  }
+  if (choiceId === 'both_good') {
+    return {
+      scene: '"都好吃！各有各的特色！"你两碗都端起来吃。\n\n爸妈互相看了一眼，都笑了。\n\n"这孩子，嘴还挺甜。"妈妈说。\n\n"学会了，两边都不得罪。"爸爸也笑了。\n\n你吃得肚子撑撑的，但很满足。',
+      thoughts: '和稀泥高手，从家庭评委开始练起。'
+    }
+  }
+  return { scene: '爸妈做菜比赛。', thoughts: '不管谁做的，我都吃得下。' }
 }
