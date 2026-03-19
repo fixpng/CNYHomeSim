@@ -99,13 +99,14 @@ function clearDiary() {
 
 <style scoped>
 .diary-view {
-  background: white;
+  background: var(--bg-card);
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-card);
   height: 100%;
   display: flex;
   flex-direction: column;
+  color: var(--text-primary);
 }
 
 .diary-header {
@@ -114,30 +115,30 @@ function clearDiary() {
   align-items: center;
   margin-bottom: 16px;
   padding-bottom: 12px;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 2px solid var(--bg-lighter);
 }
 
 .diary-title {
   font-size: 18px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .btn-clear {
   padding: 4px 12px;
   font-size: 12px;
-  background: #f0f0f0;
+  background: var(--bg-lighter);
   border: none;
   border-radius: 6px;
   cursor: pointer;
-  color: #666;
+  color: var(--text-secondary);
   transition: all 0.2s;
 }
 
 .btn-clear:hover {
-  background: #e0e0e0;
-  color: #333;
+  background: var(--bg-progress);
+  color: var(--text-primary);
 }
 
 .diary-content {
@@ -155,7 +156,7 @@ function clearDiary() {
 .diary-empty {
   text-align: center;
   padding: 40px 20px;
-  color: #999;
+  color: var(--text-muted);
 }
 
 .diary-hint {
@@ -172,16 +173,16 @@ function clearDiary() {
 
 .diary-entry {
   padding: 12px;
-  background: #f8f9fa;
+  background: var(--bg-light);
   border-radius: 8px;
-  border-left: 3px solid #667eea;
+  border-left: 3px solid var(--color-primary);
   transition: all 0.3s ease;
   animation: slideIn 0.3s ease;
 }
 
 .diary-entry.entry-new {
-  background: #fff3cd;
-  border-left-color: #ffc107;
+  background: var(--color-warning-bg);
+  border-left-color: var(--color-warning-border);
   animation: highlight 0.5s ease;
 }
 
@@ -198,7 +199,7 @@ function clearDiary() {
 
 @keyframes highlight {
   0%, 100% {
-    background: #fff3cd;
+    background: var(--color-warning-bg);
   }
   50% {
     background: #ffe69c;
@@ -210,7 +211,7 @@ function clearDiary() {
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: #999;
+  color: var(--text-muted);
   margin-bottom: 8px;
 }
 
@@ -230,7 +231,7 @@ function clearDiary() {
   gap: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .action-icon {
@@ -239,10 +240,10 @@ function clearDiary() {
 
 .entry-thoughts {
   font-size: 13px;
-  color: #666;
+  color: var(--text-secondary);
   font-style: italic;
   padding: 8px;
-  background: white;
+  background: var(--bg-card);
   border-radius: 6px;
   margin-top: 4px;
 }
@@ -256,18 +257,18 @@ function clearDiary() {
 
 .change-item {
   padding: 4px 8px;
-  background: white;
+  background: var(--bg-card);
   border-radius: 4px;
   font-size: 12px;
   font-weight: 500;
 }
 
 .change-positive {
-  color: #4caf50;
+  color: var(--color-health);
 }
 
 .change-negative {
-  color: #f44336;
+  color: var(--color-danger);
 }
 
 /* 滚动条样式 */
@@ -276,16 +277,16 @@ function clearDiary() {
 }
 
 .diary-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: var(--scrollbar-track);
   border-radius: 3px;
 }
 
 .diary-content::-webkit-scrollbar-thumb {
-  background: #ccc;
+  background: var(--scrollbar-thumb);
   border-radius: 3px;
 }
 
 .diary-content::-webkit-scrollbar-thumb:hover {
-  background: #999;
+  background: var(--scrollbar-thumb-hover);
 }
 </style>

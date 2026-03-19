@@ -65,6 +65,20 @@
         </div>
       </div>
     </div>
+
+    <!-- 剧情线回顾 -->
+    <div class="card" v-if="storylineSummary.length > 0">
+      <h3 class="subtitle">📖 剧情线回顾</h3>
+      <div class="storyline-list">
+        <div v-for="story in storylineSummary" :key="story.id" class="storyline-item">
+          <span class="storyline-icon">{{ story.icon }}</span>
+          <div class="storyline-info">
+            <div class="storyline-name">{{ story.name }}</div>
+            <div class="storyline-status" :class="story.statusClass">{{ story.status }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
     
     <!-- 最终属性 -->
     <div class="card">
@@ -137,6 +151,52 @@ const totalReceived = computed(() => {
   return props.state.statistics.totalReceived || 0
 })
 
+// 剧情线回顾
+const storylineSummary = computed(() => {
+  const storylines = props.state.storylines || {}
+  const items = []
+
+  if (storylines.childhoodFriend) {
+    items.push({
+      id: 'childhoodFriend',
+      icon: '🤝',
+      name: '发小重逢',
+      status: storylines.childhoodFriend === 'resolved' ? '深入交流，友情续费成功' : '匆匆一面，未深入',
+      statusClass: storylines.childhoodFriend === 'resolved' ? 'status-good' : 'status-neutral'
+    })
+  }
+  if (storylines.strayPet) {
+    items.push({
+      id: 'strayPet',
+      icon: '🐱',
+      name: '流浪猫的故事',
+      status: storylines.strayPet === 'resolved' ? '帮它找到了归宿' :
+              storylines.strayPet === 'found' ? '收养中，还未安排' : '喂了一顿，缘分浅',
+      statusClass: storylines.strayPet === 'resolved' ? 'status-good' : 'status-neutral'
+    })
+  }
+  if (storylines.familyConflict) {
+    items.push({
+      id: 'familyConflict',
+      icon: '⚡',
+      name: '家庭矛盾',
+      status: storylines.familyConflict === 'resolved' ? '成功化解，家和万事兴' : '矛盾仍在，有待缓和',
+      statusClass: storylines.familyConflict === 'resolved' ? 'status-good' : 'status-bad'
+    })
+  }
+  if (storylines.dreamProject) {
+    items.push({
+      id: 'dreamProject',
+      icon: '💡',
+      name: '创业梦想',
+      status: storylines.dreamProject === 'resolved' ? '有了初步计划，开年行动' : '还只是一个念头',
+      statusClass: storylines.dreamProject === 'resolved' ? 'status-good' : 'status-neutral'
+    })
+  }
+
+  return items
+})
+
 // 计算评价（基于最终结算属性）
 const rating = computed(() => {
   const reputation = props.state.stats.reputation
@@ -197,27 +257,44 @@ const rating = computed(() => {
   const finalScore = (avgScore * 0.8 + balanceScore * 0.2)
   
   let level, name, icon, class_
-  
+
+  // 特殊结局检测
+  const hasStorylines = props.state.storylines || {}
+  const resolvedCount = Object.values(hasStorylines).filter(v => v === 'resolved').length
+
   if (finalScore >= 80 && reputation >= 75 && spirit >= 70) {
     level = 'S'
-    name = randomChoice(['全村的希望', '人间清醒年味版', '春节MVP'])
+    if (resolvedCount >= 3) {
+      name = randomChoice(['人生赢家·春节版', '全支线通关大师', '春节满星玩家'])
+    } else {
+      name = randomChoice(['全村的希望', '人间清醒年味版', '春节MVP'])
+    }
     icon = '🎉'
     class_ = 'rating-s'
   } else if (finalScore >= 65 && reputation >= 55 && spirit >= 50) {
     level = 'A'
-    name = randomChoice(['稳住就赢', '平平淡淡才是真', '普通人胜利'])
+    if (resolvedCount >= 2) {
+      name = randomChoice(['温情路线达人', '春节故事家', '暖心返乡人'])
+    } else {
+      name = randomChoice(['稳住就赢', '平平淡淡才是真', '普通人胜利'])
+    }
     icon = '😊'
     class_ = 'rating-a'
   } else if (finalScore >= 45) {
     level = 'B'
-    name = randomChoice(['人还在就行', '有点抽象', '糟心但能过'])
+    name = randomChoice(['人还在就行', '有点抽象', '糟心但能过', '及格万岁', '低空飞行员'])
     icon = '😔'
     class_ = 'rating-b'
-  } else {
+  } else if (finalScore >= 25) {
     level = 'C'
-    name = randomChoice(['建议重开', '鸡毛飞上天', '高压锅模式'])
+    name = randomChoice(['建议重开', '鸡毛飞上天', '高压锅模式', '春节困难模式通关'])
     icon = '😢'
     class_ = 'rating-c'
+  } else {
+    level = 'D'
+    name = randomChoice(['极限生存挑战', '春节噩梦模式', '活着就是胜利', '年关难过模式'])
+    icon = '💀'
+    class_ = 'rating-d'
   }
   
   const descVariants = [
@@ -406,12 +483,13 @@ function restart() {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  color: var(--text-primary);
 }
 
 .summary-header {
   text-align: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--color-primary-gradient);
+  color: var(--text-on-primary);
 }
 
 .summary-title {
@@ -443,14 +521,62 @@ function restart() {
 
 .rating-desc {
   font-size: 14px;
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.6;
 }
 
-.rating-s .rating-name { color: #ffd700; }
-.rating-a .rating-name { color: #4caf50; }
-.rating-b .rating-name { color: #ff9800; }
-.rating-c .rating-name { color: #f44336; }
+.rating-s .rating-name { color: var(--color-gold); }
+.rating-a .rating-name { color: var(--color-health); }
+.rating-b .rating-name { color: var(--color-reputation); }
+.rating-c .rating-name { color: var(--color-danger); }
+.rating-d .rating-name { color: var(--color-purple); }
+
+.storyline-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.storyline-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--bg-light);
+  border-radius: 8px;
+}
+
+.storyline-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.storyline-info {
+  flex: 1;
+}
+
+.storyline-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.storyline-status {
+  font-size: 12px;
+}
+
+.status-good {
+  color: var(--color-health);
+}
+
+.status-neutral {
+  color: var(--color-reputation);
+}
+
+.status-bad {
+  color: var(--color-danger);
+}
 
 .chart-container {
   width: 100%;
@@ -467,23 +593,23 @@ function restart() {
   display: flex;
   justify-content: space-between;
   padding: 12px;
-  background: #f8f9fa;
+  background: var(--bg-light);
   border-radius: 8px;
 }
 
 .stat-label {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
 .stat-value {
-  color: #333;
+  color: var(--text-primary);
   font-size: 14px;
   font-weight: 600;
 }
 
 .stat-value.money {
-  color: #4caf50;
+  color: var(--color-money);
 }
 
 .final-stats {
@@ -501,14 +627,14 @@ function restart() {
 .final-stat-label {
   width: 60px;
   font-size: 14px;
-  color: #666;
+  color: var(--text-secondary);
   flex-shrink: 0;
 }
 
 .final-stat-bar {
   flex: 1;
   height: 12px;
-  background: #e0e0e0;
+  background: var(--bg-progress);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -520,15 +646,15 @@ function restart() {
 }
 
 .final-stat-fill.health {
-  background: #4caf50;
+  background: var(--color-health);
 }
 
 .final-stat-fill.spirit {
-  background: #2196f3;
+  background: var(--color-spirit);
 }
 
 .final-stat-fill.reputation {
-  background: #ff9800;
+  background: var(--color-reputation);
 }
 
 .final-stat-value {
@@ -536,11 +662,11 @@ function restart() {
   text-align: right;
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   flex-shrink: 0;
 }
 
 .final-stat-value.money {
-  color: #4caf50;
+  color: var(--color-money);
 }
 </style>

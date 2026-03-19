@@ -499,6 +499,7 @@ function startGame() {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  color: var(--text-primary);
 }
 
 .mode-buttons {
@@ -516,14 +517,14 @@ function startGame() {
   margin-bottom: 8px;
   font-size: 14px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .form-select,
 .form-input {
   width: 100%;
   padding: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-light);
   border-radius: 8px;
   font-size: 16px;
   min-height: 44px;
@@ -532,18 +533,18 @@ function startGame() {
 .form-select:focus,
 .form-input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: var(--color-primary);
 }
 
 .form-select option:disabled {
-  color: #999;
-  background: #f0f0f0;
+  color: var(--text-muted);
+  background: var(--bg-lighter);
 }
 
 .form-hint {
   margin-top: 6px;
   font-size: 12px;
-  color: #999;
+  color: var(--text-muted);
   font-style: italic;
 }
 
@@ -563,7 +564,7 @@ function startGame() {
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--bg-lighter);
 }
 
 .attr-row:last-child {
@@ -571,18 +572,18 @@ function startGame() {
 }
 
 .attr-name {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
 .attr-value {
-  color: #333;
+  color: var(--text-primary);
   font-size: 14px;
   font-weight: 500;
   text-align: right;
 }
 
 .attr-value.money {
-  color: #4caf50;
+  color: var(--color-money);
 }
 </style>

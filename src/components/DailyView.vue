@@ -571,12 +571,13 @@ function nextDay() {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  color: var(--text-primary);
 }
 
 .day-header {
   text-align: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--color-primary-gradient);
+  color: var(--text-on-primary);
 }
 
 .day-title {
@@ -598,13 +599,13 @@ function nextDay() {
 }
 
 .delay-notice {
-  background: #fff3cd;
-  border: 2px solid #ffc107;
+  background: var(--color-warning-bg);
+  border: 2px solid var(--color-warning-border);
   margin-bottom: 16px;
 }
 
 .delay-message {
-  color: #856404;
+  color: var(--color-warning-text);
   font-size: 16px;
   margin-bottom: 12px;
   font-weight: 500;
@@ -626,7 +627,7 @@ function nextDay() {
 .no-events {
   text-align: center;
   padding: 40px 20px;
-  color: #999;
+  color: var(--text-muted);
 }
 
 .option-header {
@@ -649,33 +650,33 @@ function nextDay() {
 .option-name {
   font-size: 16px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 4px;
 }
 
 .option-desc {
   font-size: 12px;
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.4;
 }
 
 .option-cost {
   margin-top: 8px;
   padding: 6px 12px;
-  background: #fff3cd;
+  background: var(--color-warning-bg);
   border-radius: 6px;
   font-size: 12px;
-  color: #856404;
+  color: var(--color-warning-text);
 }
 
 .insufficient-funds {
-  color: #dc3545;
+  color: var(--color-danger);
   font-weight: 600;
 }
 
 .option-hint {
   font-size: 12px;
-  color: #667eea;
+  color: var(--color-primary);
   margin-top: 8px;
   font-style: italic;
 }
@@ -683,8 +684,8 @@ function nextDay() {
 .btn-select {
   margin-top: 12px;
   padding: 8px 16px;
-  background: #667eea;
-  color: white;
+  background: var(--color-primary);
+  color: var(--text-on-primary);
   border: none;
   border-radius: 6px;
   font-size: 14px;
@@ -695,7 +696,7 @@ function nextDay() {
 }
 
 .btn-select:hover:not(:disabled) {
-  background: #5568d3;
+  background: var(--color-primary-dark);
 }
 
 .btn-select:disabled {
@@ -713,19 +714,19 @@ function nextDay() {
   align-items: center;
   margin-bottom: 12px;
   padding-bottom: 8px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .choices-title {
   font-size: 16px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .btn-back {
   padding: 4px 12px;
-  background: #f0f0f0;
-  color: #666;
+  background: var(--bg-lighter);
+  color: var(--text-secondary);
   border: none;
   border-radius: 4px;
   font-size: 12px;
@@ -740,8 +741,8 @@ function nextDay() {
 
 .choice-item {
   padding: 12px;
-  background: white;
-  border: 2px solid #ddd;
+  background: var(--bg-card);
+  border: 2px solid var(--border-light);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s;
@@ -749,8 +750,8 @@ function nextDay() {
 }
 
 .choice-item:hover {
-  border-color: #667eea;
-  background: #f0f4ff;
+  border-color: var(--color-primary);
+  background: var(--bg-hover);
 }
 
 .choice-item:active:not(.disabled) {
@@ -760,35 +761,35 @@ function nextDay() {
 .choice-item.disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #f5f5f5;
+  background: var(--bg-lighter);
 }
 
 .choice-item.disabled:hover {
-  border-color: #ddd;
-  background: #f5f5f5;
+  border-color: var(--border-light);
+  background: var(--bg-lighter);
   transform: none;
 }
 
 .choice-cost {
   margin-top: 8px;
   font-size: 12px;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .choice-cost .insufficient-funds {
-  color: #dc3545;
+  color: var(--color-danger);
   font-weight: 600;
 }
 
 .choice-name {
   font-size: 14px;
   font-weight: 500;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 4px;
 }
 
 .choice-desc {
   font-size: 12px;
-  color: #666;
+  color: var(--text-secondary);
 }
 </style>

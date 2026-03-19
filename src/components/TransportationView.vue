@@ -131,17 +131,18 @@ function requestSupport(source) {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  color: var(--text-primary);
 }
 
 .description {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 14px;
   margin-bottom: 16px;
   line-height: 1.6;
 }
 
 .info-section {
-  background: #f8f9fa;
+  background: var(--bg-light);
   border-radius: 8px;
   padding: 12px;
   margin-bottom: 20px;
@@ -158,18 +159,18 @@ function requestSupport(source) {
 }
 
 .info-label {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 14px;
 }
 
 .info-value {
-  color: #333;
+  color: var(--text-primary);
   font-size: 14px;
   font-weight: 500;
 }
 
 .info-value.money {
-  color: #4caf50;
+  color: var(--color-money);
 }
 
 .transport-options {
@@ -180,14 +181,14 @@ function requestSupport(source) {
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 12px;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .no-options {
   text-align: center;
   padding: 20px;
-  color: #999;
-  background: #f8f9fa;
+  color: var(--text-muted);
+  background: var(--bg-light);
   border-radius: 8px;
 }
 
@@ -198,7 +199,7 @@ function requestSupport(source) {
 .option-name {
   font-size: 16px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 8px;
   display: flex;
   align-items: center;
@@ -214,18 +215,18 @@ function requestSupport(source) {
   flex-wrap: wrap;
   gap: 12px;
   font-size: 12px;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .detail-item {
   padding: 4px 8px;
-  background: #f0f0f0;
+  background: var(--bg-lighter);
   border-radius: 4px;
 }
 
 .detail-item.warning {
-  background: #fff3cd;
-  color: #856404;
+  background: var(--color-warning-bg);
+  color: var(--color-warning-text);
 }
 
 .option-item.disabled {
@@ -236,7 +237,7 @@ function requestSupport(source) {
 }
 
 .failed-tag {
-  color: #d32f2f;
+  color: var(--color-danger-dark);
   font-size: 12px;
   font-weight: 600;
 }
@@ -244,7 +245,7 @@ function requestSupport(source) {
 .support-actions {
   margin-top: 16px;
   padding-top: 12px;
-  border-top: 1px dashed #ddd;
+  border-top: 1px dashed var(--border-light);
 }
 
 .support-tip {

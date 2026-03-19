@@ -66,7 +66,7 @@ function selectDialogueChoice(choice) {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: var(--bg-overlay-dark);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,7 +76,7 @@ function selectDialogueChoice(choice) {
 }
 
 .modal-content {
-  background: white;
+  background: var(--bg-card);
   border-radius: 16px;
   max-width: 500px;
   width: 100%;
@@ -84,6 +84,7 @@ function selectDialogueChoice(choice) {
   overflow-y: auto;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   animation: slideUp 0.3s ease;
+  color: var(--text-primary);
 }
 
 @keyframes fadeIn {
@@ -111,7 +112,7 @@ function selectDialogueChoice(choice) {
   align-items: center;
   gap: 12px;
   padding: 20px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .modal-icon {
@@ -122,7 +123,7 @@ function selectDialogueChoice(choice) {
   flex: 1;
   font-size: 20px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -130,18 +131,18 @@ function selectDialogueChoice(choice) {
   width: 32px;
   height: 32px;
   border: none;
-  background: #f0f0f0;
+  background: var(--bg-lighter);
   border-radius: 50%;
   font-size: 24px;
   line-height: 1;
   cursor: pointer;
   transition: all 0.2s;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .modal-close:hover {
-  background: #e0e0e0;
-  color: #333;
+  background: var(--bg-progress);
+  color: var(--text-primary);
 }
 
 .modal-body {
@@ -154,7 +155,7 @@ function selectDialogueChoice(choice) {
 
 .scene-text {
   font-size: 16px;
-  color: #555;
+  color: var(--text-tertiary);
   margin: 0 0 16px 0;
   white-space: pre-line;
 }
@@ -162,21 +163,21 @@ function selectDialogueChoice(choice) {
 .thoughts {
   margin-top: 20px;
   padding: 16px;
-  background: #f8f9fa;
+  background: var(--bg-light);
   border-radius: 8px;
-  border-left: 4px solid #667eea;
+  border-left: 4px solid var(--color-primary);
 }
 
 .thoughts-label {
   font-size: 14px;
   font-weight: 600;
-  color: #667eea;
+  color: var(--color-primary);
   margin-bottom: 8px;
 }
 
 .thoughts-text {
   font-size: 14px;
-  color: #666;
+  color: var(--text-secondary);
   margin: 0;
   font-style: italic;
   white-space: pre-line;
@@ -184,7 +185,7 @@ function selectDialogueChoice(choice) {
 
 .modal-footer {
   padding: 16px 20px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: flex-end;
 }
@@ -202,21 +203,21 @@ function selectDialogueChoice(choice) {
 .dialogue-choices {
   margin-top: 20px;
   padding-top: 20px;
-  border-top: 2px solid #e0e0e0;
+  border-top: 2px solid var(--border-color);
 }
 
 .choices-label {
   font-size: 14px;
   font-weight: 600;
-  color: #667eea;
+  color: var(--color-primary);
   margin-bottom: 12px;
 }
 
 .dialogue-choice-item {
   padding: 12px 16px;
   margin-bottom: 8px;
-  background: #f8f9fa;
-  border: 2px solid #e0e0e0;
+  background: var(--bg-light);
+  border: 2px solid var(--border-color);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s;
@@ -224,25 +225,25 @@ function selectDialogueChoice(choice) {
 
 .dialogue-choice-item:hover:not(.disabled) {
   background: #e8eaf6;
-  border-color: #667eea;
+  border-color: var(--color-primary);
   transform: translateX(4px);
 }
 
 .dialogue-choice-item.disabled {
   opacity: 0.5;
   cursor: not-allowed;
-  background: #f0f0f0;
+  background: var(--bg-lighter);
 }
 
 .choice-text {
   font-size: 15px;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 4px;
 }
 
 .choice-cost {
   font-size: 12px;
-  color: #f44336;
+  color: var(--color-danger);
   font-weight: 500;
 }
 </style>

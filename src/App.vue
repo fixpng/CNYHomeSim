@@ -1,5 +1,10 @@
 <template>
-  <div class="app">
+  <div class="app" :data-theme="theme">
+    <!-- 主题切换按钮 -->
+    <button class="theme-toggle" @click="toggleTheme" :title="theme === 'dark' ? '切换到白天模式' : '切换到黑夜模式'">
+      {{ theme === 'dark' ? '☀️' : '🌙' }}
+    </button>
+
     <transition name="fade" mode="out-in">
       <div class="container" :key="state.phase">
       <!-- 游戏标题 -->
@@ -194,6 +199,20 @@ import AnimatedNumber from './components/AnimatedNumber.vue'
 
 const state = ref(createInitialState())
 
+// 主题切换
+const theme = ref(localStorage.getItem('cny-theme') || 'light')
+
+// 初始化时设置主题到 document
+function applyTheme(t) {
+  document.documentElement.setAttribute('data-theme', t)
+  localStorage.setItem('cny-theme', t)
+}
+
+function toggleTheme() {
+  theme.value = theme.value === 'dark' ? 'light' : 'dark'
+  applyTheme(theme.value)
+}
+
 // 基础信息浮窗显示状态
 const showInfoModal = ref(false)
 
@@ -207,6 +226,9 @@ const animatedStats = ref({
 
 // 加载保存的游戏状态
 onMounted(() => {
+  // 应用主题
+  applyTheme(theme.value)
+
   const saved = loadGameState()
   if (saved) {
     state.value = saved
@@ -749,6 +771,36 @@ function handleRestart() {
   padding-bottom: 20px;
 }
 
+/* 主题切换按钮 */
+.theme-toggle {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 200;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--border-color);
+  background: var(--bg-card);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-btn);
+  transition: all 0.3s ease;
+  touch-action: manipulation;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
 /* 过渡动画 */
 .fade-enter-active,
 .fade-leave-active {
@@ -782,7 +834,7 @@ function handleRestart() {
 
 .game-header {
   text-align: center;
-  color: white;
+  color: var(--text-on-primary);
   padding: 20px 0;
   margin-bottom: 20px;
 }
@@ -800,11 +852,12 @@ function handleRestart() {
 }
 
 .stats-bar {
-  background: white;
+  background: var(--bg-card);
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-theme);
 }
 
 .stat-item {
@@ -822,7 +875,7 @@ function handleRestart() {
   min-width: 60px;
   width: auto;
   font-size: 14px;
-  color: #666;
+  color: var(--text-secondary);
   flex-shrink: 0;
   white-space: nowrap;
 }
@@ -830,7 +883,7 @@ function handleRestart() {
 .stat-bar {
   flex: 1;
   height: 8px;
-  background: #e0e0e0;
+  background: var(--bg-progress);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -842,15 +895,15 @@ function handleRestart() {
 }
 
 .stat-fill.health {
-  background: #4caf50;
+  background: var(--color-health);
 }
 
 .stat-fill.spirit {
-  background: #2196f3;
+  background: var(--color-spirit);
 }
 
 .stat-fill.reputation {
-  background: #ff9800;
+  background: var(--color-reputation);
 }
 
 .stat-value {
@@ -859,16 +912,15 @@ function handleRestart() {
   text-align: right;
   font-size: 14px;
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   flex-shrink: 0;
   white-space: nowrap;
 }
 
 .stat-value.money {
-  color: #4caf50;
+  color: var(--color-money);
 }
 
-/* 重来按钮 */
 /* 顶部按钮容器 */
 .top-buttons-container {
   position: fixed;
@@ -884,7 +936,7 @@ function handleRestart() {
   font-size: 14px;
   padding: 8px 16px;
   min-height: 36px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-btn);
 }
 
 /* 基础信息浮窗 */
@@ -894,7 +946,7 @@ function handleRestart() {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--bg-overlay);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -903,16 +955,12 @@ function handleRestart() {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .modal-content {
-  background: white;
+  background: var(--bg-card);
   border-radius: 12px;
   width: 90%;
   max-width: 600px;
@@ -920,29 +968,23 @@ function handleRestart() {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-modal);
   animation: slideUp 0.3s ease;
 }
 
 @keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 
 .modal-header {
   padding: 20px;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: var(--color-primary-gradient);
+  color: var(--text-on-primary);
 }
 
 .modal-header h3 {
@@ -986,29 +1028,29 @@ function handleRestart() {
   display: flex;
   align-items: center;
   padding: 12px;
-  background: #f8f9fa;
+  background: var(--bg-light);
   border-radius: 8px;
-  border-left: 3px solid #667eea;
+  border-left: 3px solid var(--color-primary);
 }
 
 .info-label {
   font-weight: 600;
-  color: #666;
+  color: var(--text-secondary);
   min-width: 100px;
   flex-shrink: 0;
 }
 
 .info-value {
-  color: #333;
+  color: var(--text-primary);
   flex: 1;
 }
 
 .modal-footer {
   padding: 16px 20px;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--border-color);
   display: flex;
   justify-content: flex-end;
-  background: #f8f9fa;
+  background: var(--bg-light);
 }
 
 @media (max-width: 1023px) {
@@ -1017,36 +1059,44 @@ function handleRestart() {
     right: 10px;
     gap: 8px;
   }
-  
+
+  .theme-toggle {
+    top: 10px;
+    left: 10px;
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+
   .btn-info,
   .btn-restart {
     font-size: 12px;
     padding: 6px 12px;
     min-height: 32px;
   }
-  
+
   .modal-content {
     width: 95%;
     max-height: 85vh;
   }
-  
+
   .modal-header {
     padding: 16px;
   }
-  
+
   .modal-header h3 {
     font-size: 18px;
   }
-  
+
   .modal-body {
     padding: 16px;
   }
-  
+
   .info-label {
     min-width: 80px;
     font-size: 14px;
   }
-  
+
   .info-value {
     font-size: 14px;
   }
