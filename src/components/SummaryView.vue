@@ -132,7 +132,7 @@
         </div>
         <div class="share-modal-footer">
           <button class="btn btn-primary" @click="downloadShareCard">下载图片</button>
-          <button class="btn btn-secondary" @click="copyShareText">复制文案</button>
+          <button class="btn btn-secondary" @click="copyShareText">{{ copyFeedback || '复制文案' }}</button>
         </div>
       </div>
     </div>
@@ -737,19 +737,22 @@ function downloadShareCard() {
   link.click()
 }
 
+const copyFeedback = ref('')
+
 function copyShareText() {
   const text = `我在「打工人春节回家模拟器」获得了${ratingName.value}评价！健康${props.state.stats.health} 精神${props.state.stats.spirit} 余额¥${props.state.stats.balance} 口碑${props.state.stats.reputation}，解锁了${achievements.value.length}个成就！`
-  navigator.clipboard.writeText(text).then(() => {
-    alert('文案已复制到剪贴板！')
-  }).catch(() => {
-    // Fallback
+  const onSuccess = () => {
+    copyFeedback.value = '已复制!'
+    setTimeout(() => { copyFeedback.value = '' }, 2000)
+  }
+  navigator.clipboard.writeText(text).then(onSuccess).catch(() => {
     const textarea = document.createElement('textarea')
     textarea.value = text
     document.body.appendChild(textarea)
     textarea.select()
     document.execCommand('copy')
     document.body.removeChild(textarea)
-    alert('文案已复制到剪贴板！')
+    onSuccess()
   })
 }
 </script>

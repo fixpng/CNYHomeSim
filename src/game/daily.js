@@ -808,6 +808,139 @@ const RANDOM_EVENTS = [
       { id: 'use_data', name: '用流量', changes: { spirit: -5, balance: -20 } },
       { id: 'go_offline', name: '干脆不上网了', changes: { spirit: 8, health: 5 } }
     ]
+  },
+
+  // ===== 第三轮新增随机事件（提升重玩性） =====
+  {
+    id: 'work_emergency',
+    name: '工作突发状况',
+    description: '老板假期突然打来电话，说有个急事要处理',
+    choices: [
+      { id: 'handle_remote', name: '远程处理', changes: { spirit: -15, health: -5, reputation: 10, balance: 300 }, specialScene: true },
+      { id: 'pretend_miss', name: '假装没看到', changes: { spirit: 8, balance: -100 } },
+      { id: 'refuse_directly', name: '直接拒绝', changes: { spirit: 10, reputation: -12 }, specialScene: true }
+    ],
+    condition: (state) => {
+      const workUnit = state.attributes?.workUnit?.id || ''
+      return workUnit !== ''
+    }
+  },
+  {
+    id: 'family_sick',
+    name: '家人身体不适',
+    description: '家里有人突然说不舒服，脸色不太好',
+    choices: [
+      { id: 'go_hospital', name: '陪去医院', changes: { spirit: -8, health: -10, balance: -350, reputation: 18 }, specialScene: true },
+      { id: 'buy_medicine', name: '买药回来', changes: { spirit: -3, balance: -100, reputation: 8 } },
+      { id: 'suggest_rest', name: '劝他们多休息', changes: { reputation: -5 } }
+    ]
+  },
+  {
+    id: 'ex_encounter',
+    name: '前任偶遇',
+    description: '在街上偶遇了前任，对方也看到了你',
+    choices: [
+      { id: 'say_hello', name: '礼貌打招呼', changes: { spirit: -3, reputation: 5 }, specialScene: true },
+      { id: 'pretend_not_see', name: '装没看见', changes: { spirit: -8 } },
+      { id: 'sit_and_chat', name: '坐下来聊聊', changes: { spirit: -10, reputation: -5, health: -3 }, specialScene: true }
+    ],
+    condition: (state) => state.attributes?.ageRange?.id !== 'young'
+  },
+  {
+    id: 'unexpected_visitor',
+    name: '远方亲戚突然来访',
+    description: '一个很久没联系的远房亲戚突然登门拜访',
+    choices: [
+      { id: 'warm_welcome', name: '热情接待', changes: { spirit: -5, balance: -200, reputation: 15 }, specialScene: true },
+      { id: 'simple_host', name: '简单招待', changes: { spirit: -3, balance: -50, reputation: 5 } },
+      { id: 'excuse_busy', name: '推说有事', changes: { spirit: 3, reputation: -10 } }
+    ]
+  },
+  {
+    id: 'childhood_teacher',
+    name: '偶遇小学老师',
+    description: '在镇上碰到了小学老师，头发白了不少',
+    choices: [
+      { id: 'greet_teacher', name: '上前打招呼', changes: { spirit: 12, reputation: 8 }, specialScene: true },
+      { id: 'avoid_teacher', name: '假装没看见', changes: { spirit: -8 } },
+      { id: 'treat_teacher', name: '请老师吃饭', changes: { spirit: 15, balance: -200, reputation: 15 }, specialScene: true }
+    ]
+  },
+  {
+    id: 'power_outage',
+    name: '停电了',
+    description: '正看着电视呢，突然全屋黑了',
+    choices: [
+      { id: 'candle_chat', name: '点蜡烛聊天', changes: { spirit: 15, reputation: 10 }, specialScene: true },
+      { id: 'go_out', name: '出门逛逛', changes: { spirit: 5, health: -3 } },
+      { id: 'play_phone', name: '刷手机等来电', changes: { spirit: -8, health: -3 } }
+    ]
+  },
+  {
+    id: 'online_gossip',
+    name: '亲戚群里吵起来了',
+    description: '家族微信群突然炸了，两个亲戚吵得不可开交',
+    choices: [
+      { id: 'peacemaker', name: '当和事佬', changes: { spirit: -8, reputation: 12 }, specialScene: true },
+      { id: 'quit_group', name: '退出群聊', changes: { spirit: 8, reputation: -10 } },
+      { id: 'watch_drama', name: '吃瓜看戏', changes: { spirit: 3, reputation: -2 } }
+    ]
+  },
+  {
+    id: 'talent_show',
+    name: '被拉去表演节目',
+    description: '村里/小区搞联欢，有人把你推上了台',
+    choices: [
+      { id: 'perform', name: '大方表演', changes: { spirit: 15, reputation: 12 }, specialScene: true },
+      { id: 'decline_politely', name: '推辞婉拒', changes: { spirit: -3, reputation: -5 } },
+      { id: 'drag_others', name: '拉别人一起', changes: { spirit: 10, reputation: 5 }, specialScene: true }
+    ],
+    condition: (state) => {
+      const skills = (state.attributes?.skills || []).map(s => s.id)
+      return skills.length > 0
+    }
+  },
+  {
+    id: 'lost_wallet',
+    name: '钱包丢了',
+    description: '出门回来发现钱包不见了，翻遍口袋都没有',
+    choices: [
+      { id: 'search_carefully', name: '仔细找找', changes: { spirit: -5, health: -5 }, specialScene: true, successRate: 80, successChanges: { spirit: 10 }, failChanges: { balance: -350, spirit: -15 } },
+      { id: 'accept_loss', name: '认了吧', changes: { spirit: -10, balance: -300 } },
+      { id: 'ask_family', name: '问问家人', changes: { spirit: 3, balance: -50, reputation: -3 }, specialScene: true }
+    ]
+  },
+  {
+    id: 'neighbor_conflict',
+    name: '邻居纠纷',
+    description: '隔壁两家因为一点小事吵了起来，有人喊你帮忙评评理',
+    choices: [
+      { id: 'mediate_neighbors', name: '帮忙调解', changes: { spirit: -8, reputation: 15, health: -3 }, specialScene: true },
+      { id: 'stay_away', name: '不掺和', changes: { spirit: 0 } },
+      { id: 'smooth_talk', name: '两边说好话', changes: { spirit: -5, reputation: 8 }, specialScene: true, successRate: 60, successChanges: { reputation: 10 }, failChanges: { reputation: -8 } }
+    ]
+  },
+  {
+    id: 'drunk_relative',
+    name: '亲戚喝多了',
+    description: '聚会上有个亲戚喝高了，开始胡说八道',
+    choices: [
+      { id: 'send_home', name: '送他回家', changes: { spirit: -10, health: -8, reputation: 15 }, specialScene: true },
+      { id: 'call_family', name: '叫家属来接', changes: { spirit: -3, reputation: 3 } },
+      { id: 'ignore_drunk', name: '不管他', changes: { reputation: -8 } }
+    ],
+    condition: (state) => state.progress?.day >= 3
+  },
+  {
+    id: 'social_media_viral',
+    name: '发的朋友圈火了',
+    description: '之前发的一条朋友圈突然收到几百个赞和评论',
+    choices: [
+      { id: 'keep_interacting', name: '继续互动', changes: { spirit: 10, reputation: 5 } },
+      { id: 'delete_post', name: '删掉算了', changes: { spirit: -5 } },
+      { id: 'screenshot', name: '截图纪念', changes: { spirit: 5 } }
+    ],
+    condition: (state) => (state.diary || []).some(entry => (entry.text || '').includes('发朋友圈'))
   }
 ]
 

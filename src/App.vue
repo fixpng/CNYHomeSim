@@ -1,6 +1,7 @@
 <template>
   <div class="app" :data-theme="theme">
     <ParticleBackground />
+    <ToastNotification :notifications="toastNotifications" @dismiss="dismissToast" />
     <!-- 主题切换按钮 -->
     <button class="theme-toggle" @click="toggleTheme" :title="theme === 'dark' ? '切换到白天模式' : '切换到黑夜模式'">
       {{ theme === 'dark' ? '☀️' : '🌙' }}
@@ -198,6 +199,7 @@ import SummaryView from './components/SummaryView.vue'
 import DiaryView from './components/DiaryView.vue'
 import AnimatedNumber from './components/AnimatedNumber.vue'
 import ParticleBackground from './components/ParticleBackground.vue'
+import ToastNotification from './components/ToastNotification.vue'
 
 const state = ref(createInitialState())
 
@@ -217,6 +219,30 @@ function toggleTheme() {
 
 // 基础信息浮窗显示状态
 const showInfoModal = ref(false)
+
+// Toast通知系统
+const toastNotifications = ref([])
+let toastIdCounter = 0
+
+function showToast(message, options = {}) {
+  const id = ++toastIdCounter
+  toastNotifications.value.push({
+    id,
+    message,
+    icon: options.icon || '',
+    title: options.title || '',
+    type: options.type || 'info',
+    duration: options.duration || 3000
+  })
+  setTimeout(() => {
+    dismissToast(id)
+  }, options.duration || 3000)
+}
+
+function dismissToast(id) {
+  const index = toastNotifications.value.findIndex(n => n.id === id)
+  if (index !== -1) toastNotifications.value.splice(index, 1)
+}
 
 // 动画数值（用于进度条和数字动画）
 const animatedStats = ref({
@@ -494,7 +520,7 @@ function handleTransportSelected(result) {
       isNew: true
     })
 
-    alert(result.message || (result.success ? '借钱成功。' : '借钱失败。'))
+    showToast(result.message || (result.success ? '借钱成功' : '借钱失败'), { icon: result.success ? '💸' : '😔', type: result.success ? 'success' : 'error' })
     autoSave()
     return
   }
@@ -517,7 +543,7 @@ function handleTransportSelected(result) {
       isNew: true
     })
 
-    alert(result.message || '抢票失败，请重新选择交通方式。')
+    showToast(result.message || '抢票失败，请重新选择交通方式', { icon: '🎫', type: 'error' })
     autoSave()
     return
   }
@@ -708,7 +734,7 @@ function handleActionSelected(changes, statistics, inventoryChanges = null, shou
             // 触发成就解锁通知
             console.log(`🎉 解锁成就：${achievement.name} - ${achievement.description}`)
             // 可以在这里显示成就弹窗
-            alert(`🎉 解锁成就：${achievement.name}\n${achievement.description}`)
+            showToast(achievement.description, { icon: achievement.icon, title: '🎉 ' + achievement.name, type: 'achievement', duration: 4000 })
           }
         })
       }
