@@ -344,6 +344,131 @@ export const ACHIEVEMENTS = [
     condition: (state) => {
       return state.diary.some(entry => entry.action.includes('修好') || entry.action.includes('断网'))
     }
+  },
+
+  // ===== 第三轮新增成就 =====
+  {
+    id: 'early_bird',
+    name: '早起冠军',
+    description: '连续3天选择早上的活动',
+    icon: '🌅',
+    condition: (state) => {
+      const morningCount = state.diary.filter(entry =>
+        entry.time && entry.time.includes('上午')
+      ).length
+      return morningCount >= 3
+    }
+  },
+  {
+    id: 'mahjong_master',
+    name: '麻将之神',
+    description: '打麻将赢了500元以上',
+    icon: '🀄',
+    condition: (state) => {
+      let total = 0
+      state.diary.forEach(entry => {
+        if ((entry.action.includes('麻将') || entry.action.includes('打牌')) && entry.changes?.balance > 0) {
+          total += entry.changes.balance
+        }
+      })
+      return total >= 500
+    }
+  },
+  {
+    id: 'debt_free',
+    name: '财务自由',
+    description: '春节结束时余额超过初始余额',
+    icon: '🏦',
+    condition: (state) => {
+      const isFinished = state.phase === 'summary' || state.progress.currentDay >= 8
+      const initial = state.history.balance?.[0] || 0
+      return isFinished && state.stats.balance > initial
+    }
+  },
+  {
+    id: 'peacekeeper',
+    name: '和平使者',
+    description: '春节期间没有任何属性降到30以下',
+    icon: '☮️',
+    condition: (state) => {
+      const isFinished = state.phase === 'summary' || state.progress.currentDay >= 8
+      if (!isFinished) return false
+      return state.history.health.every(h => h >= 30) &&
+        state.history.spirit.every(s => s >= 30) &&
+        state.history.reputation.every(r => r >= 30)
+    }
+  },
+  {
+    id: 'foodie',
+    name: '美食家',
+    description: '参与了3次以上做饭或吃饭相关活动',
+    icon: '🍖',
+    condition: (state) => {
+      const foodCount = state.diary.filter(entry =>
+        entry.action.includes('做饭') || entry.action.includes('厨房') ||
+        entry.action.includes('年夜饭') || entry.action.includes('露一手') ||
+        entry.action.includes('煮') || entry.action.includes('吃')
+      ).length
+      return foodCount >= 3
+    }
+  },
+  {
+    id: 'generous',
+    name: '散财童子',
+    description: '发出红包超过1000元',
+    icon: '🧧',
+    condition: (state) => {
+      return state.statistics.redPacketSent >= 1000
+    }
+  },
+  {
+    id: 'nostalgia',
+    name: '怀旧青年',
+    description: '翻看老照片或整理旧物品',
+    icon: '📷',
+    condition: (state) => {
+      return state.diary.some(entry =>
+        entry.action.includes('照片') || entry.action.includes('旧物') ||
+        entry.action.includes('老相册')
+      )
+    }
+  },
+  {
+    id: 'zen_master',
+    name: '佛系达人',
+    description: '精神值始终保持在70以上',
+    icon: '🧘',
+    condition: (state) => {
+      return state.history.spirit.every(s => s >= 70) && state.history.spirit.length > 5
+    }
+  },
+  {
+    id: 'adventure_seeker',
+    name: '冒险家',
+    description: '每次都选择高风险选项',
+    icon: '🎯',
+    condition: (state) => {
+      const riskyCount = state.diary.filter(entry =>
+        entry.action.includes('赌') || entry.action.includes('冒险') ||
+        entry.action.includes('拼') || entry.action.includes('喝酒') ||
+        entry.action.includes('硬撑')
+      ).length
+      return riskyCount >= 4
+    }
+  },
+  {
+    id: 'balanced_life',
+    name: '人生赢家·Plus',
+    description: '所有属性都在60以上结束游戏',
+    icon: '💫',
+    condition: (state) => {
+      const isFinished = state.phase === 'summary' || state.progress.currentDay >= 8
+      return isFinished &&
+        state.stats.health >= 60 &&
+        state.stats.spirit >= 60 &&
+        state.stats.reputation >= 60 &&
+        state.stats.balance >= 3000
+    }
   }
 ]
 

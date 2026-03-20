@@ -115,6 +115,26 @@
     <!-- 重新开始按钮 -->
     <div class="card">
       <button class="btn btn-primary btn-large" @click="restart">🔄 再来一次</button>
+      <button class="btn btn-secondary btn-large" @click="generateShareCard">🎴 生成分享卡片</button>
+    </div>
+
+    <canvas ref="shareCanvas" style="display:none"></canvas>
+
+    <div v-if="showShareCard" class="share-modal-overlay" @click.self="showShareCard = false">
+      <div class="share-modal-content">
+        <div class="share-modal-header">
+          <h3>分享你的春节</h3>
+          <button class="modal-close" @click="showShareCard = false">×</button>
+        </div>
+        <div class="share-modal-body">
+          <img v-if="shareImageUrl" :src="shareImageUrl" class="share-image" />
+          <p class="share-hint">长按图片保存分享</p>
+        </div>
+        <div class="share-modal-footer">
+          <button class="btn btn-primary" @click="downloadShareCard">下载图片</button>
+          <button class="btn btn-secondary" @click="copyShareText">复制文案</button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -141,6 +161,9 @@ const achievements = computed(() => {
 const emit = defineEmits(['restart'])
 
 const chartContainer = ref(null)
+const shareCanvas = ref(null)
+const showShareCard = ref(false)
+const shareImageUrl = ref('')
 
 // 计算总花费和收入
 const totalSpent = computed(() => {
@@ -476,6 +499,259 @@ onMounted(() => {
 function restart() {
   emit('restart')
 }
+
+function generateShareCard() {
+  const canvas = shareCanvas.value
+  if (!canvas) return
+  canvas.width = 480
+  canvas.height = 800
+  const ctx = canvas.getContext('2d')
+
+  // Background gradient
+  const bgGrad = ctx.createLinearGradient(0, 0, 0, 800)
+  bgGrad.addColorStop(0, '#04131f')
+  bgGrad.addColorStop(1, '#0a1628')
+  ctx.fillStyle = bgGrad
+  ctx.fillRect(0, 0, 480, 800)
+
+  // Decorative border glow
+  ctx.strokeStyle = 'rgba(0, 255, 252, 0.15)'
+  ctx.lineWidth = 2
+  ctx.strokeRect(16, 16, 448, 768)
+  ctx.strokeStyle = 'rgba(0, 255, 252, 0.06)'
+  ctx.lineWidth = 1
+  ctx.strokeRect(24, 24, 432, 752)
+
+  // Subtle grid lines for cyberpunk feel
+  ctx.strokeStyle = 'rgba(0, 255, 252, 0.03)'
+  ctx.lineWidth = 0.5
+  for (let y = 40; y < 800; y += 40) {
+    ctx.beginPath()
+    ctx.moveTo(32, y)
+    ctx.lineTo(448, y)
+    ctx.stroke()
+  }
+
+  // Title with neon glow
+  ctx.textAlign = 'center'
+  ctx.font = 'bold 28px "PingFang SC", "Microsoft YaHei", sans-serif'
+  ctx.shadowColor = '#00fffc'
+  ctx.shadowBlur = 20
+  ctx.fillStyle = '#00fffc'
+  ctx.fillText('打工人春节回家模拟器', 240, 72)
+  ctx.shadowBlur = 40
+  ctx.fillText('打工人春节回家模拟器', 240, 72)
+
+  // Divider line
+  ctx.shadowBlur = 10
+  ctx.shadowColor = '#00fffc'
+  const divGrad = ctx.createLinearGradient(60, 0, 420, 0)
+  divGrad.addColorStop(0, 'rgba(0, 255, 252, 0)')
+  divGrad.addColorStop(0.5, 'rgba(0, 255, 252, 0.6)')
+  divGrad.addColorStop(1, 'rgba(0, 255, 252, 0)')
+  ctx.strokeStyle = divGrad
+  ctx.lineWidth = 1
+  ctx.beginPath()
+  ctx.moveTo(60, 96)
+  ctx.lineTo(420, 96)
+  ctx.stroke()
+  ctx.shadowBlur = 0
+
+  // Rating section
+  ctx.font = '48px "Apple Color Emoji", "Segoe UI Emoji", sans-serif'
+  ctx.shadowBlur = 0
+  ctx.fillText(ratingIcon.value, 240, 165)
+
+  ctx.font = 'bold 26px "PingFang SC", "Microsoft YaHei", sans-serif'
+  ctx.shadowColor = '#00fffc'
+  ctx.shadowBlur = 16
+  ctx.fillStyle = '#00fffc'
+  ctx.fillText(ratingName.value, 240, 210)
+  ctx.shadowBlur = 0
+
+  // Rating level badge
+  ctx.font = 'bold 16px "PingFang SC", "Microsoft YaHei", sans-serif'
+  ctx.fillStyle = 'rgba(0, 255, 252, 0.15)'
+  const levelText = `${rating.value.level} 级评价`
+  const levelWidth = ctx.measureText(levelText).width + 24
+  ctx.beginPath()
+  roundRect(ctx, 240 - levelWidth / 2, 224, levelWidth, 28, 14)
+  ctx.fill()
+  ctx.fillStyle = '#00fffc'
+  ctx.fillText(levelText, 240, 244)
+
+  // Stats section header
+  let yPos = 300
+  ctx.textAlign = 'left'
+  ctx.font = 'bold 16px "PingFang SC", "Microsoft YaHei", sans-serif'
+  ctx.shadowColor = '#00fffc'
+  ctx.shadowBlur = 8
+  ctx.fillStyle = '#00fffc'
+  ctx.fillText('◆ 最终属性', 48, yPos)
+  ctx.shadowBlur = 0
+
+  yPos += 32
+
+  // Stats bars
+  const stats = [
+    { label: '健康', value: props.state.stats.health, color: '#00ff88', glow: 'rgba(0, 255, 136, 0.4)' },
+    { label: '精神', value: props.state.stats.spirit, color: '#55fffe', glow: 'rgba(85, 255, 254, 0.4)' },
+    { label: '口碑', value: props.state.stats.reputation, color: '#ffce45', glow: 'rgba(255, 206, 69, 0.4)' }
+  ]
+
+  stats.forEach(stat => {
+    // Label
+    ctx.font = '14px "PingFang SC", "Microsoft YaHei", sans-serif'
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'
+    ctx.textAlign = 'left'
+    ctx.fillText(stat.label, 48, yPos)
+
+    // Bar background
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.08)'
+    ctx.beginPath()
+    roundRect(ctx, 110, yPos - 12, 260, 14, 7)
+    ctx.fill()
+
+    // Bar fill
+    const fillWidth = Math.max(0, Math.min(100, stat.value)) / 100 * 260
+    ctx.shadowColor = stat.glow
+    ctx.shadowBlur = 8
+    ctx.fillStyle = stat.color
+    ctx.beginPath()
+    roundRect(ctx, 110, yPos - 12, fillWidth, 14, 7)
+    ctx.fill()
+    ctx.shadowBlur = 0
+
+    // Value
+    ctx.font = 'bold 14px "PingFang SC", "Microsoft YaHei", sans-serif'
+    ctx.fillStyle = stat.color
+    ctx.textAlign = 'right'
+    ctx.fillText(stat.value, 430, yPos)
+
+    yPos += 38
+  })
+
+  // Balance (special display)
+  ctx.font = '14px "PingFang SC", "Microsoft YaHei", sans-serif'
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'
+  ctx.textAlign = 'left'
+  ctx.fillText('余额', 48, yPos)
+
+  ctx.font = 'bold 18px "PingFang SC", "Microsoft YaHei", sans-serif'
+  ctx.shadowColor = 'rgba(189, 147, 249, 0.5)'
+  ctx.shadowBlur = 10
+  ctx.fillStyle = '#bd93f9'
+  ctx.textAlign = 'right'
+  ctx.fillText(`¥${props.state.stats.balance}`, 430, yPos)
+  ctx.shadowBlur = 0
+
+  yPos += 50
+
+  // Achievements section
+  if (achievements.value.length > 0) {
+    ctx.textAlign = 'left'
+    ctx.font = 'bold 16px "PingFang SC", "Microsoft YaHei", sans-serif'
+    ctx.shadowColor = '#00fffc'
+    ctx.shadowBlur = 8
+    ctx.fillStyle = '#00fffc'
+    ctx.fillText('◆ 解锁成就', 48, yPos)
+    ctx.shadowBlur = 0
+
+    yPos += 28
+
+    // Achievement badges
+    const maxShow = Math.min(achievements.value.length, 6)
+    ctx.font = '14px "PingFang SC", "Microsoft YaHei", sans-serif'
+    for (let i = 0; i < maxShow; i++) {
+      const ach = achievements.value[i]
+      // Badge background
+      ctx.fillStyle = 'rgba(0, 255, 252, 0.06)'
+      ctx.beginPath()
+      roundRect(ctx, 48, yPos - 16, 384, 32, 6)
+      ctx.fill()
+      ctx.strokeStyle = 'rgba(0, 255, 252, 0.15)'
+      ctx.lineWidth = 1
+      ctx.beginPath()
+      roundRect(ctx, 48, yPos - 16, 384, 32, 6)
+      ctx.stroke()
+
+      ctx.textAlign = 'left'
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.9)'
+      ctx.fillText(`${ach.icon} ${ach.name}`, 60, yPos + 2)
+      yPos += 38
+    }
+    if (achievements.value.length > 6) {
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'
+      ctx.font = '12px "PingFang SC", "Microsoft YaHei", sans-serif'
+      ctx.fillText(`还有 ${achievements.value.length - 6} 个成就...`, 48, yPos)
+      yPos += 28
+    }
+  }
+
+  // Bottom tagline
+  ctx.textAlign = 'center'
+
+  // Bottom divider
+  ctx.shadowColor = '#00fffc'
+  ctx.shadowBlur = 6
+  ctx.strokeStyle = divGrad
+  ctx.lineWidth = 1
+  ctx.beginPath()
+  ctx.moveTo(60, 730)
+  ctx.lineTo(420, 730)
+  ctx.stroke()
+  ctx.shadowBlur = 0
+
+  ctx.font = '12px "PingFang SC", "Microsoft YaHei", sans-serif'
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.35)'
+  ctx.fillText('一款关于春节回家的文字冒险游戏', 240, 756)
+
+  ctx.font = '11px "PingFang SC", "Microsoft YaHei", sans-serif'
+  ctx.fillStyle = 'rgba(0, 255, 252, 0.3)'
+  ctx.fillText('CNYHomeSim · 打工人春节回家模拟器', 240, 778)
+
+  // Export
+  shareImageUrl.value = canvas.toDataURL('image/png')
+  showShareCard.value = true
+}
+
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.moveTo(x + r, y)
+  ctx.lineTo(x + w - r, y)
+  ctx.quadraticCurveTo(x + w, y, x + w, y + r)
+  ctx.lineTo(x + w, y + h - r)
+  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h)
+  ctx.lineTo(x + r, y + h)
+  ctx.quadraticCurveTo(x, y + h, x, y + h - r)
+  ctx.lineTo(x, y + r)
+  ctx.quadraticCurveTo(x, y, x + r, y)
+  ctx.closePath()
+}
+
+function downloadShareCard() {
+  const canvas = shareCanvas.value
+  if (!canvas) return
+  const link = document.createElement('a')
+  link.download = '春节回家模拟器-分享卡片.png'
+  link.href = canvas.toDataURL('image/png')
+  link.click()
+}
+
+function copyShareText() {
+  const text = `我在「打工人春节回家模拟器」获得了${ratingName.value}评价！健康${props.state.stats.health} 精神${props.state.stats.spirit} 余额¥${props.state.stats.balance} 口碑${props.state.stats.reputation}，解锁了${achievements.value.length}个成就！`
+  navigator.clipboard.writeText(text).then(() => {
+    alert('文案已复制到剪贴板！')
+  }).catch(() => {
+    // Fallback
+    const textarea = document.createElement('textarea')
+    textarea.value = text
+    document.body.appendChild(textarea)
+    textarea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textarea)
+    alert('文案已复制到剪贴板！')
+  })
+}
 </script>
 
 <style scoped>
@@ -695,5 +971,97 @@ function restart() {
 
 .final-stat-value.money {
   color: var(--color-money);
+}
+
+/* Share Card Modal */
+.share-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.share-modal-content {
+  max-width: 500px;
+  width: 100%;
+  background: var(--bg-card, #0a1628);
+  border: 1px solid rgba(0, 255, 252, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0, 255, 252, 0.08), 0 8px 32px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.share-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color, rgba(0, 255, 252, 0.1));
+}
+
+.share-modal-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-primary, #00fffc);
+  text-shadow: 0 0 10px rgba(0, 255, 252, 0.3);
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-secondary, rgba(255, 255, 255, 0.5));
+  font-size: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  border-color: rgba(0, 255, 252, 0.3);
+  color: var(--text-primary, #fff);
+  background: rgba(0, 255, 252, 0.05);
+}
+
+.share-modal-body {
+  padding: 20px;
+}
+
+.share-image {
+  width: 100%;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 255, 252, 0.1);
+}
+
+.share-hint {
+  text-align: center;
+  color: var(--text-muted, rgba(255, 255, 255, 0.35));
+  font-size: 12px;
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.share-modal-footer {
+  display: flex;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--border-color, rgba(0, 255, 252, 0.1));
+}
+
+.share-modal-footer .btn {
+  flex: 1;
 }
 </style>

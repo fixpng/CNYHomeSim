@@ -1,5 +1,6 @@
 <template>
   <div class="app" :data-theme="theme">
+    <ParticleBackground />
     <!-- 主题切换按钮 -->
     <button class="theme-toggle" @click="toggleTheme" :title="theme === 'dark' ? '切换到白天模式' : '切换到黑夜模式'">
       {{ theme === 'dark' ? '☀️' : '🌙' }}
@@ -196,6 +197,7 @@ import DailyView from './components/DailyView.vue'
 import SummaryView from './components/SummaryView.vue'
 import DiaryView from './components/DiaryView.vue'
 import AnimatedNumber from './components/AnimatedNumber.vue'
+import ParticleBackground from './components/ParticleBackground.vue'
 
 const state = ref(createInitialState())
 
